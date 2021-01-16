@@ -1,0 +1,224 @@
+
+.mt-60 {
+  margin-top: 60px;
+  }
+.top-bar {
+  background: white !important;
+  height: 50px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+.title-bar {
+  line-height: 0rem !important;
+}
+.top-nav-mobile {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-right: 250px !important;
+}
+.top-bar h1 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00375C;
+  position: fixed;
+}
+.top-bar i {
+  font-size: 27px;
+  color: #00375C;
+}
+.btn-content-finish a {
+  font-size: 18px !important;
+  text-transform: none !important;
+  width: 90% !important;
+  height: 47px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto !important;
+}
+#recebContent h3 {
+  margin-top: 1vh;
+  font-size: 13px;
+  color: #707070;
+}
+#recebContent p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #086BAC;
+}
+.recb-card {
+  display: flex;
+  width: 100%;
+  height: 35px;
+  justify-content: center;
+}
+.content-receb {
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+}
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-content a {
+  font-size: 18px !important;
+  text-transform: none !important;
+  width: 90% !important;
+  height: 47px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-dashboard {
+  background: white !important;
+  height: 75px !important;
+  position: relative !important;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: left !important;
+}
+.user-dashboard p {
+  font-size: 13px;
+  color: #707070;
+}
+.user-dashboard h1 {
+  font-weight: bold;
+  font-size: 20px;
+  color: #00375C;
+}
+#navBrand {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+#navBrand i {
+  font-size: 24px;
+  color: #707070;
+  transform: rotate(180deg);
+  margin: 0;
+}
+.dashboard-content h1 {
+  font-size: 13px;
+  font-weight: bold;
+  color: #2D2C2C;
+}
+// #products i {
+//   font-size: 34px;
+//   color: #086BAC;
+// }
+// #products p {
+//   font-size: 10px;
+//   font-weight: bold;
+//   color: #2D2C2C;
+// }
+.card-product {
+  width: 88px; 
+  height: 88px;
+  align-items: center; 
+  justify-content: center;
+}
+
+.card-products-mobile {
+  height: 100px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+
+/* Formulário de Acompanhamento do Dashboard Mobile */
+.acomp-input {
+  margin: 1rem 0;
+  outline: none;
+  padding: 1.5rem;
+  font-size: 1.2rem !important;
+}
+.acomp-info {
+  font-family: poppins;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  text-align: justify;
+}
+.acomp-title {
+  font-family: poppins;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #086bac;
+}
+.form-div {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 8px 0 rgba(0, 0, 0, 0.19);
+  background: #f5f5f5;
+}
+.forms-title {
+  font-family: poppins;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #053b5e;
+}
+.forms-stitle {
+  font-size: 1.2rem;
+  font-family: poppins;
+  font-weight: bold;
+  color: #26c485;
+  margin-top: -1rem;
+}
+.card-forms {
+  padding: 1rem;
+  width: 100%;
+  margin-top: 2vh;
+}
+.title-card-forms {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #00375C;
+  margin-top: 1vh;
+}
+.nav-mobile-dash span {
+  color: #00375C !important;
+}
+#add_input_code {
+  height: 35px;
+}
+
+.photo-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-dashboard img {
+  border-radius: 50%;
+}
+.photo-upload {
+  border-radius: 50%;
+  box-shadow: 0px 2px 8px #00000042;
+  background: #707070;
+  height: 40px;
+  width: 40px;
+  border: none;
+  display: block;
+  margin: -20px auto;
+  position: relative;
+}
+.photo-upload span {
+  color: #FBFDFF;
+}
+
+#dashDrop {
+  font-size: 1.3rem !important;
+}
+#dashDrop span {
+  font-size: 2rem !important;
+}
+#dropDashboard button {
+  font-size: 1.3rem !important;
+  line-height: 1.5rem !important;
+}

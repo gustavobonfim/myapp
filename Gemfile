@@ -33,6 +33,20 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Better rails console
+gem 'pry-rails'
+
+# Bootstrap JavaScript depends on jQuery
+gem 'jquery-rails'
+# Sassc for rails
+gem 'sassc'
+# material-sass is a rubygems version of Material Design for Bootstrap 4
+gem 'bootstrap',     '4.1.1'
+# gem 'bootstrap-select-rails'
+gem 'material-sass', '4.1.1'
+gem 'material_icons'
+gem 'font-awesome-sass', '~> 5.8.1'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

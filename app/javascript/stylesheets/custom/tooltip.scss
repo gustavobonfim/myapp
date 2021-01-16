@@ -1,0 +1,82 @@
+.tooltip {
+  text-align: center !important;
+}
+
+.tooltip-inner {
+  text-align: center !important;
+  color: #fbfcff !important;
+  background-color: #50514F !important;
+}
+
+/* Tooltip container */
+.mc-tooltip {
+  position: relative;
+  display: inline-block;
+  // border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.mc-tooltip .mc-tooltiptext {
+  visibility: hidden;
+  // min-width: 100px;
+  white-space: nowrap;
+  // background-color: #50514F;
+  background-color: rgba(80, 81, 79, 0.75);
+  color: #fbfcff;
+  text-align: center;
+  padding: 5px 5px;
+  // border-radius: 6px; /* No border radius */
+  font-size: 0.55rem !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 40;
+  bottom: 110%;
+  left: 50%;
+  margin-left: -50px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+// .mc-tooltip .mc-tooltiptext::after {
+//   content: "";
+//   position: absolute;
+//   top: 100%;
+//   left: 50%;
+//   margin-left: -5px;
+//   border-width: 5px;
+//   border-style: solid;
+//   border-color: rgba(80, 81, 79, 0.75) transparent transparent transparent;
+//   // border-color: #50514F transparent transparent transparent;
+// }
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.mc-tooltip:hover .mc-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mc-tooltip .mc-tooltiptext-break {
+  white-space: break-spaces !important;
+}
+
+.mc-tooltip .mc-tooltiptext-right {
+  top: -5px !important;
+  bottom: 0 !important;
+  left: 105% !important;
+  margin-left: 0 !important;
+  padding: 3px 3px !important;
+}
+
+.mc-tooltip .mc-tooltiptext-left {
+  top: -5px !important;
+  bottom: 0 !important;
+  right: 105% !important;
+  margin-right: 0 !important;
+  padding: 3px 3px !important;
+}

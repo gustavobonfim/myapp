@@ -1,0 +1,25 @@
+.floating-label-sm label, .input-group-sm > .floating-label label {
+  font-size: 0.7rem !important
+}
+
+.floating-label-sm .form-control, .input-group-sm > .floating-label .form-control, .floating-label-sm .custom-select, .input-group-sm > .floating-label .custom-select, .floating-label-sm .form-control-file, .input-group-sm > .floating-label .form-control-file {
+  font-size: 0.7rem !important;
+  line-height: 1.79 !important;
+}
+
+.form-login {
+  font-size: 1.5rem !important
+}
+
+.floating-label-md label > .floating-label label {
+  font-size: 1.25rem !important
+}
+
+.floating-label.is-focused label {
+  color: #50514F !important;
+  text-align: center !important;
+}
+
+.floating-label.is-focused ~ .input-group-icon {
+  color: #50514F !important;
+}

@@ -34,13 +34,10 @@ ActiveRecord::Schema.define(version: 2020_10_16_010110) do
     t.string "name"
   end
 
-<<<<<<< HEAD
   create_table "operation_product_tax_returns", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
   end
 
-=======
->>>>>>> develop
 end
