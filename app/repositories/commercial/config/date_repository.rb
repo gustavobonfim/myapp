@@ -11,7 +11,7 @@ class Commercial::Config::DateRepository < Base
   end
 
   def self.all_active
-    objs = entity.where(active: true)
+    objs = entity.where(active: true).order(token: :desc)
 
     if objs.empty?
       return [::Commercial::Config::FindOrCreateDateService.new(Date.current).find_or_create_date]

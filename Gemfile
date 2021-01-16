@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'friendly_id', '~> 5.2.0'
+
 # Better rails console
 gem 'pry-rails'
 
