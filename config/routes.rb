@@ -9,6 +9,12 @@ Rails.application.routes.draw do
     namespace :v1, path: '/' do
       namespace :commercial do
 
+        namespace :config do
+            post "dates/list", to: "dates#list"
+            post "dates/create", to: "dates#create"
+            put "dates/update", to: "dates#update"
+          end
+
         namespace :marketing do
         end
 
