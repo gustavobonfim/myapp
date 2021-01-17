@@ -9,10 +9,10 @@ class CreateCommercialSalesOpportunitiesEntities < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :total_leads
       t.integer :total_amount
+      t.integer :status
+      t.integer :source
       t.date :started_at
       t.date :finished_at
-      t.string :status
-      t.string :source
     end
 
     add_foreign_key :commercial_sales_opportunities_entities, :commercial_dates, column: :date_id

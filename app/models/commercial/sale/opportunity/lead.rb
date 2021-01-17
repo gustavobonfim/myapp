@@ -15,10 +15,12 @@ class Commercial::Sale::Opportunity::Lead < ApplicationRecord
   def set_lead
     lead = self.lead
 
-    self.lead_name = lead.name
-    self.lead_email = lead.email
-    self.lead_phone = ContactDecorator.new(lead).phone_pretty
-    self.lead_council = lead.council
+    if lead
+      self.lead_name = lead.name
+      self.lead_email = lead.email
+      self.lead_phone = ContactDecorator.new(lead).phone_pretty
+      self.lead_council = lead.council
+    end
   end
   
 end

@@ -13,6 +13,7 @@ class Commercial::Sales::Opportunities::UpdateOpportunityService
 
     @opportunity.total_leads = leads.count
     @opportunity.total_amount = products.sum(:amount)
+    @opportunity.save
 
   end
   

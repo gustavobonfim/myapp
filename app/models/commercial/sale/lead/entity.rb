@@ -40,7 +40,7 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
   def set_council
     council_type = self.council_type.to_s.upcase
 
-    self.token = "#{council_type}: #{CouncilDecorator.council_pretty(self)}"
+    self.council = "#{council_type}: #{CouncilDecorator.council_pretty(self)}"
   end
   
 
