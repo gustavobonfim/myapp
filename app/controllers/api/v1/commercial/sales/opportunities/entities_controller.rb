@@ -20,12 +20,12 @@ module API
 
             def read
               opportunity = ::Commercial::Sales::Opportunities::Entities::Read.new(params)
-              render :json => {:status => opportunity.status, :process => opportunity.process?, :type => opportunity.type, :message => opportunity.message, :data => opportunity.data}.as_json
+              render :json => {:data => opportunity.data, :status => opportunity.status, :process => opportunity.process?, :type => opportunity.type, :message => opportunity.message}.as_json
             end
 
             def list
               list = ::Commercial::Sales::Opportunities::Entities::List.new(params)
-              render :json => {:status => list.status, :process => list.process?, :type => list.type, :message => list.message, :data => list.data}.as_json
+              render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json
             end
             
           end

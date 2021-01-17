@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_113030) do
+ActiveRecord::Schema.define(version: 2021_01_17_122001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,30 @@ ActiveRecord::Schema.define(version: 2021_01_17_113030) do
     t.index ["token"], name: "index_commercial_sales_leads_entities_on_token"
   end
 
+  create_table "commercial_sales_opportunities_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "prospector_id"
+    t.bigint "closer_id"
+    t.string "name"
+    t.integer "total_leads"
+    t.integer "total_amount"
+    t.date "started_at"
+    t.date "finished_at"
+    t.string "status"
+    t.string "source"
+    t.index ["active"], name: "index_commercial_sales_opportunities_entities_on_active"
+    t.index ["closer_id"], name: "index_commercial_sales_opportunities_entities_on_closer_id"
+    t.index ["date_id"], name: "index_commercial_sales_opportunities_entities_on_date_id"
+    t.index ["finished_at"], name: "index_commercial_sales_opportunities_entities_on_finished_at"
+    t.index ["prospector_id"], name: "index_commercial_sales_opportunities_entities_on_prospector_id"
+    t.index ["source"], name: "index_commercial_sales_opportunities_entities_on_source"
+    t.index ["started_at"], name: "index_commercial_sales_opportunities_entities_on_started_at"
+    t.index ["status"], name: "index_commercial_sales_opportunities_entities_on_status"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -178,4 +202,5 @@ ActiveRecord::Schema.define(version: 2021_01_17_113030) do
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_leads_entities", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_opportunities_entities", "commercial_dates", column: "date_id"
 end
