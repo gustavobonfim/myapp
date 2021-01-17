@@ -37,12 +37,21 @@ class Commercial::Sales::Opportunities::EntityRepository < Base
     "Commercial::Sales::Opportunities::EntityMapper".constantize
   end
 
-  ENUM_INTERN_SOURCE = {
-                          "base" => "Base",
-                          "landing" => "Site",
-                          "referrer" => "Indicação",
-                          "event" => "Evento",
-                        }
+  ENUM_STATUS = {
+                  "qualification" => "Qualificação",
+                  "booking" => "Agendamento",
+                  "meeting" => "Consultoria",
+                  "proposal" => "Proposta",
+                  "gain" => "Ganho",
+                  "lost" => "Perdido",
+                }
 
+
+  ENUM_SOURCE = {
+                  "base" => "Base",
+                  "referrer" => "Indicação",
+                  "landing" => "Landing",
+                  "event" => "Evento",
+                }
 
 end

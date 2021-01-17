@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_122001) do
+ActiveRecord::Schema.define(version: 2021_01_17_132734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,37 @@ ActiveRecord::Schema.define(version: 2021_01_17_122001) do
     t.index ["status"], name: "index_commercial_sales_opportunities_entities_on_status"
   end
 
+  create_table "commercial_sales_opportunities_leads", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "lead_id"
+    t.bigint "opportunity_id"
+    t.string "lead_name"
+    t.string "lead_email"
+    t.string "lead_phone"
+    t.string "lead_council"
+    t.index ["date_id"], name: "index_commercial_sales_opportunities_leads_on_date_id"
+    t.index ["lead_id"], name: "index_commercial_sales_opportunities_leads_on_lead_id"
+    t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_leads_on_opportunity_id"
+  end
+
+  create_table "commercial_sales_opportunities_products", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "opportunity_id"
+    t.integer "name"
+    t.integer "kind"
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.index ["date_id"], name: "index_commercial_sales_opportunities_products_on_date_id"
+    t.index ["kind"], name: "index_commercial_sales_opportunities_products_on_kind"
+    t.index ["name"], name: "index_commercial_sales_opportunities_products_on_name"
+    t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_products_on_opportunity_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -203,4 +234,9 @@ ActiveRecord::Schema.define(version: 2021_01_17_122001) do
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_leads_entities", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_entities", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_opportunities_leads", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_opportunities_leads", "commercial_sales_leads_entities", column: "lead_id"
+  add_foreign_key "commercial_sales_opportunities_leads", "commercial_sales_opportunities_entities", column: "opportunity_id"
+  add_foreign_key "commercial_sales_opportunities_products", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_opportunities_products", "commercial_sales_opportunities_entities", column: "opportunity_id"
 end

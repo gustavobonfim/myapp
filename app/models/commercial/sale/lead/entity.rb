@@ -27,15 +27,22 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
             
   #Callbacks
   before_validation :set_token
+  before_validation :set_council
 
   def set_token
-
     council_type_code = self.council_type.to_s.upcase
     council_number_code = self.council_number.to_s.rjust(6,"0").upcase
     council_state_code = self.council_state.to_s.upcase
 
     self.token = "#{council_type_code}#{council_number_code}#{council_state_code}"
   end
+
+  def set_council
+    council_type = self.council_type.to_s.upcase
+
+    self.token = "#{council_type}: #{CouncilDecorator.council_pretty(self)}"
+  end
+  
 
   
 end
