@@ -1,8 +1,8 @@
 class Commercial::Sales::Leads::Entities::Create
 
   def initialize(params)
-    @lead_params = params.require(:lead).permit(:name, :source_id, :source_type, :intern_source, :council_type,
-                                                :council_number, :council_state, :email, :prefix, :phone)
+    @source_params = params.require(:source).permit(:source, :source_id, :source_type)
+    @lead_params = params.require(:lead).permit(:name, :primary_source, :council_type, :council_number, :council_state, :link)
 
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
@@ -10,24 +10,21 @@ class Commercial::Sales::Leads::Entities::Create
     # @can_current_user_create_lead = can_current_user_create_lead?
     # return false unless @can_current_user_create_lead
 
-    if @lead_params[:source_type]
-      source_class = ::Commercial::Sales::Leads::EntityRepository::SOURCE_TYPE[@lead_params[:source_type]]
-      source = source_class.constantize.find(@lead_params[:source_id])
+    if @source_params[:source_type]
+      source_class = ::Commercial::Sales::Leads::SourceRepository::SOURCE_TYPE[@source_params[:source_type]]
+      source = source_class.constantize.find(@source_params[:source_id])
       @lead_params = @lead_params.merge({ "name" => source.name })
       @lead_params = @lead_params.merge({ "council_type" => "CRM" })
       @lead_params = @lead_params.merge({ "council_number" => source.crm })
       @lead_params = @lead_params.merge({ "council_state" => source.crm_state })
-      @lead_params = @lead_params.merge({ "email" => source.email })
-      @lead_params = @lead_params.merge({ "prefix" => source.ddd })
-      @lead_params = @lead_params.merge({ "phone" => source.number })
-      # @lead_params = @lead_params.merge({ "source_id" => @lead_params[:source_id] })
-      # @lead_params = @lead_params.merge({ "source_type" => source_class })
+      @source_params = @source_params.merge({ "email" => source.email })
+      @source_params = @source_params.merge({ "prefix" => source.ddd })
+      @source_params = @source_params.merge({ "phone" => source.number })
     end
 
     date = ::Commercial::Config::FindOrCreateDateService.new(Date.current).find_or_create_date
     @lead_params = @lead_params.merge({ "date_id" => date.id })
-    
-
+  
     @lead = lead
     @valid = @lead.valid?
   end
@@ -50,6 +47,11 @@ class Commercial::Sales::Leads::Entities::Create
         @process = true
         @type = true
         @message = true
+
+        @source_params = @source_params.merge({ "lead_id" => @lead.id })
+        @source_params = @source_params.merge({ "council" => @lead.council })
+        ::Commercial::Sales::Leads::CreateSourceService.new(@source_params).save_source
+
         true
       else
         @data = false

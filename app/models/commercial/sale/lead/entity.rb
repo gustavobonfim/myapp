@@ -8,6 +8,7 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
   
   # Relations
   belongs_to :date, class_name: "Commercial::Config::Date", foreign_key: "date_id"
+  has_many :sources, class_name: "Commercial::Sale::Lead::Source", foreign_key: "lead_id"
   
   # Validations
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -48,19 +49,16 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
 end
 
 
-# create_table "event_attendees", force: :cascade do |t|
+# create_table "commercial_sales_leads_entities", force: :cascade do |t|
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
+# t.bigint "date_id"
 # t.string "name"
-# t.string "last_name"
-# t.string "email"
-# t.string "ddd"
-# t.string "number"
-# t.string "crm"
-# t.string "crm_state"
-# t.string "med_school"
+# t.string "council_type"
+# t.string "council_number"
+# t.string "council_state"
+# t.string "council"
+# t.string "primary_source
+# t.string "link"
 # t.string "token"
-# t.string "slug"
-# t.integer "graduation"
-# t.integer "kind"

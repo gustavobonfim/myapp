@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_151109) do
+ActiveRecord::Schema.define(version: 2021_01_17_181834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,17 +22,20 @@ ActiveRecord::Schema.define(version: 2021_01_17_151109) do
     t.boolean "open", default: true, null: false
     t.bigint "date_id"
     t.integer "total_leads", default: 0
-    t.integer "base_leads", default: 0
-    t.integer "referrer_leads", default: 0
-    t.integer "landings_leads", default: 0
     t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "base_amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "referrer_amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "landings_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "base_leads", default: 0
+    t.decimal "base_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "base_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "referrer_leads", default: 0
+    t.decimal "referrer_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "referrer_gain", precision: 15, scale: 2, default: "0.0"
-    t.decimal "landings_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "landing_leads", default: 0
+    t.decimal "landing_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "landing_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "event_leads", default: 0
+    t.decimal "event_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "event_gain", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_commercial_calculations_on_active"
     t.index ["date_id"], name: "index_commercial_calculations_on_date_id"
   end
@@ -123,21 +126,39 @@ ActiveRecord::Schema.define(version: 2021_01_17_151109) do
     t.string "council_number"
     t.string "council_state"
     t.string "council"
-    t.string "intern_source"
-    t.string "source_id"
-    t.string "source_type"
+    t.string "primary_source"
     t.string "link"
-    t.string "email"
-    t.string "prefix"
-    t.string "phone"
     t.string "token"
     t.index ["active"], name: "index_commercial_sales_leads_entities_on_active"
     t.index ["council"], name: "index_commercial_sales_leads_entities_on_council"
+    t.index ["council_number"], name: "index_commercial_sales_leads_entities_on_council_number"
+    t.index ["council_state"], name: "index_commercial_sales_leads_entities_on_council_state"
     t.index ["date_id"], name: "index_commercial_sales_leads_entities_on_date_id"
-    t.index ["intern_source"], name: "index_commercial_sales_leads_entities_on_intern_source"
-    t.index ["source_id"], name: "index_commercial_sales_leads_entities_on_source_id"
-    t.index ["source_type"], name: "index_commercial_sales_leads_entities_on_source_type"
+    t.index ["primary_source"], name: "index_commercial_sales_leads_entities_on_primary_source"
     t.index ["token"], name: "index_commercial_sales_leads_entities_on_token"
+  end
+
+  create_table "commercial_sales_leads_sources", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "lead_id"
+    t.integer "source"
+    t.bigint "source_id"
+    t.string "source_type"
+    t.string "name"
+    t.string "kind"
+    t.string "email"
+    t.string "prefix"
+    t.string "phone"
+    t.string "council"
+    t.index ["active"], name: "index_commercial_sales_leads_sources_on_active"
+    t.index ["kind"], name: "index_commercial_sales_leads_sources_on_kind"
+    t.index ["lead_id"], name: "index_commercial_sales_leads_sources_on_lead_id"
+    t.index ["name"], name: "index_commercial_sales_leads_sources_on_name"
+    t.index ["source"], name: "index_commercial_sales_leads_sources_on_source"
+    t.index ["source_id"], name: "index_commercial_sales_leads_sources_on_source_id"
+    t.index ["source_type"], name: "index_commercial_sales_leads_sources_on_source_type"
   end
 
   create_table "commercial_sales_opportunities_entities", force: :cascade do |t|
@@ -149,7 +170,8 @@ ActiveRecord::Schema.define(version: 2021_01_17_151109) do
     t.bigint "closer_id"
     t.string "name"
     t.integer "total_leads"
-    t.integer "total_amount"
+    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
     t.integer "status"
     t.integer "source"
     t.date "started_at"
@@ -188,6 +210,7 @@ ActiveRecord::Schema.define(version: 2021_01_17_151109) do
     t.string "lead_email"
     t.string "lead_phone"
     t.string "lead_council"
+    t.index ["active"], name: "index_commercial_sales_opportunities_leads_on_active"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_leads_on_date_id"
     t.index ["lead_id"], name: "index_commercial_sales_opportunities_leads_on_lead_id"
     t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_leads_on_opportunity_id"
@@ -202,6 +225,8 @@ ActiveRecord::Schema.define(version: 2021_01_17_151109) do
     t.integer "name"
     t.integer "kind"
     t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "gain", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_commercial_sales_opportunities_products_on_active"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_products_on_date_id"
     t.index ["kind"], name: "index_commercial_sales_opportunities_products_on_kind"
     t.index ["name"], name: "index_commercial_sales_opportunities_products_on_name"
@@ -246,6 +271,7 @@ ActiveRecord::Schema.define(version: 2021_01_17_151109) do
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_leads_entities", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_leads_sources", "commercial_sales_leads_entities", column: "lead_id"
   add_foreign_key "commercial_sales_opportunities_entities", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_journeys", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "commercial_sales_opportunities_leads", "commercial_dates", column: "date_id"

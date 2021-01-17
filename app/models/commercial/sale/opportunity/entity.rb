@@ -13,7 +13,7 @@ class Commercial::Sale::Opportunity::Entity < ApplicationRecord
   validates :started_at, presence: { message: "Falta definir a Data de Início. " }
 
   # Enums
-  enum status: { qualification: 0, booking: 1, meeting: 2, proposal: 3, gain: 4, lost: 5 }, _prefix: :_
+  enum status: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, gain: 5, lost: 7 }, _prefix: :_
   enum source: { base: 0, referrer: 1, landing: 2, event: 3 }, _prefix: :_
 
   #Callbacks

@@ -37,17 +37,4 @@ class Commercial::Sales::Leads::EntityRepository < Base
     "Commercial::Sales::Leads::EntityMapper".constantize
   end
 
-  ENUM_INTERN_SOURCE = {
-                          "base" => "Base",
-                          "landing" => "Site",
-                          "referrer" => "Indicação",
-                          "event" => "Evento",
-                        }
-
-
-  SOURCE_TYPE = {
-                  "landing_conversion" => "Lead::Entity",
-                  "event_conversion" => "Commercial::Marketing::Event::Attendee"
-                }
-
 end

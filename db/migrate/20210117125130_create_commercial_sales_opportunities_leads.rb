@@ -18,5 +18,6 @@ class CreateCommercialSalesOpportunitiesLeads < ActiveRecord::Migration[5.2]
     add_index :commercial_sales_opportunities_leads, :date_id
     add_index :commercial_sales_opportunities_leads, :lead_id
     add_index :commercial_sales_opportunities_leads, :opportunity_id
+    add_index :commercial_sales_opportunities_leads, :active
   end
 end

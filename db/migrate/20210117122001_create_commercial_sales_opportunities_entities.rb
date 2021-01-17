@@ -8,7 +8,8 @@ class CreateCommercialSalesOpportunitiesEntities < ActiveRecord::Migration[5.2]
       t.bigint :closer_id
       t.string :name
       t.integer :total_leads
-      t.integer :total_amount
+      t.decimal :total_amount, default: 0, precision: 15, scale: 2
+      t.decimal :total_gain, default: 0, precision: 15, scale: 2
       t.integer :status
       t.integer :source
       t.date :started_at
