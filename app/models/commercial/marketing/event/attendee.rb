@@ -2,7 +2,7 @@ class Commercial::Marketing::Event::Attendee < ApplicationRecord
   extend FriendlyId
   friendly_id :token, use: :slugged
   
-  self.table_name = "event_attendees"
+  self.table_name = "commercial_marketing_event_attendees"
 
   # attributes
 

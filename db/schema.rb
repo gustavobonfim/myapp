@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_16_224454) do
+ActiveRecord::Schema.define(version: 2021_01_17_113030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,33 @@ ActiveRecord::Schema.define(version: 2021_01_16_224454) do
     t.index ["token"], name: "index_commercial_marketing_event_entities_on_token", unique: true
   end
 
+  create_table "commercial_sales_leads_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.string "name"
+    t.string "council_type"
+    t.string "council_number"
+    t.string "council_state"
+    t.string "council"
+    t.string "intern_source"
+    t.string "source_id"
+    t.string "source_type"
+    t.string "link"
+    t.string "email"
+    t.string "prefix"
+    t.string "phone"
+    t.string "token"
+    t.index ["active"], name: "index_commercial_sales_leads_entities_on_active"
+    t.index ["council"], name: "index_commercial_sales_leads_entities_on_council"
+    t.index ["date_id"], name: "index_commercial_sales_leads_entities_on_date_id"
+    t.index ["intern_source"], name: "index_commercial_sales_leads_entities_on_intern_source"
+    t.index ["source_id"], name: "index_commercial_sales_leads_entities_on_source_id"
+    t.index ["source_type"], name: "index_commercial_sales_leads_entities_on_source_type"
+    t.index ["token"], name: "index_commercial_sales_leads_entities_on_token"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -150,4 +177,5 @@ ActiveRecord::Schema.define(version: 2021_01_16_224454) do
   end
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_leads_entities", "commercial_dates", column: "date_id"
 end

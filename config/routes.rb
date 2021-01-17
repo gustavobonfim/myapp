@@ -10,17 +10,28 @@ Rails.application.routes.draw do
       namespace :commercial do
 
         namespace :config do
-            post "dates/list", to: "dates#list"
-            post "dates/create", to: "dates#create"
-            put "dates/update", to: "dates#update"
-          end
+          post "dates/list", to: "dates#list"
+          post "dates/create", to: "dates#create"
+          put "dates/update", to: "dates#update"
+        end
 
         namespace :marketing do
+          namespace :events do
+            post "attendees/list", to: "attendees#list"
+            post "attendees/create", to: "attendees#create"
+            put "attendees/update", to: "attendees#update"
+          end
         end
 
         namespace :sales do
 
           namespace :opportunities do
+            post "entities/list", to: "entities#list"
+            post "entities/create", to: "entities#create"
+            put "entities/update", to: "entities#update"
+          end
+
+          namespace :leads do
             post "entities/list", to: "entities#list"
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
