@@ -37,6 +37,10 @@ Rails.application.routes.draw do
             post "leads/list", to: "leads#list"
             post "leads/create", to: "leads#create"
             put "leads/update", to: "leads#update"
+
+            post "journeys/list", to: "journeys#list"
+            post "journeys/create", to: "journeys#create"
+            put "journeys/update", to: "journeys#update"
           end
 
           namespace :leads do

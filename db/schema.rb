@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_132734) do
+ActiveRecord::Schema.define(version: 2021_01_17_151109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,19 @@ ActiveRecord::Schema.define(version: 2021_01_17_132734) do
     t.index ["status"], name: "index_commercial_sales_opportunities_entities_on_status"
   end
 
+  create_table "commercial_sales_opportunities_journeys", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "opportunity_id"
+    t.integer "status"
+    t.date "date"
+    t.index ["active"], name: "index_commercial_sales_opportunities_journeys_on_active"
+    t.index ["date"], name: "index_commercial_sales_opportunities_journeys_on_date"
+    t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_journeys_on_opportunity_id"
+    t.index ["status"], name: "index_commercial_sales_opportunities_journeys_on_status"
+  end
+
   create_table "commercial_sales_opportunities_leads", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -234,6 +247,7 @@ ActiveRecord::Schema.define(version: 2021_01_17_132734) do
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_leads_entities", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_entities", "commercial_dates", column: "date_id"
+  add_foreign_key "commercial_sales_opportunities_journeys", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "commercial_sales_opportunities_leads", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_leads", "commercial_sales_leads_entities", column: "lead_id"
   add_foreign_key "commercial_sales_opportunities_leads", "commercial_sales_opportunities_entities", column: "opportunity_id"

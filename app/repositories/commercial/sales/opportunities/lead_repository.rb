@@ -20,6 +20,10 @@ class Commercial::Sales::Opportunities::LeadRepository < Base
     entity.where(active: true).order(lead_name: :asc)
   end
 
+  def self.all_active_by_opportunity(opportunity_id)
+    entity.where(active: true, opportunity_id: opportunity_id).order(lead_name: :asc)
+  end
+
   def self.read(lead)
     mapper.map(lead)
   end
