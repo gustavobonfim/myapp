@@ -13,7 +13,7 @@ class Commercial::Sale::Opportunity::Lead < ApplicationRecord
   before_validation :set_lead
 
   def set_lead
-    lead = self.lead
+    lead = self.lead.sources.where(active: true).first
 
     if lead
       self.lead_name = lead.name

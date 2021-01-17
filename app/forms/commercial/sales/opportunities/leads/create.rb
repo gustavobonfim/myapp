@@ -8,7 +8,6 @@ class Commercial::Sales::Opportunities::Leads::Create
     # @can_current_user_create_lead = can_current_user_create_lead?
     # return false unless @can_current_user_create_lead
 
-
     date = ::Commercial::Config::FindOrCreateDateService.new(Date.current).find_or_create_date
     @lead_params = @lead_params.merge({ "date_id" => date.id })
 

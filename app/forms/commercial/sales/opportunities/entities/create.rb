@@ -9,7 +9,6 @@ class Commercial::Sales::Opportunities::Entities::Create
     # @can_current_user_create_opportunity = can_current_user_create_opportunity?
     # return false unless @can_current_user_create_opportunity
 
-
     date = ::Commercial::Config::FindOrCreateDateService.new(@opportunity_params[:started_at]).find_or_create_date
     @opportunity_params = @opportunity_params.merge({ "date_id" => date.id })
 
@@ -36,7 +35,8 @@ class Commercial::Sales::Opportunities::Entities::Create
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::CreateOpportunityLeadsService.new(@opportunity.date_id, @opportunity.id, @lead_params[:lead_id]).save_lead
+        ::Commercial::Sales::Opportunities::CreateOpportunityLeadService.new(@opportunity.date_id, @opportunity.id, @lead_params[:lead_id]).save_lead
+        ::Commercial::Sales::Opportunities::CreateOpportunityJourneyService.new(@opportunity).save_journey
 
         true
       else

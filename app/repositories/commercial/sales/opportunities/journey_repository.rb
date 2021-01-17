@@ -42,6 +42,7 @@ class Commercial::Sales::Opportunities::JourneyRepository < Base
   end
 
   ENUM_STATUS = {
+                  "prospecting" => "Prospecção",
                   "qualification" => "Qualificação",
                   "booking" => "Agendamento",
                   "meeting" => "Consultoria",

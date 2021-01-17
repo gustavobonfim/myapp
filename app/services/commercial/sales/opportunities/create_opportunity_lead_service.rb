@@ -1,4 +1,4 @@
-class Commercial::Sales::Opportunities::CreateOpportunityLeadsService
+class Commercial::Sales::Opportunities::CreateOpportunityLeadService
 
   def initialize(date_id, opportunity_id, lead_id)
     

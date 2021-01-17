@@ -8,6 +8,7 @@ class Commercial::Sale::Opportunity::Entity < ApplicationRecord
   # belongs_to :closer, class_name: "User::Account::Entity", foreign_key: "closer_id", optional: true
   has_many :leads, class_name: "Commercial::Sale::Opportunity::Lead", foreign_key: "opportunity_id", dependent: :destroy
   has_many :products, class_name: "Commercial::Sale::Opportunity::Product", foreign_key: "opportunity_id", dependent: :destroy
+  has_many :journeys, class_name: "Commercial::Sale::Opportunity::Journey", foreign_key: "opportunity_id", dependent: :destroy
   
   # Validations
   validates :started_at, presence: { message: "Falta definir a Data de Início. " }

@@ -47,6 +47,8 @@ Rails.application.routes.draw do
             post "entities/list", to: "entities#list"
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
+
+            post "sources/list", to: "sources#list"
           end
 
         end

@@ -11,3 +11,4 @@ Commercial::Marketing::Event::Attendee.create!(name: "Maria Silveira", crm: "784
 Commercial::Marketing::Event::Attendee.create!(name: "Nabuco Silveira", crm: "65984", crm_state: "MG", email: "nabuco.silveira@example.com", ddd: "31", number: "912457845", token: "2seSXTv3a456LUMi")
 Commercial::Marketing::Event::Attendee.create!(name: "Gislene Miranda", crm: "12564", crm_state: "MG", email: "gislene.miranda@example.com", ddd: "31", number: "965874511", token: "2seSXTv3werdLUMi")
 Commercial::Marketing::Event::Attendee.create!(name: "Varvatos Vex", crm: "65457", crm_state: "MG", email: "varvaots.vez@example.com", ddd: "31", number: "945124578", token: "2seSXTv3werdLU34")
+Commercial::Marketing::Event::Attendee.create!(name: "Jussara Leite", crm: "32457", crm_state: "MG", email: "jussara.leote@example.com", ddd: "31", number: "9878787878", token: "2seddTv3werdLU34")

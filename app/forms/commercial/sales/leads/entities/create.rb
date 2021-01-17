@@ -17,6 +17,7 @@ class Commercial::Sales::Leads::Entities::Create
       @lead_params = @lead_params.merge({ "council_type" => "CRM" })
       @lead_params = @lead_params.merge({ "council_number" => source.crm })
       @lead_params = @lead_params.merge({ "council_state" => source.crm_state })
+      @source_params = @source_params.merge({ "name" => source.name })
       @source_params = @source_params.merge({ "email" => source.email })
       @source_params = @source_params.merge({ "prefix" => source.ddd })
       @source_params = @source_params.merge({ "phone" => source.number })

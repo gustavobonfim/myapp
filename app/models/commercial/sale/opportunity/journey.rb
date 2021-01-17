@@ -8,7 +8,7 @@ class Commercial::Sale::Opportunity::Journey < ApplicationRecord
   # Validations
 
   # Enums
-  enum status: { qualification: 0, booking: 1, meeting: 2, proposal: 3, gain: 4, lost: 5 }, _prefix: :_
+  enum status: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, gain: 5, lost: 7 }, _prefix: :_
 
   # Callbacks
   

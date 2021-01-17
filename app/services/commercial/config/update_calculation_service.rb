@@ -27,9 +27,9 @@ class Commercial::Config::UpdateCalculationService
     @calculation.referrer_amount = referrer_opportunities.sum(:total_amount)
     @calculation.referrer_gain = referrer_opportunities.sum(:total_gain)
     
-    @calculation.landings_leads = landing_opportunities.sum(:total_leads)
-    @calculation.landings_amount = landing_opportunities.sum(:total_amount)
-    @calculation.landings_gain = landing_opportunities.sum(:total_gain)
+    @calculation.landing_leads = landing_opportunities.sum(:total_leads)
+    @calculation.landing_amount = landing_opportunities.sum(:total_amount)
+    @calculation.landing_gain = landing_opportunities.sum(:total_gain)
 
     @calculation.event_leads = event_opportunities.sum(:total_leads)
     @calculation.event_amount = event_opportunities.sum(:total_amount)
