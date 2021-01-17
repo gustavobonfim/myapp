@@ -29,6 +29,14 @@ Rails.application.routes.draw do
             post "entities/list", to: "entities#list"
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
+
+            post "products/list", to: "products#list"
+            post "products/create", to: "products#create"
+            put "products/update", to: "products#update"
+
+            post "leads/list", to: "leads#list"
+            post "leads/create", to: "leads#create"
+            put "leads/update", to: "leads#update"
           end
 
           namespace :leads do

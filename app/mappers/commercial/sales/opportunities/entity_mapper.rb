@@ -5,7 +5,8 @@ class Commercial::Sales::Opportunities::EntityMapper < BaseMapper
 
     obj = obj.merge({ "status_pretty" => ::Commercial::Sales::Opportunities::EntityRepository::ENUM_STATUS[model.status] })
     obj = obj.merge({ "source_pretty" => ::Commercial::Sales::Opportunities::EntityRepository::ENUM_SOURCE[model.source] })
-    obj = obj.merge({ "leads" => ::Commercial::Sales::Opportunities::LeadRepository.list(model.leads) })
+    obj = obj.merge({ "leads" => ::Commercial::Sales::Opportunities::LeadRepository.list(model.leads.where(active: true)) })
+    obj = obj.merge({ "products" => ::Commercial::Sales::Opportunities::ProductRepository.list(model.products.where(active: true)) })
 
     return obj
   end
