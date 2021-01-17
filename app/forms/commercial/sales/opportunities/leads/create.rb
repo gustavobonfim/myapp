@@ -1,23 +1,23 @@
-class Commercial::Sales::Opportunities::Products::Create
+class Commercial::Sales::Opportunities::Leads::Create
 
   def initialize(params)
-    @product_params = params.require(:product).permit(:opportunity_id, :name, :kind, :amount)
+    @lead_params = params.require(:lead).permit(:opportunity_id, :lead_id)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    # @can_current_user_create_product = can_current_user_create_product?
-    # return false unless @can_current_user_create_product
+    # @can_current_user_create_lead = can_current_user_create_lead?
+    # return false unless @can_current_user_create_lead
 
 
     date = ::Commercial::Config::FindOrCreateDateService.new(Date.current).find_or_create_date
-    @product_params = @product_params.merge({ "date_id" => date.id })
+    @lead_params = @lead_params.merge({ "date_id" => date.id })
 
-    @product = product
-    @valid = @product.valid?
+    @lead = lead
+    @valid = @lead.valid?
   end
 
-  def product
-    ::Commercial::Sales::Opportunities::ProductRepository.build(@product_params)
+  def lead
+    ::Commercial::Sales::Opportunities::LeadRepository.build(@lead_params[:date_id], @lead_params[:opportunity_id], @lead_params[:lead_id])
   end
 
   def date
@@ -25,17 +25,17 @@ class Commercial::Sales::Opportunities::Products::Create
   end
   
   def save
-    # return false unless @can_current_user_create_product
+    # return false unless @can_current_user_create_lead
     ActiveRecord::Base.transaction do
       if @valid 
-        @product.save
+        @lead.save
         @data = true
         @status = true
         @process = true
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@product.opportunity).update_opportunity
+        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead.opportunity).update_opportunity
 
         true
       else
@@ -50,9 +50,9 @@ class Commercial::Sales::Opportunities::Products::Create
   end
   
   def data
-    # return cln = [] unless @can_current_user_create_product
+    # return cln = [] unless @can_current_user_create_lead
     if @data
-      cln = ::Commercial::Sales::Opportunities::ProductRepository.read(@product)
+      cln = ::Commercial::Sales::Opportunities::LeadRepository.read(@lead)
     else
       cln = []
     end
@@ -61,7 +61,7 @@ class Commercial::Sales::Opportunities::Products::Create
   end
 
   def status
-    # return :forbidden unless @can_current_user_create_product
+    # return :forbidden unless @can_current_user_create_lead
     if @status
       return :created
     else
@@ -70,7 +70,7 @@ class Commercial::Sales::Opportunities::Products::Create
   end
   
   def type
-    # return "danger" unless @can_current_user_create_product
+    # return "danger" unless @can_current_user_create_lead
     if @type
       return "success"
     else
@@ -79,14 +79,14 @@ class Commercial::Sales::Opportunities::Products::Create
   end
   
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_create_product
+    # return message = "A ação não é permitida" unless @can_current_user_create_lead
     if @message
-      message = "Produto adicionado com sucesso!"
+      message = "Lead adicionado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"
       i = 0
-      @product.errors.messages.each do |key, value|
+      @lead.errors.messages.each do |key, value|
         i += 1
         message += " (#{i}) #{value.first}"
       end
@@ -96,8 +96,8 @@ class Commercial::Sales::Opportunities::Products::Create
 
   private
 
-  def can_current_user_create_product?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "commercial_sales_products").can_current_user?
+  def can_current_user_create_lead?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "commercial_sales_leads").can_current_user?
   end
 
 end

@@ -1,19 +1,19 @@
-class Commercial::Sales::Opportunities::Products::Update
+class Commercial::Sales::Opportunities::Leads::Update
 
   def initialize(params)
-    @product_params = params.require(:product).permit(:id, :active)
+    @lead_params = params.require(:lead).permit(:id, :active)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    # @can_current_user_update_product = can_current_user_update_product?
-    # return false unless @can_current_user_update_product
+    # @can_current_user_update_lead = can_current_user_update_lead?
+    # return false unless @can_current_user_update_lead
 
-    @product = product
-    @valid = @product.valid?
+    @lead = lead
+    @valid = @lead.valid?
   end
 
-  def product
-    ::Commercial::Sales::Opportunities::ProductRepository.find_and_change(@product_params)
+  def lead
+    ::Commercial::Sales::Opportunities::LeadRepository.find_and_change(@lead_params)
   end
 
   def date
@@ -21,17 +21,17 @@ class Commercial::Sales::Opportunities::Products::Update
   end
   
   def save
-    # return false unless @can_current_user_update_product
+    # return false unless @can_current_user_update_lead
     ActiveRecord::Base.transaction do
       if @valid 
-        @product.save
+        @lead.save
         @data = true
         @status = true
         @process = true
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@product.opportunity).update_opportunity
+        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead.opportunity).update_opportunity
 
         true
       else
@@ -46,9 +46,9 @@ class Commercial::Sales::Opportunities::Products::Update
   end
   
   def data
-    # return cln = [] unless @can_current_user_update_product
+    # return cln = [] unless @can_current_user_update_lead
     if @data
-      cln = ::Commercial::Sales::Opportunities::ProductRepository.read(@product)
+      cln = ::Commercial::Sales::Opportunities::LeadRepository.read(@lead)
     else
       cln = []
     end
@@ -57,7 +57,7 @@ class Commercial::Sales::Opportunities::Products::Update
   end
 
   def status
-    # return :forbidden unless @can_current_user_update_product
+    # return :forbidden unless @can_current_user_update_lead
     if @status
       return :ok
     else
@@ -66,7 +66,7 @@ class Commercial::Sales::Opportunities::Products::Update
   end
   
   def type
-    # return "danger" unless @can_current_user_update_product
+    # return "danger" unless @can_current_user_update_lead
     if @type
       return "success"
     else
@@ -75,14 +75,14 @@ class Commercial::Sales::Opportunities::Products::Update
   end
   
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_update_product
+    # return message = "A ação não é permitida" unless @can_current_user_update_lead
     if @message
       message = "Produto retirado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"
       i = 0
-      @product.errors.messages.each do |key, value|
+      @lead.errors.messages.each do |key, value|
         i += 1
         message += " (#{i}) #{value.first}"
       end
@@ -92,8 +92,8 @@ class Commercial::Sales::Opportunities::Products::Update
 
   private
 
-  def can_current_user_update_product?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "update", "commercial_sales_products").can_current_user?
+  def can_current_user_update_lead?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "update", "commercial_sales_leads").can_current_user?
   end
 
 end

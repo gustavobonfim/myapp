@@ -17,7 +17,7 @@ class Commercial::Sales::Opportunities::LeadRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true).order(name: :asc)
+    entity.where(active: true).order(lead_name: :asc)
   end
 
   def self.read(lead)
