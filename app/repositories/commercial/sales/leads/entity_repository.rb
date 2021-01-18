@@ -3,6 +3,7 @@ class Commercial::Sales::Leads::EntityRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
+    obj.token = set_token("token")
     
     return obj
   end
@@ -33,6 +34,12 @@ class Commercial::Sales::Leads::EntityRepository < Base
 
   private
 
+  def self.set_token(field)
+      token = Base.generate_token
+      set_token if valid_field(field, token)
+      token
+    end
+
   def self.entity
     "Commercial::Sale::Lead::Entity".constantize
   end
@@ -40,5 +47,19 @@ class Commercial::Sales::Leads::EntityRepository < Base
   def self.mapper
     "Commercial::Sales::Leads::EntityMapper".constantize
   end
+
+  ENUM_STATUS = {
+                  "not_contact" => "Não Contactado",
+                  "in_process" => "Em Processo",
+                  "gain" => "Ganho",
+                  "lost" => "Perdido",
+                }
+
+  ENUM_SOURCE = {
+                  "base" => "Base",
+                  "landing" => "Site",
+                  "referrer" => "Indicação",
+                  "event" => "Evento",
+                }
 
 end

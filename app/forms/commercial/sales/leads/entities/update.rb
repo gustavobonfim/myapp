@@ -2,7 +2,7 @@ class Commercial::Sales::Leads::Entities::Update
 
   def initialize(params)
     @lead_params = params.require(:lead).permit(:id, :name, :source_id, :source_type, :intern_source, :council_type,
-                                                :council_number, :council_state, :email, :prefix, :phone)
+                                                :council_number, :council_state, :email, :prefix, :phone, :status)
 
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)

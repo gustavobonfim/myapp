@@ -11,8 +11,10 @@ Rails.application.routes.draw do
 
         namespace :config do
           post "dates/list", to: "dates#list"
-          post "dates/create", to: "dates#create"
           put "dates/update", to: "dates#update"
+
+          post "calculations/list", to: "calculations#list"
+          put "calculations/update", to: "calculations#update"
         end
 
         namespace :marketing do

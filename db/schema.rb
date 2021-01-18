@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.bigint "date_id"
+    t.integer "status"
     t.string "name"
     t.string "council_type"
     t.string "council_number"
@@ -154,6 +155,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.index ["council_state"], name: "index_commercial_sales_leads_entities_on_council_state"
     t.index ["date_id"], name: "index_commercial_sales_leads_entities_on_date_id"
     t.index ["primary_source"], name: "index_commercial_sales_leads_entities_on_primary_source"
+    t.index ["status"], name: "index_commercial_sales_leads_entities_on_status"
     t.index ["token"], name: "index_commercial_sales_leads_entities_on_token"
   end
 

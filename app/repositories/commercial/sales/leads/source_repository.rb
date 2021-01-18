@@ -38,11 +38,11 @@ class Commercial::Sales::Leads::SourceRepository < Base
   end
 
   ENUM_SOURCE = {
-                          "base" => "Base",
-                          "landing" => "Site",
-                          "referrer" => "Indicação",
-                          "event" => "Evento",
-                        }
+                  "base" => "Base",
+                  "landing" => "Site",
+                  "referrer" => "Indicação",
+                  "event" => "Evento",
+                }
 
 
   SOURCE_TYPE = {

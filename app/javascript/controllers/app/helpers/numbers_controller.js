@@ -384,7 +384,7 @@ export default class extends Controller {
   }
 
   percentMask(value) {
-    value = value.replace(" %", "").replace(/\./g, "").replace(/,/g, "").replace(/^0+/, '')
+    value = value.toString().replace(" %", "").replace(/\./g, "").replace(/,/g, "").replace(/^0+/, '')
     var valueDec = value.substr(-2)
     var valueInt = (value - valueDec) / 100
 

@@ -4,6 +4,7 @@ class CreateCommercialSalesLeadsEntities < ActiveRecord::Migration[5.2]
       t.timestamps
       t.boolean :active, default: true, null: false
       t.bigint :date_id
+      t.integer :status
       t.string :name
       t.string :council_type
       t.string :council_number
@@ -22,5 +23,6 @@ class CreateCommercialSalesLeadsEntities < ActiveRecord::Migration[5.2]
     add_index :commercial_sales_leads_entities, :council_number
     add_index :commercial_sales_leads_entities, :council_state
     add_index :commercial_sales_leads_entities, :token
+    add_index :commercial_sales_leads_entities, :status
   end
 end

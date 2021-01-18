@@ -8,7 +8,7 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
   
   # Relations
   belongs_to :date, class_name: "Commercial::Config::Date", foreign_key: "date_id"
-  has_many :sources, class_name: "Commercial::Sale::Lead::Source", foreign_key: "lead_id"
+  has_many :sources, class_name: "Commercial::Sale::Lead::Source", foreign_key: "lead_id", dependent: :destroy
   
   # Validations
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -24,10 +24,10 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
 
 
   #Enums
-  
+  enum status: { in_process: 0, gain: 1, lost: 2, not_contact: 3 }, _prefix: :_
             
   #Callbacks
-  before_validation :set_token
+  # before_validation :set_token
   before_validation :set_council
 
   def set_token
@@ -41,10 +41,10 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
   def set_council
     council_type = self.council_type.to_s.upcase
 
-    self.council = "#{council_type}: #{CouncilDecorator.council_pretty(self)}"
+    self.council = "#{council_type}: #{CouncilDecorator.council_pretty(self)}" if self.council_number
   end
   
-
+ # migration status
   
 end
 

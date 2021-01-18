@@ -2,7 +2,7 @@ class Commercial::Sales::Leads::Entities::Create
 
   def initialize(params)
     @source_params = params.require(:source).permit(:source, :source_id, :source_type)
-    @lead_params = params.require(:lead).permit(:name, :primary_source, :council_type, :council_number, :council_state, :link)
+    @lead_params = params.require(:lead).permit(:name, :primary_source, :council_type, :council_number, :council_state, :link, :status)
 
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
