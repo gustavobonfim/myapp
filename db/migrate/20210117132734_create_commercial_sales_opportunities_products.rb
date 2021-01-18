@@ -6,6 +6,7 @@ class CreateCommercialSalesOpportunitiesProducts < ActiveRecord::Migration[5.2]
       t.bigint :date_id
       t.bigint :opportunity_id
       t.integer :name
+      t.integer :plan
       t.integer :kind
       t.decimal :amount, default: 0, precision: 15, scale: 2
       t.decimal :gain, default: 0, precision: 15, scale: 2
@@ -18,5 +19,6 @@ class CreateCommercialSalesOpportunitiesProducts < ActiveRecord::Migration[5.2]
     add_index :commercial_sales_opportunities_products, :active
     add_index :commercial_sales_opportunities_products, :name
     add_index :commercial_sales_opportunities_products, :kind
+    add_index :commercial_sales_opportunities_products, :plan
   end
 end

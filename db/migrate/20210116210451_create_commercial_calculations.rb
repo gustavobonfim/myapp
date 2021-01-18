@@ -20,6 +20,16 @@ class CreateCommercialCalculations < ActiveRecord::Migration[5.2]
       t.integer :event_leads, default: 0
       t.decimal :event_amount, default: 0, precision: 15, scale: 2
       t.decimal :event_gain, default: 0, precision: 15, scale: 2
+      t.integer :total_tickets, default: 0
+      t.integer :total_calls, default: 0
+      t.integer :total_contacts, default: 0
+      t.integer :total_documents, default: 0
+      t.integer :total_prospecting, default: 0
+      t.integer :total_qualification, default: 0
+      t.integer :total_booking, default: 0
+      t.integer :total_meeting, default: 0
+      t.integer :total_proposal, default: 0
+      t.integer :total_closing, default: 0
     end
 
     add_foreign_key :commercial_calculations, :commercial_dates, column: :date_id

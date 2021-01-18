@@ -8,7 +8,7 @@ class Commercial::Sale::Opportunity::Journey < ApplicationRecord
   # Validations
 
   # Enums
-  enum status: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, gain: 5, lost: 7 }, _prefix: :_
+  enum stage: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, closing: 5, gain: 6, lost: 7 }, _prefix: :_
 
   # Callbacks
   
@@ -20,5 +20,5 @@ end
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
 # t.bigint "opportunity_id"
-# t.integer "status"
+# t.integer "stage"
 # t.date "date"

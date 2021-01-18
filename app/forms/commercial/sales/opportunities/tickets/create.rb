@@ -1,19 +1,19 @@
-class Commercial::Sales::Opportunities::Journeys::Create
+class Commercial::Sales::Opportunities::Tickets::Create
 
   def initialize(params)
-    @journey_params = params.require(:journey).permit(:opportunity_id, :stage, :date)
+    @ticket_params = params.require(:ticket).permit(:opportunity_id, :stage, :due_at, :description, :kind, :status)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    # @can_current_user_create_journey = can_current_user_create_journey?
-    # return false unless @can_current_user_create_journey
+    # @can_current_user_create_ticket = can_current_user_create_ticket?
+    # return false unless @can_current_user_create_ticket
 
-    @journey = journey
-    @valid = @journey.valid?
+    @ticket = ticket
+    @valid = @ticket.valid?
   end
 
-  def journey
-    ::Commercial::Sales::Opportunities::JourneyRepository.build(@journey_params)
+  def ticket
+    ::Commercial::Sales::Opportunities::TicketRepository.build(@ticket_params)
   end
 
   def date
@@ -21,17 +21,17 @@ class Commercial::Sales::Opportunities::Journeys::Create
   end
   
   def save
-    # return false unless @can_current_user_create_journey
+    # return false unless @can_current_user_create_ticket
     ActiveRecord::Base.transaction do
       if @valid 
-        @journey.save
+        @ticket.save
         @data = true
         @status = true
         @process = true
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@journey).update_opportunity
+        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@ticket).update_opportunity
 
         true
       else
@@ -46,9 +46,9 @@ class Commercial::Sales::Opportunities::Journeys::Create
   end
   
   def data
-    # return cln = [] unless @can_current_user_create_journey
+    # return cln = [] unless @can_current_user_create_ticket
     if @data
-      cln = ::Commercial::Sales::Opportunities::JourneyRepository.read(@journey)
+      cln = ::Commercial::Sales::Opportunities::TicketRepository.read(@ticket)
     else
       cln = []
     end
@@ -57,7 +57,7 @@ class Commercial::Sales::Opportunities::Journeys::Create
   end
 
   def status
-    # return :forbidden unless @can_current_user_create_journey
+    # return :forbidden unless @can_current_user_create_ticket
     if @status
       return :created
     else
@@ -66,7 +66,7 @@ class Commercial::Sales::Opportunities::Journeys::Create
   end
   
   def type
-    # return "danger" unless @can_current_user_create_journey
+    # return "danger" unless @can_current_user_create_ticket
     if @type
       return "success"
     else
@@ -75,14 +75,14 @@ class Commercial::Sales::Opportunities::Journeys::Create
   end
   
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_create_journey
+    # return message = "A ação não é permitida" unless @can_current_user_create_ticket
     if @message
       message = "Produto adicionado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"
       i = 0
-      @journey.errors.messages.each do |key, value|
+      @ticket.errors.messages.each do |key, value|
         i += 1
         message += " (#{i}) #{value.first}"
       end
@@ -92,8 +92,8 @@ class Commercial::Sales::Opportunities::Journeys::Create
 
   private
 
-  def can_current_user_create_journey?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "commercial_sales_journeys").can_current_user?
+  def can_current_user_create_ticket?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "commercial_sales_tickets").can_current_user?
   end
 
 end

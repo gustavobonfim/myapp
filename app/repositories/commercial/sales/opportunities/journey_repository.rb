@@ -41,12 +41,13 @@ class Commercial::Sales::Opportunities::JourneyRepository < Base
     "Commercial::Sales::Opportunities::JourneyMapper".constantize
   end
 
-  ENUM_STATUS = {
+  ENUM_STAGE = {
                   "prospecting" => "Prospecção",
                   "qualification" => "Qualificação",
                   "booking" => "Agendamento",
                   "meeting" => "Consultoria",
                   "proposal" => "Proposta",
+                  "closing" => "Fechamento",
                   "gain" => "Ganho",
                   "lost" => "Perdido",
                 }

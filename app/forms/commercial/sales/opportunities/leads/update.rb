@@ -31,7 +31,7 @@ class Commercial::Sales::Opportunities::Leads::Update
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead.opportunity).update_opportunity
+        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead).update_opportunity
 
         true
       else

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_181834) do
+ActiveRecord::Schema.define(version: 2021_01_18_011341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2021_01_17_181834) do
     t.integer "event_leads", default: 0
     t.decimal "event_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "event_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "total_tickets", default: 0
+    t.integer "total_calls", default: 0
+    t.integer "total_contacts", default: 0
+    t.integer "total_documents", default: 0
+    t.integer "total_prospecting", default: 0
+    t.integer "total_qualification", default: 0
+    t.integer "total_booking", default: 0
+    t.integer "total_meeting", default: 0
+    t.integer "total_proposal", default: 0
+    t.integer "total_closing", default: 0
     t.index ["active"], name: "index_commercial_calculations_on_active"
     t.index ["date_id"], name: "index_commercial_calculations_on_date_id"
   end
@@ -169,19 +179,27 @@ ActiveRecord::Schema.define(version: 2021_01_17_181834) do
     t.bigint "prospector_id"
     t.bigint "closer_id"
     t.string "name"
-    t.integer "total_leads"
-    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
-    t.integer "status"
-    t.integer "source"
     t.date "started_at"
     t.date "finished_at"
+    t.integer "total_leads", default: 0
+    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "total_tickets", default: 0
+    t.integer "total_calls", default: 0
+    t.integer "total_contacts", default: 0
+    t.integer "total_documents", default: 0
+    t.integer "source"
+    t.integer "stage"
+    t.integer "status"
+    t.boolean "closed", default: false
     t.index ["active"], name: "index_commercial_sales_opportunities_entities_on_active"
+    t.index ["closed"], name: "index_commercial_sales_opportunities_entities_on_closed"
     t.index ["closer_id"], name: "index_commercial_sales_opportunities_entities_on_closer_id"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_entities_on_date_id"
     t.index ["finished_at"], name: "index_commercial_sales_opportunities_entities_on_finished_at"
     t.index ["prospector_id"], name: "index_commercial_sales_opportunities_entities_on_prospector_id"
     t.index ["source"], name: "index_commercial_sales_opportunities_entities_on_source"
+    t.index ["stage"], name: "index_commercial_sales_opportunities_entities_on_stage"
     t.index ["started_at"], name: "index_commercial_sales_opportunities_entities_on_started_at"
     t.index ["status"], name: "index_commercial_sales_opportunities_entities_on_status"
   end
@@ -191,12 +209,12 @@ ActiveRecord::Schema.define(version: 2021_01_17_181834) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.bigint "opportunity_id"
-    t.integer "status"
+    t.integer "stage"
     t.date "date"
     t.index ["active"], name: "index_commercial_sales_opportunities_journeys_on_active"
     t.index ["date"], name: "index_commercial_sales_opportunities_journeys_on_date"
     t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_journeys_on_opportunity_id"
-    t.index ["status"], name: "index_commercial_sales_opportunities_journeys_on_status"
+    t.index ["stage"], name: "index_commercial_sales_opportunities_journeys_on_stage"
   end
 
   create_table "commercial_sales_opportunities_leads", force: :cascade do |t|
@@ -223,6 +241,7 @@ ActiveRecord::Schema.define(version: 2021_01_17_181834) do
     t.bigint "date_id"
     t.bigint "opportunity_id"
     t.integer "name"
+    t.integer "plan"
     t.integer "kind"
     t.decimal "amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "gain", precision: 15, scale: 2, default: "0.0"
@@ -231,6 +250,26 @@ ActiveRecord::Schema.define(version: 2021_01_17_181834) do
     t.index ["kind"], name: "index_commercial_sales_opportunities_products_on_kind"
     t.index ["name"], name: "index_commercial_sales_opportunities_products_on_name"
     t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_products_on_opportunity_id"
+    t.index ["plan"], name: "index_commercial_sales_opportunities_products_on_plan"
+  end
+
+  create_table "commercial_sales_opportunities_tickets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "opportunity_id"
+    t.string "description"
+    t.date "due_at"
+    t.integer "kind"
+    t.integer "stage"
+    t.integer "status"
+    t.integer "flag"
+    t.index ["active"], name: "index_commercial_sales_opportunities_tickets_on_active"
+    t.index ["flag"], name: "index_commercial_sales_opportunities_tickets_on_flag"
+    t.index ["kind"], name: "index_commercial_sales_opportunities_tickets_on_kind"
+    t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_tickets_on_opportunity_id"
+    t.index ["stage"], name: "index_commercial_sales_opportunities_tickets_on_stage"
+    t.index ["status"], name: "index_commercial_sales_opportunities_tickets_on_status"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -279,4 +318,5 @@ ActiveRecord::Schema.define(version: 2021_01_17_181834) do
   add_foreign_key "commercial_sales_opportunities_leads", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "commercial_sales_opportunities_products", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_products", "commercial_sales_opportunities_entities", column: "opportunity_id"
+  add_foreign_key "commercial_sales_opportunities_tickets", "commercial_sales_opportunities_entities", column: "opportunity_id"
 end

@@ -10,7 +10,8 @@ class Commercial::Sale::Opportunity::Product < ApplicationRecord
 
   # Enums
   enum name: { medclinic: 0, medemployee: 1, medreceivement: 2, medseg: 3, medfin: 4, medreturn: 5, medbooking: 6, medfiling: 7 }, _prefix: :_
-  enum kind: { receivement: 0, practice: 1 }, _prefix: :_
+  enum plan: { receivement: 0, practice: 1 }, _prefix: :_
+  enum kind: { opening: 0, migration: 1, amendment: 2, regularization: 3 }, _prefix: :_
 
   # Callbacks
   
@@ -26,3 +27,4 @@ end
 # t.integer "name"
 # t.integer "kind"
 # t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "gain", precision: 15, scale: 2, default: "0.0"

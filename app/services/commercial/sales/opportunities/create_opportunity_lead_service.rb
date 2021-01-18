@@ -10,7 +10,7 @@ class Commercial::Sales::Opportunities::CreateOpportunityLeadService
 
     if @lead.valid?
       @lead.save
-      ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead.opportunity).update_opportunity
+      ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead).update_opportunity
     end
     
   end

@@ -3,7 +3,7 @@ class Commercial::Sales::Opportunities::CreateOpportunityJourneyService
   def initialize(opportunity)
     
     @journey = opportunity.journeys.new
-    @journey.status = opportunity.status
+    @journey.stage = opportunity.stage
     @journey.date = opportunity.started_at
 
   end

@@ -14,8 +14,9 @@ class Commercial::Sale::Opportunity::Entity < ApplicationRecord
   validates :started_at, presence: { message: "Falta definir a Data de Início. " }
 
   # Enums
-  enum status: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, gain: 5, lost: 7 }, _prefix: :_
+  enum stage: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, closing: 5, gain: 6, lost: 7 }, _prefix: :_
   enum source: { base: 0, referrer: 1, landing: 2, event: 3 }, _prefix: :_
+  enum status: { hot: 0, warn: 1, cold: 2 }, _prefix: :_
 
   #Callbacks
   # before_validation :set_name
@@ -43,9 +44,16 @@ end
 # t.bigint "prospector_id"
 # t.bigint "closer_id"
 # t.string "name"
-# t.integer "total_leads"
-# t.integer "total_amount"
 # t.date "started_at"
 # t.date "finished_at"
-# t.string "status"
-# t.string "source"
+# t.integer "total_leads", default: 0
+# t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
+# t.integer "total_tickets", default: 0
+# t.integer "total_calls", default: 0
+# t.integer "total_contacts", default: 0
+# t.integer "total_documents", default: 0
+# t.integer "source"
+# t.integer "stage"
+# t.integer "status"
+# t.boolean "closed", default: false

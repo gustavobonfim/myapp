@@ -43,7 +43,7 @@ class Commercial::Sales::Opportunities::ProductRepository < Base
 
   ENUM_NAME = {
                 "medclinic" => "PJ Médica",
-                "medpf" => "",
+                "medemployee" => "Funcionário",
                 "medreceivement" => "Gestão de Recebimento",
                 "medseg" => "Seguros",
                 "medfin" => "",
@@ -52,9 +52,15 @@ class Commercial::Sales::Opportunities::ProductRepository < Base
                 "medfiling" => "Declaração IRPF",
               }
 
-
-  ENUM_KIND = {
+  ENUM_PLAN = {
                 "receivement" => "Recebimento",
                 "practice" => "Consultório",
+              }
+
+  ENUM_KIND = {
+                "opening" => "Abertura",
+                "migration" => "Migração",
+                "amendment" => "Alteração",
+                "regularization" => "Regularização",
               }
 end

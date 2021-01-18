@@ -1,7 +1,7 @@
 class Commercial::Sales::Opportunities::Products::Create
 
   def initialize(params)
-    @product_params = params.require(:product).permit(:opportunity_id, :name, :kind, :amount)
+    @product_params = params.require(:product).permit(:opportunity_id, :name, :kind, :plan, :amount)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
@@ -35,7 +35,7 @@ class Commercial::Sales::Opportunities::Products::Create
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@product.opportunity).update_opportunity
+        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@product).update_opportunity
 
         true
       else

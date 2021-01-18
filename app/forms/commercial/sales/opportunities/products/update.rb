@@ -31,7 +31,7 @@ class Commercial::Sales::Opportunities::Products::Update
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@product.opportunity).update_opportunity
+        ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@product).update_opportunity
 
         true
       else

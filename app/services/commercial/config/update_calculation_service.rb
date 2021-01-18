@@ -35,6 +35,21 @@ class Commercial::Config::UpdateCalculationService
     @calculation.event_amount = event_opportunities.sum(:total_amount)
     @calculation.event_gain = event_opportunities.sum(:total_gain)
 
+    @calculation.total_prospecting = @opportunities.where(stage: "prospecting").size
+    @calculation.total_qualification = @opportunities.where(stage: "qualification").size
+    @calculation.total_booking = @opportunities.where(stage: "booking").size
+    @calculation.total_meeting = @opportunities.where(stage: "meeting").size
+    @calculation.total_proposal = @opportunities.where(stage: "proposal").size
+    @calculation.total_closing = @opportunities.where(stage: "closing").size
+
+    @calculation.total_tickets = @opportunities.sum(:total_tickets)
+    @calculation.total_calls = @opportunities.sum(:total_calls)
+    @calculation.total_contacts = @opportunities.sum(:total_contacts)
+    # @calculation.total_in_process = @opportunities.sum(:total_in_process)
+
+    # @calculation.total_gain
+    # @calculation.total_lost
+
     @calculation.save
 
   end

@@ -1,7 +1,7 @@
 class Commercial::Sales::Opportunities::Entities::Create
 
   def initialize(params)
-    @opportunity_params = params.require(:opportunity).permit(:status, :source, :started_at)
+    @opportunity_params = params.require(:opportunity).permit(:stage, :status, :source, :started_at)
     @lead_params = params.require(:lead).permit(:lead_id)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
@@ -35,8 +35,8 @@ class Commercial::Sales::Opportunities::Entities::Create
         @type = true
         @message = true
 
-        ::Commercial::Sales::Opportunities::CreateOpportunityLeadService.new(@opportunity.date_id, @opportunity.id, @lead_params[:lead_id]).save_lead
         ::Commercial::Sales::Opportunities::CreateOpportunityJourneyService.new(@opportunity).save_journey
+        ::Commercial::Sales::Opportunities::CreateOpportunityLeadService.new(@opportunity.date_id, @opportunity.id, @lead_params[:lead_id]).save_lead
 
         true
       else
