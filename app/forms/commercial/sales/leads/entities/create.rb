@@ -52,6 +52,7 @@ class Commercial::Sales::Leads::Entities::Create
         @source_params = @source_params.merge({ "lead_id" => @lead.id })
         @source_params = @source_params.merge({ "council" => @lead.council })
         ::Commercial::Sales::Leads::CreateSourceService.new(@source_params).save_source
+        ::Commercial::Config::UpdateCalculationService.new(@lead).update_lead_calculation
 
         true
       else

@@ -19,8 +19,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.min.js"></script>
 </head>
 
-<body>
-  <%= yield %>
+<body data-controller="app">
+  <div><%= render 'layouts/helpers' %></div>
+  <div class="container">
+    <%= yield %>
+    <%= render 'layouts/snackbar' %>
+  </div>
 </body>
 
 </html>

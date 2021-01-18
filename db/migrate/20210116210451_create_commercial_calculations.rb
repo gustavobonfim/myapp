@@ -5,9 +5,14 @@ class CreateCommercialCalculations < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true, null: false
       t.boolean :open, default: true, null: false
       t.bigint :date_id
-      t.integer :total_leads, default: 0
+      t.integer :goal_leads, default: 0
+      t.decimal :goal_amount, default: 0, precision: 15, scale: 2
+      t.decimal :goal_gain, default: 0, precision: 15, scale: 2
+      t.integer :marketing_leads, default: 0
+      t.integer :sales_leads, default: 0
       t.decimal :total_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_gain, default: 0, precision: 15, scale: 2
+      t.decimal :total_lost, default: 0, precision: 15, scale: 2
       t.integer :base_leads, default: 0
       t.decimal :base_amount, default: 0, precision: 15, scale: 2
       t.decimal :base_gain, default: 0, precision: 15, scale: 2
@@ -23,13 +28,15 @@ class CreateCommercialCalculations < ActiveRecord::Migration[5.2]
       t.integer :total_tickets, default: 0
       t.integer :total_calls, default: 0
       t.integer :total_contacts, default: 0
-      t.integer :total_documents, default: 0
-      t.integer :total_prospecting, default: 0
-      t.integer :total_qualification, default: 0
-      t.integer :total_booking, default: 0
-      t.integer :total_meeting, default: 0
-      t.integer :total_proposal, default: 0
-      t.integer :total_closing, default: 0
+      t.integer :total_in_process, default: 0
+      t.integer :count_prospecting, default: 0
+      t.integer :count_qualification, default: 0
+      t.integer :count_booking, default: 0
+      t.integer :count_meeting, default: 0
+      t.integer :count_proposal, default: 0
+      t.integer :count_closing, default: 0
+      t.integer :count_gain, default: 0
+      t.integer :count_lost, default: 0
     end
 
     add_foreign_key :commercial_calculations, :commercial_dates, column: :date_id

@@ -18,6 +18,10 @@ class Commercial::Sales::Leads::EntityRepository < Base
     entity.where(active: true).order(name: :asc)
   end
 
+  def self.all_active_date(date_id)
+    entity.where(active: true, date_id: date_id).order(name: :asc)
+  end
+
   def self.read(lead)
     mapper.map(lead)
   end

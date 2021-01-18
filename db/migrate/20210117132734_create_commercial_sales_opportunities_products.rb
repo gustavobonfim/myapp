@@ -10,6 +10,7 @@ class CreateCommercialSalesOpportunitiesProducts < ActiveRecord::Migration[5.2]
       t.integer :kind
       t.decimal :amount, default: 0, precision: 15, scale: 2
       t.decimal :gain, default: 0, precision: 15, scale: 2
+      t.decimal :lost, default: 0, precision: 15, scale: 2
     end
 
     add_foreign_key :commercial_sales_opportunities_products, :commercial_dates, column: :date_id

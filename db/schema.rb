@@ -21,9 +21,14 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.boolean "active", default: true, null: false
     t.boolean "open", default: true, null: false
     t.bigint "date_id"
-    t.integer "total_leads", default: 0
+    t.integer "goal_leads", default: 0
+    t.decimal "goal_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "goal_gain", precision: 15, scale: 2, default: "0.0"
+    t.integer "marketing_leads", default: 0
+    t.integer "sales_leads", default: 0
     t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_lost", precision: 15, scale: 2, default: "0.0"
     t.integer "base_leads", default: 0
     t.decimal "base_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "base_gain", precision: 15, scale: 2, default: "0.0"
@@ -39,13 +44,15 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.integer "total_tickets", default: 0
     t.integer "total_calls", default: 0
     t.integer "total_contacts", default: 0
-    t.integer "total_documents", default: 0
-    t.integer "total_prospecting", default: 0
-    t.integer "total_qualification", default: 0
-    t.integer "total_booking", default: 0
-    t.integer "total_meeting", default: 0
-    t.integer "total_proposal", default: 0
-    t.integer "total_closing", default: 0
+    t.integer "total_in_process", default: 0
+    t.integer "count_prospecting", default: 0
+    t.integer "count_qualification", default: 0
+    t.integer "count_booking", default: 0
+    t.integer "count_meeting", default: 0
+    t.integer "count_proposal", default: 0
+    t.integer "count_closing", default: 0
+    t.integer "count_gain", default: 0
+    t.integer "count_lost", default: 0
     t.index ["active"], name: "index_commercial_calculations_on_active"
     t.index ["date_id"], name: "index_commercial_calculations_on_date_id"
   end
@@ -58,7 +65,9 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.integer "month"
     t.integer "year"
     t.string "token"
+    t.index ["active"], name: "index_commercial_dates_on_active"
     t.index ["month"], name: "index_commercial_dates_on_month"
+    t.index ["open"], name: "index_commercial_dates_on_open"
     t.index ["token"], name: "index_commercial_dates_on_token", unique: true
     t.index ["year"], name: "index_commercial_dates_on_year"
   end
@@ -184,19 +193,21 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.integer "total_leads", default: 0
     t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_lost", precision: 15, scale: 2, default: "0.0"
     t.integer "total_tickets", default: 0
     t.integer "total_calls", default: 0
     t.integer "total_contacts", default: 0
-    t.integer "total_documents", default: 0
+    t.integer "total_in_process", default: 0
     t.integer "source"
     t.integer "stage"
     t.integer "status"
-    t.boolean "closed", default: false
+    t.boolean "gain", default: false
+    t.boolean "lost", default: false
     t.index ["active"], name: "index_commercial_sales_opportunities_entities_on_active"
-    t.index ["closed"], name: "index_commercial_sales_opportunities_entities_on_closed"
     t.index ["closer_id"], name: "index_commercial_sales_opportunities_entities_on_closer_id"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_entities_on_date_id"
     t.index ["finished_at"], name: "index_commercial_sales_opportunities_entities_on_finished_at"
+    t.index ["gain"], name: "index_commercial_sales_opportunities_entities_on_gain"
     t.index ["prospector_id"], name: "index_commercial_sales_opportunities_entities_on_prospector_id"
     t.index ["source"], name: "index_commercial_sales_opportunities_entities_on_source"
     t.index ["stage"], name: "index_commercial_sales_opportunities_entities_on_stage"
@@ -245,6 +256,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.integer "kind"
     t.decimal "amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "gain", precision: 15, scale: 2, default: "0.0"
+    t.decimal "lost", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_commercial_sales_opportunities_products_on_active"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_products_on_date_id"
     t.index ["kind"], name: "index_commercial_sales_opportunities_products_on_kind"

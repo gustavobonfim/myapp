@@ -1,21 +1,33 @@
 class Commercial::Config::UpdateCalculationService
 
-  def initialize(date)
+  def initialize(obj)
     
-    @date = date
+    @date = obj.date
     @calculation = calculation
-    @opportunities = opportunities
+
+    if obj.class.name == "Commercial::Sale::Opportunity::Entity"
+      @opportunities = opportunities
+    elsif obj.class.name == "Commercial::Sale::Lead::Entity"
+      @leads = leads
+    end
 
   end
 
-  def update_calculation
+  def update_lead_calculation
+    @calculation.marketing_leads = @leads.size
+
+    @calculation.save
+  end
+  
+
+  def update_opportunity_calculation
 
     base_opportunities = @opportunities.where(source: "base")
     referrer_opportunities = @opportunities.where(source: "referrer")
     landing_opportunities = @opportunities.where(source: "landing")
     event_opportunities = @opportunities.where(source: "event")
     
-    @calculation.total_leads = @opportunities.sum(:total_leads)
+    @calculation.sales_leads = @opportunities.sum(:total_leads)
     @calculation.total_amount = @opportunities.sum(:total_amount)
     @calculation.total_gain = @opportunities.sum(:total_gain)
 
@@ -35,20 +47,19 @@ class Commercial::Config::UpdateCalculationService
     @calculation.event_amount = event_opportunities.sum(:total_amount)
     @calculation.event_gain = event_opportunities.sum(:total_gain)
 
-    @calculation.total_prospecting = @opportunities.where(stage: "prospecting").size
-    @calculation.total_qualification = @opportunities.where(stage: "qualification").size
-    @calculation.total_booking = @opportunities.where(stage: "booking").size
-    @calculation.total_meeting = @opportunities.where(stage: "meeting").size
-    @calculation.total_proposal = @opportunities.where(stage: "proposal").size
-    @calculation.total_closing = @opportunities.where(stage: "closing").size
+    @calculation.count_prospecting = @opportunities.where(stage: "prospecting").size
+    @calculation.count_qualification = @opportunities.where(stage: "qualification").size
+    @calculation.count_booking = @opportunities.where(stage: "booking").size
+    @calculation.count_meeting = @opportunities.where(stage: "meeting").size
+    @calculation.count_proposal = @opportunities.where(stage: "proposal").size
+    @calculation.count_closing = @opportunities.where(stage: "closing").size
+    @calculation.count_gain = @opportunities.where(stage: "gain").size
+    @calculation.count_lost = @opportunities.where(stage: "lost").size
 
     @calculation.total_tickets = @opportunities.sum(:total_tickets)
     @calculation.total_calls = @opportunities.sum(:total_calls)
     @calculation.total_contacts = @opportunities.sum(:total_contacts)
-    # @calculation.total_in_process = @opportunities.sum(:total_in_process)
-
-    # @calculation.total_gain
-    # @calculation.total_lost
+    @calculation.total_in_process = @opportunities.sum(:total_in_process)
 
     @calculation.save
 
@@ -60,6 +71,10 @@ class Commercial::Config::UpdateCalculationService
   
   def opportunities
     ::Commercial::Sales::Opportunities::EntityRepository.all_active_date(@date.id)
+  end
+
+  def leads
+    ::Commercial::Sales::Leads::EntityRepository.all_active_date(@date.id)
   end
   
   
