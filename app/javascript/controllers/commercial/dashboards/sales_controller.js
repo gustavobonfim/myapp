@@ -1,14 +1,14 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = ["main", "leadsIndex", "view", "viewCard", "viewTitle", "mainCard", "bodyTable", "footerTable", "submenu", "addNewTaxFilingBtn",
+  static targets = ["main", "view", "viewCard", "viewTitle", "mainCard", "bodyTable", "footerTable", "submenu", "addNewTaxFilingBtn",
     "calculation", "goalLead", "goalLeadInput", "goalLeadInputSpan", "goalAmount", "goalAmountInput", "goalAmountInputSpan",
     "goalGain", "goalGainInput", "goalGainInputSpan"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
     this.cardLoader = this.getControllerByIdentifier("app--helpers--loaders").cardLoader()
-    this.controllerName = `commercial--dashboards--sales--index`
+    this.controllerName = `commercial--dashboards--sales`
     this.application.permissions = {}
     this.application.chart_accounts = []
     this.application.tax_filings = []
@@ -364,7 +364,7 @@ export default class extends Controller {
                   </div>
                 </div>
                 <div class="row my-5">
-                  <div class="col-8" data-controller="commercial--sales--leads--entities--index" data-target="${this.controllerName}.leadsIndex commercial--sales--leads--entities--index.main">
+                  <div class="col-8" data-controller="commercial--sales--leads--entities--index" data-target="commercial--sales--leads--entities--index.main">
                     <div class="card" style="width:100%;display:relative;" data-target="${this.controllerName}.mainCard">
                       <div class="card-header py-0">
                         <div class="row my-2"><div class="col">${loader}</div></div>  
@@ -378,6 +378,9 @@ export default class extends Controller {
                         <div class="row my-2"><div class="col">${loader}</div></div>
                       </div>
                     </div>
+                  </div>
+                  <div class="col-4" data-controller="commercial--sales--opportunities--entities--view" data-target="commercial--sales--opportunities--entities--view.main">
+                    ${this.cardLoader}
                   </div>
                 </div>`
 

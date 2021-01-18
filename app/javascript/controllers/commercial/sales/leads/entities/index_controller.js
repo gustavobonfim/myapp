@@ -168,7 +168,7 @@ export default class extends Controller {
                         <span class="mc-tooltiptext">Criar Oportunidade</span>
                       </button>`
       var statusIcon = `<span class="mc-tooltip">
-                          <span class="material-icons md-sm md-warn">new_releases</span>
+                          <span class="material-icons md-sm md-warning">new_releases</span>
                           <span class="mc-tooltiptext">${element.status_pretty}</span>
                         </span>`
     } else if (element.status == `in_process`) {
