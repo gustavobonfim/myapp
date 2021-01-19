@@ -7,6 +7,6 @@ class Commercial::Sales::Opportunities::JourneyMapper < BaseMapper
     obj = obj.merge({ "date_pretty" => DateDecorator.abbr_month_date(model.date) })
 
     return obj
-  end
+  end  
 
 end

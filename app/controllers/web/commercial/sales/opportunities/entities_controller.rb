@@ -7,7 +7,7 @@ class Web::Commercial::Sales::Opportunities::EntitiesController < ApplicationCon
   def show
 
     begin
-      @booking = ::Operation::Product::Entity.friendly.find(product_params[:id].downcase)
+      @opportunity = ::Commercial::Sale::Opportunity::Entity.friendly.find(opportunity_params[:id].downcase)
 
     rescue ActiveRecord::RecordNotFound => e
       redirect_to dashboard_path
@@ -19,7 +19,7 @@ class Web::Commercial::Sales::Opportunities::EntitiesController < ApplicationCon
 
   private
 
-  def product_params
+  def opportunity_params
     params.permit(:id)
   end
   

@@ -23,6 +23,20 @@ export default class extends Controller {
     this.mainTarget.innerHTML = html
   }
 
+  addOpportunity(ev) {
+    var leadId = ev.currentTarget.closest(".itemRow").dataset.id
+    var lead = {}
+
+    this.application.leads.forEach(element => {
+      if (element.id == leadId) {
+        lead = element
+      }
+    })
+
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").current_lead = lead
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").doFormHtml()
+  }
+
   goToOpportunity(ev) {
     var url = ev.target.closest(".itemRow").dataset.opportunityPath
     window.open(url, `_blank`)
@@ -155,12 +169,12 @@ export default class extends Controller {
       this.bodyTableTarget.innerHTML = noData
     } else {
       data.forEach(element => {
-        this.bodyTableTarget.insertAdjacentHTML("beforeend", this.leadTablePartial(element))
+        this.bodyTableTarget.insertAdjacentHTML("beforeend", this.leadTablePartial(element, data.length))
       });
     }
   }
 
-  leadTablePartial(element) {
+  leadTablePartial(element, length) {
 
     if (element.status == `not_contact`) {
       var actionBtn = `<button data-action="click->${this.controllerName}#addOpportunity" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
@@ -194,9 +208,14 @@ export default class extends Controller {
                         </span>`
     }
 
+    if (length == 1) {
+      var tableRow = `<tr class="itemRow" data-id="${element.id}" data-opportunity-path="${element.opportunity_path}" style="height:50px;">`
+    } else {
+      var tableRow = `<tr class="itemRow" data-id="${element.id}" data-opportunity-path="${element.opportunity_path}">`
+    }
 
-    var rowHtml = `<tr class="itemRow" data-id="${element.id}" data-opportunity-path="${element.opportunity_path}">
-                    
+
+    var rowHtml = `${tableRow}
                     <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.created_at_pretty}</td>
                     <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.name}</td>
                     <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.primary_source_pretty}</td>
@@ -248,32 +267,6 @@ export default class extends Controller {
                       </div>`
 
     this.footerTableTarget.innerHTML = footerHtml
-  }
-
-  requestSave() {
-    var url = "/operations/products/entities/update"
-    var method = "PUT"
-    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
-    var controller = this
-    fetch(url, init)
-      .then(response => response.json())
-      .then(response => {
-        if (response.save) {
-          var lead = response.data.cln
-          controller.application.leads.forEach((element, i) => {
-            if (element.id == lead.id) {
-              controller.application.leads.splice(controller.application.leads.indexOf(element), 1, lead)
-            }
-          })
-        }
-        controller.doDataTable()
-        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
-      })
-      .catch(error => {
-        controller.getControllerByIdentifier("app--helpers--console").console(error)
-        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
-        controller.doDataTable()
-      })
   }
 
   getLeads() {

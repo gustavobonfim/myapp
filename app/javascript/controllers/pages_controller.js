@@ -23,7 +23,7 @@ export default class extends Controller {
                             <div class="card-header p-1 text-center f-065">
                               <span>Oportunidades</span>
                             </div>
-                            <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/oportunidades" data-action="click->pages#goToURL">
+                            <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/marketing-vendas" data-action="click->pages#goToURL">
                               <span class="material-icons md-lg md-dark">account_box</span>
                               <span class="mc-tooltiptext">Oportunidades</span>
                             </div>

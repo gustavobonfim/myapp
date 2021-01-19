@@ -9,7 +9,8 @@ export default class extends Controller {
   }
 
   addNewOpportunity() {
-
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").current_lead = {}
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").doFormHtml()
   }
 
   doViewHtml() {

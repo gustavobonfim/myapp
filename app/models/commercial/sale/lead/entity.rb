@@ -62,3 +62,7 @@ end
 # t.string "primary_source
 # t.string "link"
 # t.string "token"
+# t.string "email"
+# t.string "uniq_phone"
+# t.string "prefix"
+# t.string "phone"

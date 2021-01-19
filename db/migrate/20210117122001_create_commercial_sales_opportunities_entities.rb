@@ -22,6 +22,8 @@ class CreateCommercialSalesOpportunitiesEntities < ActiveRecord::Migration[5.2]
       t.integer :status
       t.boolean :gain, default: false
       t.boolean :lost, default: false
+      t.string :token
+      t.string :slug
     end
 
     add_foreign_key :commercial_sales_opportunities_entities, :commercial_dates, column: :date_id
@@ -35,5 +37,7 @@ class CreateCommercialSalesOpportunitiesEntities < ActiveRecord::Migration[5.2]
     add_index :commercial_sales_opportunities_entities, :started_at
     add_index :commercial_sales_opportunities_entities, :finished_at
     add_index :commercial_sales_opportunities_entities, :gain
+    add_index :commercial_sales_opportunities_entities, :token, unique: true
+    add_index :commercial_sales_opportunities_entities, :slug, unique: true
   end
 end

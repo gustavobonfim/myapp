@@ -6,7 +6,6 @@ class Commercial::Config::CalculationRepository < Base
 
     return obj
   end
-  
 
   def self.find_by_id(id)
     entity.find_by(id: id)

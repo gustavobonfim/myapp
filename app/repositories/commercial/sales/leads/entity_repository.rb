@@ -3,7 +3,7 @@ class Commercial::Sales::Leads::EntityRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
-    obj.token = set_token("token")
+    obj.token = set_token("token").upcase
     
     return obj
   end
@@ -23,6 +23,10 @@ class Commercial::Sales::Leads::EntityRepository < Base
     entity.where(active: true, date_id: date_id).order(name: :asc)
   end
 
+  def self.find_by_id(id)
+    entity.find_by(id: id)
+  end
+
   def self.read(lead)
     mapper.map(lead)
   end
@@ -35,10 +39,10 @@ class Commercial::Sales::Leads::EntityRepository < Base
   private
 
   def self.set_token(field)
-      token = Base.generate_token
-      set_token if valid_field(field, token)
-      token
-    end
+    token = Base.generate_token
+    set_token if valid_field(field, token)
+    token
+  end
 
   def self.entity
     "Commercial::Sale::Lead::Entity".constantize

@@ -1,4 +1,6 @@
 class Commercial::Sale::Opportunity::Entity < ApplicationRecord
+  extend FriendlyId
+  friendly_id :token, use: :slugged
 
   self.table_name = "commercial_sales_opportunities_entities"
   
@@ -32,6 +34,14 @@ class Commercial::Sale::Opportunity::Entity < ApplicationRecord
     end
 
     self.name = self.name.squish!
+  end
+
+  def should_generate_new_friendly_id?
+    self.token_changed?
+  end
+
+  def normalize_friendly_id(value)
+    value.to_s.parameterize(preserve_case: true)
   end
   
 end

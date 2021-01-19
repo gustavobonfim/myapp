@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root "pages#home"
 
-  resources :opportunities, path: '/oportunidades', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/dashboards/sales'
+  resources :opportunities, path: '/marketing-vendas', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/dashboards/sales'
+  resources :opportunities, path: '/geracao-de-leads', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/dashboards/leads'
+  resources :opportunities, path: '/oportunidades', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/sales/opportunities/entities'
 
 
 

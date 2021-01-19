@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_18_011341) do
+ActiveRecord::Schema.define(version: 2021_01_19_001318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,18 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.index ["token"], name: "index_commercial_marketing_event_entities_on_token", unique: true
   end
 
+  create_table "commercial_marketing_landing_leads", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "name"
+    t.string "email"
+    t.string "ddd"
+    t.string "number"
+    t.string "crm"
+    t.string "crm_state"
+  end
+
   create_table "commercial_sales_leads_entities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -149,6 +161,10 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.string "primary_source"
     t.string "link"
     t.string "token"
+    t.string "email"
+    t.string "uniq_phone"
+    t.string "prefix"
+    t.string "phone"
     t.index ["active"], name: "index_commercial_sales_leads_entities_on_active"
     t.index ["council"], name: "index_commercial_sales_leads_entities_on_council"
     t.index ["council_number"], name: "index_commercial_sales_leads_entities_on_council_number"
@@ -205,16 +221,20 @@ ActiveRecord::Schema.define(version: 2021_01_18_011341) do
     t.integer "status"
     t.boolean "gain", default: false
     t.boolean "lost", default: false
+    t.string "token"
+    t.string "slug"
     t.index ["active"], name: "index_commercial_sales_opportunities_entities_on_active"
     t.index ["closer_id"], name: "index_commercial_sales_opportunities_entities_on_closer_id"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_entities_on_date_id"
     t.index ["finished_at"], name: "index_commercial_sales_opportunities_entities_on_finished_at"
     t.index ["gain"], name: "index_commercial_sales_opportunities_entities_on_gain"
     t.index ["prospector_id"], name: "index_commercial_sales_opportunities_entities_on_prospector_id"
+    t.index ["slug"], name: "index_commercial_sales_opportunities_entities_on_slug", unique: true
     t.index ["source"], name: "index_commercial_sales_opportunities_entities_on_source"
     t.index ["stage"], name: "index_commercial_sales_opportunities_entities_on_stage"
     t.index ["started_at"], name: "index_commercial_sales_opportunities_entities_on_started_at"
     t.index ["status"], name: "index_commercial_sales_opportunities_entities_on_status"
+    t.index ["token"], name: "index_commercial_sales_opportunities_entities_on_token", unique: true
   end
 
   create_table "commercial_sales_opportunities_journeys", force: :cascade do |t|

@@ -1,4 +1,4 @@
-class Commercial::Sales::Leads::SourceRepository < Base
+class Commercial::Marketing::Events::AttendeeRepository < Base
 
   def self.build(attrs)
     obj = entity.new
@@ -22,19 +22,18 @@ class Commercial::Sales::Leads::SourceRepository < Base
     mapper.map(source)
   end
   
-  def self.list(sources)
-    mapper.map_all(sources)
-  end
-  
+  def self.lead_gen(sources)
+    mapper.map_all_lead_gen(sources)
+  end  
 
   private
 
   def self.entity
-    "Commercial::Sale::Lead::Source".constantize
+    "Commercial::Marketing::Event::Attendee".constantize
   end
 
   def self.mapper
-    "Commercial::Sales::Leads::SourceMapper".constantize
+    "Commercial::Marketing::Events::AttendeeMapper".constantize
   end
 
   ENUM_SOURCE = {
@@ -46,7 +45,7 @@ class Commercial::Sales::Leads::SourceRepository < Base
 
 
   SOURCE_TYPE = {
-                  "landing_conversion" => "Commercial::Marketing::Landing::Lead",
+                  "landing_conversion" => "Lead::Entity",
                   "event_conversion" => "Commercial::Marketing::Event::Attendee"
                 }
 

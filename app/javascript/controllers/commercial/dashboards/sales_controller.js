@@ -27,7 +27,6 @@ export default class extends Controller {
   changeGoalLead() {
     this.goalLeadTarget.classList.add("d-none")
     this.goalLeadInputSpanTarget.classList.remove("d-none")
-
   }
 
   changeGoalAmount() {
@@ -48,11 +47,11 @@ export default class extends Controller {
                       </span>
                       <span class="d-none" data-target="${this.controllerName}.goalLeadInputSpan">
                         <div class="row d-flex align-items-center">
-                          <div class="col-9 pr-0">
+                          <div class="col-8 pr-0">
                             <div class="form-group w-100">
                               <div class="floating-label floating-label-sm">
-                                <label for="goalLeadForm">Objetivo MQL</label>
-                                <input id="goalLeadForm" aria-describedby="goalLeadFormHelp" class="form-control f-1p25" autofocus data-target="${this.controllerName}.goalLeadInput" type="number" required>
+                                <label for="goalLeadForm">Objetivo</label>
+                                <input id="goalLeadForm" aria-describedby="goalLeadFormHelp" class="form-control f-1p25" data-field="goal_leads" autofocus data-target="${this.controllerName}.goalLeadInput" data-action="blur->${this.controllerName}#cancelEdit keyup->${this.controllerName}#cancelEdit" type="number" required>
                               </div>
                             </div>
                           </div>
@@ -69,11 +68,11 @@ export default class extends Controller {
                         </span>
                         <span class="d-none" data-target="${this.controllerName}.goalAmountInputSpan">
                           <div class="row d-flex align-items-center">
-                            <div class="col-9 pr-0">
+                            <div class="col-8 pr-0">
                               <div class="form-group w-100">
                                 <div class="floating-label floating-label-sm">
-                                  <label for="goalAmountForm">Objetivo Oportunidades</label>
-                                  <input id="goalAmountForm" aria-describedby="goalAmountFormHelp" class="form-control f-1p25" autofocus data-target="${this.controllerName}.goalAmountInput" data-action="blur->${this.controllerName}#currencyMask keyup->${this.controllerName}#currencyMask keypress->${this.controllerName}#currencyMask" type="text" required>
+                                  <label for="goalAmountForm">Objetivo</label>
+                                  <input id="goalAmountForm" aria-describedby="goalAmountFormHelp" class="form-control f-1p25" data-field="goal_amount" autofocus data-target="${this.controllerName}.goalAmountInput" data-action="blur->${this.controllerName}#currencyMask keyup->${this.controllerName}#currencyMask keypress->${this.controllerName}#currencyMask blur->${this.controllerName}#cancelEdit keyup->${this.controllerName}#cancelEdit" type="text" required>
                                 </div>
                               </div>
                             </div>
@@ -90,11 +89,11 @@ export default class extends Controller {
                         </span>
                         <span class="d-none" data-target="${this.controllerName}.goalGainInputSpan">
                           <div class="row d-flex align-items-center">
-                            <div class="col-9 pr-0">
+                            <div class="col-8 pr-0">
                               <div class="form-group w-100">
                                 <div class="floating-label floating-label-sm">
-                                  <label for="goalGainForm">Objetivo Ganhos</label>
-                                  <input id="goalGainForm" aria-describedby="goalGainFormHelp" class="form-control f-1p25" autofocus data-target="${this.controllerName}.goalGainInput" data-action="blur->${this.controllerName}#currencyMask keyup->${this.controllerName}#currencyMask keypress->${this.controllerName}#currencyMask" type="text" required>
+                                  <label for="goalGainForm">Objetivo</label>
+                                  <input id="goalGainForm" aria-describedby="goalGainFormHelp" class="form-control f-1p25" data-field="goal_gain" autofocus data-target="${this.controllerName}.goalGainInput" data-action="blur->${this.controllerName}#currencyMask keyup->${this.controllerName}#currencyMask keypress->${this.controllerName}#currencyMask blur->${this.controllerName}#cancelEdit keyup->${this.controllerName}#cancelEdit" type="text" required>
                                 </div>
                               </div>
                             </div>
@@ -112,123 +111,141 @@ export default class extends Controller {
       var goalGain = `${this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(this.application.current_calculation.goal_gain * 100))}`
     }
 
+    if (this.application.current_calculation.leads_rate < 100) {
+      var leadsRate = `<span class="f-bold pointer badge badge-secondary-danger">${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.leads_rate * 100))}</span>`
+    } else {
+      var leadsRate = `<span class="f-bold pointer badge badge-secondary-success">${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.leads_rate * 100))}</span>`
+    }    
+
+    if (this.application.current_calculation.amount_rate < 100) {
+      var amountRate = `<span class="f-bold pointer badge badge-secondary-danger">${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.amount_rate * 100))}</span>`
+    } else {
+      var amountRate = `<span class="f-bold pointer badge badge-secondary-success">${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.amount_rate * 100))}</span>`
+    }
+
+    if (this.application.current_calculation.gain_rate < 100) {
+      var gainRate = `<span class="f-bold pointer badge badge-secondary-danger">${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.gain_rate * 100))}</span>`
+    } else {
+      var gainRate = `<span class="f-bold pointer badge badge-secondary-success">${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.gain_rate * 100))}</span>`
+    }
+
     var html = `<div class="col-3 pr-2">
-                  <div class="card">
-                    <div class="card-header p-1 card-header-indicator">
+                  <div class="card border-top-primary">
+                    <div class="card-header p-1 text-center f-075 f-bold">
                       <span>Novos Leads</span>
                     </div>
-                    <div class="card-body text-center f-075 card-body-indicator px-0 py-1">
+                    <div class="card-body text-center f-075 px-0 py-1">
                       <div class="row my-1 d-flex align-items-center">
-                        <div class="col-3 text-right p-1">
+                        <div class="col-4 text-right px-1">
                           novos
                         </div>
-                        <div class="col-9 text-left f-1p5 p-1">
+                        <div class="col-7 offset-1 text-left f-1p25 px-1">
                           ${this.application.current_calculation.marketing_leads}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-3 text-right p-1">
+                        <div class="col-4 text-right px-1">
                           objetivo
                         </div>
-                        <div class="col-9 text-left f-1p5 p-1">
+                        <div class="col-7 offset-1 text-left f-1p25 px-1">
                           ${goalLeads}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-9 offset-3 text-left f-1 px-1 py-0">
-                          ${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.leads_rate * 100))}
+                        <div class="col-7 offset-5 text-left f-1 px-1 py-0">
+                          ${leadsRate}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-3 px-2">
-                  <div class="card">
-                    <div class="card-header p-1 card-header-indicator">
+                  <div class="card border-top-primary">
+                    <div class="card-header p-1 text-center f-075 f-bold">
                       <span>Novas Oportunidades</span>
                     </div>
-                    <div class="card-body text-center f-075 card-body-indicator px-0 py-1">
+                    <div class="card-body text-center f-075 px-0 py-1">
                       <div class="row my-1 d-flex align-items-center">
-                        <div class="col-3 text-right p-1">
+                        <div class="col-4 text-right px-1">
                           novos
                         </div>
-                        <div class="col-9 text-left f-1p5 p-1">
+                        <div class="col-7 offset-1 text-left f-1p25 px-1">
                           ${this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(this.application.current_calculation.total_amount * 100))}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-3 text-right p-1">
+                        <div class="col-4 text-right px-1">
                           objetivo
                         </div>
-                        <div class="col-9 text-left f-1p5 p-1">
+                        <div class="col-7 offset-1 text-left f-1p25 px-1">
                           ${goalAmount}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-9 offset-3 text-left f-1 px-1 py-0">
-                          ${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.amount_rate * 100))}
+                        <div class="col-7 offset-5 text-left f-1 px-1 py-0">
+                          ${amountRate}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-3 px-2">
-                  <div class="card">
-                    <div class="card-header p-1 card-header-indicator">
+                  <div class="card border-top-primary">
+                    <div class="card-header p-1 text-center f-075 f-bold">
                       <span>Ganhos</span>
                     </div>
-                    <div class="card-body text-center f-075 card-body-indicator px-0 py-1">
+                    <div class="card-body text-center f-075 px-0 py-1">
                       <div class="row my-1 d-flex align-items-center">
-                        <div class="col-3 text-right p-1">
+                        <div class="col-4 text-right px-1">
                           novos
                         </div>
-                        <div class="col-9 text-left f-1p5 p-1">
+                        <div class="col-7 offset-1 text-left f-1p25 px-1">
                           ${this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(this.application.current_calculation.total_gain * 100))}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-3 text-right p-1">
+                        <div class="col-4 text-right px-1">
                           objetivo
                         </div>
-                        <div class="col-9 text-left f-1p5 p-1">
+                        <div class="col-7 offset-1 text-left f-1p25 px-1">
                           ${goalGain}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-9 offset-3 text-left f-1 px-1 py-0">
-                          ${this.getControllerByIdentifier("app--helpers--numbers").percentMask(parseInt(this.application.current_calculation.gain_rate * 100))}
+                        <div class="col-7 offset-5 text-left f-1 px-1 py-0">
+                          ${gainRate}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-2 offset-1">
-                  <div class="card">
-                    <div class="card-header p-1 card-header-indicator">
+                  <div class="card border-top-primary">
+                    <div class="card-header p-1 text-center f-075 f-bold">
                       <span>Tickets</span>
                     </div>
-                    <div class="card-body text-center f-075 card-body-indicator px-0 py-1">
+                    <div class="card-body text-center f-075 px-0 py-1">
                       <div class="row my-1 d-flex align-items-center">
-                        <div class="col-6 text-right p-1">
+                        <div class="col-6 text-right px-1">
                           total
                         </div>
-                        <div class="col-6 text-left f-1p25 p-1">
+                        <div class="col-6 text-left f-1p25 px-1">
                           ${this.application.current_calculation.total_tickets}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-6 text-right p-1">
+                        <div class="col-6 text-right px-1">
                           ligações
                         </div>
-                        <div class="col-6 text-left f-1p25 p-1">
+                        <div class="col-6 text-left f-1p25 px-1">
                           ${this.application.current_calculation.total_calls}
                         </div>
                       </div>
                       <div class="row d-flex align-items-center">
-                        <div class="col-6 text-right p-1">
+                        <div class="col-6 text-right px-1">
                           contatos
                         </div>
-                        <div class="col-6 text-left f-1p25 p-1">
+                        <div class="col-6 text-left f-1p25 px-1">
                           ${this.application.current_calculation.total_contacts}
                         </div>
                       </div>
@@ -292,6 +309,23 @@ export default class extends Controller {
 
   currencyMask(ev) {
     this.getControllerByIdentifier("app--helpers--numbers").changeNumberToCurrency(ev)
+  }
+
+  cancelEdit(ev) {
+    if ((ev.type == "keyup" && ev.key == "Escape" && ev.shiftKey == false)) {
+      var field = ev.currentTarget.dataset.field
+
+      if (field == `goal_leads`) {
+        this.goalLeadTarget.classList.remove("d-none")
+        this.goalLeadInputSpanTarget.classList.add("d-none")
+      } else if (field == `goal_amount`) {
+        this.goalAmountTarget.classList.remove("d-none")
+        this.goalAmountInputSpanTarget.classList.add("d-none")
+      } else if (field == `goal_gain`) {
+        this.goalGainTarget.classList.remove("d-none")
+        this.goalGainInputSpanTarget.classList.add("d-none")
+      }
+    }
   }
 
   doIndexSubmenuHtml() {
@@ -379,7 +413,7 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>
-                  <div class="col-4" data-controller="commercial--sales--opportunities--entities--view" data-target="commercial--sales--opportunities--entities--view.main">
+                  <div class="col-4" data-controller="commercial--sales--opportunities--entities--view commercial--sales--opportunities--entities--save" data-target="commercial--sales--opportunities--entities--view.main">
                     ${this.cardLoader}
                   </div>
                 </div>`
