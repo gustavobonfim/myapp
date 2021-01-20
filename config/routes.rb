@@ -25,6 +25,11 @@ Rails.application.routes.draw do
             post "attendees/create", to: "attendees#create"
             put "attendees/update", to: "attendees#update"
           end
+
+          namespace :leads do
+            post "generations/list_attendee", to: "generations#list_attendee"
+            post "generations/list_landings", to: "generations#list_landings"
+          end
         end
 
         namespace :sales do

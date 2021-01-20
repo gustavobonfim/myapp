@@ -7,7 +7,7 @@ class Web::Commercial::Sales::Opportunities::EntitiesController < ApplicationCon
   def show
 
     begin
-      @opportunity = ::Commercial::Sale::Opportunity::Entity.friendly.find(opportunity_params[:id].downcase)
+    @opportunity = ::Commercial::Sale::Opportunity::Entity.friendly.find(opportunity_params[:id])
 
     rescue ActiveRecord::RecordNotFound => e
       redirect_to dashboard_path

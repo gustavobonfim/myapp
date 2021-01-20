@@ -17,10 +17,11 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
   validates :council_number, presence: { message: "Conselho não pode ficar em branco." }
   validates :council_state, presence: { message: "Conselho não pode ficar em branco." }
   validates :token, presence: {message: "Token não pode ficar em branco. "}, uniqueness: { case_sensitive: false, message: "Lead já existe na base. "  }, on: [:create]
-  # validates :email, presence: {message: "E-mail não pode ficar em branco. "},
-  #                   length: {maximum: 255, message: "Tamanho de e-mail inválido. "},
-  #                   format: {with: VALID_EMAIL_REGEX, message: "E-mail inválido. "},
-  #                   uniqueness: { case_sensitive: false, message: "E-mail já existe na base. "  }
+  validates :uniq_phone, presence: {message: "Telefone não pode ficar em branco. "}, uniqueness: { case_sensitive: false, message: "Lead já existe na base. "  }, on: [:create]
+  validates :email, presence: {message: "E-mail não pode ficar em branco. "},
+                    # length: {maximum: 255, message: "Tamanho de e-mail inválido. "},
+                    # format: {with: VALID_EMAIL_REGEX, message: "E-mail inválido. "},
+                    uniqueness: { case_sensitive: false, message: "Lead já existe na base. "  }
 
 
   #Enums
@@ -55,6 +56,7 @@ end
 # t.boolean "active", default: true, null: false
 # t.bigint "date_id"
 # t.string "name"
+# t.integer "status"
 # t.string "council_type"
 # t.string "council_number"
 # t.string "council_state"
@@ -66,3 +68,4 @@ end
 # t.string "uniq_phone"
 # t.string "prefix"
 # t.string "phone"
+# t.string "notes"

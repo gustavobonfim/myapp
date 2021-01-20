@@ -47,7 +47,8 @@ class Commercial::Sales::Leads::SourceRepository < Base
 
   SOURCE_TYPE = {
                   "landing_conversion" => "Commercial::Marketing::Landing::Lead",
-                  "event_conversion" => "Commercial::Marketing::Event::Attendee"
+                  "event_conversion" => "Commercial::Marketing::Event::Attendee",
+                  "session_conversion" => "Commercial::Marketing::Event::Attendee"
                 }
 
 end

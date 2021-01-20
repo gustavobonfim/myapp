@@ -144,12 +144,14 @@ export default class extends Controller {
     this.send_data.opportunity.started_at = this.getControllerByIdentifier("app--helpers--date").transformFullDate(this.startedAtInputTarget.value)
 
     this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.requestSave()
   }
 
   requestSave() {
     var url = "/commercial/sales/opportunities/entities/create"
-    var method = "PUT"
-    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var method = "POST"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
     var controller = this
     fetch(url, init)
       .then(response => response.json())

@@ -17,20 +17,31 @@ export default class extends Controller {
 
     var html = ``
 
-    var featureCard = `
-                        <div class="col-1 px-2 my-2">
-                          <div class="card border-top-primary">
-                            <div class="card-header p-1 text-center f-065">
-                              <span>Oportunidades</span>
-                            </div>
-                            <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/marketing-vendas" data-action="click->pages#goToURL">
-                              <span class="material-icons md-lg md-dark">account_box</span>
-                              <span class="mc-tooltiptext">Oportunidades</span>
-                            </div>
-                          </div>
-                        </div>`
+    html += `
+              <div class="col-1 px-2 my-2">
+                <div class="card border-top-primary">
+                  <div class="card-header p-1 text-center f-065">
+                    <span>Marketing & Vendas</span>
+                  </div>
+                  <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/marketing-vendas" data-action="click->pages#goToURL">
+                    <span class="material-icons md-lg md-dark">account_box</span>
+                    <span class="mc-tooltiptext">Marketing & Vendas</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-1 px-2 my-2">
+                <div class="card border-top-primary">
+                  <div class="card-header p-1 text-center f-065">
+                    <span>Geração de Leads</span>
+                  </div>
+                  <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/geracao-de-leads" data-action="click->pages#goToURL">
+                    <span class="material-icons md-lg md-dark">account_box</span>
+                    <span class="mc-tooltiptext">Geração de Leads</span>
+                  </div>
+                </div>
+              </div>`
 
-    html += featureCard
+
     
     // if (this.application.current_user.account_kind == "admin") {
     // }

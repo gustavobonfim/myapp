@@ -4,8 +4,8 @@ export default class extends Controller {
   static targets = ["main", "list", "view", "viewCard", "viewTitle", "mainCard", "bodyTable", "footerTable", "submenu", "addNewLeadBtn"]
 
   connect() {
-    this.application.leads = []
-    this.controllerName = `commercial--sales--leads--entities--index`
+    this.leads = []
+    this.controllerName = `commercial--dashboards--sources--landings`
     this.itemsOnPage = 20
     this.pageNumber = 0
     this.numberPages = []
@@ -14,30 +14,22 @@ export default class extends Controller {
     this.getLeads()
   }
 
-  addNewLead() {
-    // var html = `<div class="row">
-    //               <div class="col-12" data-controller="operations--products--tax-filings--add--dashboard" data-target="operations--products--tax-filings--add--dashboard.main"></div>
-    //             </div>`
-    // this.mainTarget.innerHTML = html
-    this.getControllerByIdentifier("commercial--sales--leads--entities--save").doFormHtml()
-  }
-
-  addOpportunity(ev) {
+  addSQL(ev) {
     var leadId = ev.currentTarget.closest(".itemRow").dataset.id
     var lead = {}
 
-    this.application.leads.forEach(element => {
+    this.leads.forEach(element => {
       if (element.id == leadId) {
         lead = element
       }
     })
 
-    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").current_lead = lead
-    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").doFormHtml()
+    this.getControllerByIdentifier("commercial--dashboards--leads").current_lead = lead
+    this.getControllerByIdentifier("commercial--dashboards--leads").doFormHtml()
   }
 
   goToOpportunity(ev) {
-    var url = ev.currentTarget.closest(".itemRow").dataset.opportunityPath
+    var url = ev.target.closest(".itemRow").dataset.opportunityPath
     window.open(url, `_blank`)
   }
 
@@ -61,14 +53,8 @@ export default class extends Controller {
   doIndexListHtml() {
     var html = `<div class="card" style="width:100%;display:relative;" data-controller="app--helpers--search" data-target="${this.controllerName}.mainCard" data-action="resize@window->${this.controllerName}#layout">
                   <div class="card-header d-flex align-items-center card-header-table-list f-065">
-                    <h6 class="card-title display-4 card-title-table-list">Todos os Leads Gerados</h6>
-                    <input class="form-control s-title-0p7rem w-50 ml-auto" data-target="app--helpers--search.searchInput" data-action="keyup->app--helpers--search#doSearchTable" id="" placeholder="Buscar ..." type="text">
-                    <div class="card-actions ml-auto py-0 mc-tooltip">
-                      <button aria-expanded="false" aria-haspopup="true" class="btn btn-outline my-0" data-target="${this.controllerName}.addNewLeadBtn" data-action="click->${this.controllerName}#addNewLead" type="button">
-                        <span class="material-icons">add</span>
-                      </button>
-                      <span class="mc-tooltiptext">Adicionar Novo Lead</span>
-                    </div>
+                    <h6 class="card-title display-4 card-title-table-list">Leads de Landings</h6>
+                    <input class="form-control s-title-0p7rem w-50 mr-auto" data-target="app--helpers--search.searchInput" data-action="keyup->app--helpers--search#doSearchTable" placeholder="Buscar ..." type="text">
                   </div>
                   <div class="card-body py-0 card-overflow">
                     <div class="row">
@@ -83,14 +69,8 @@ export default class extends Controller {
                                   <span class="material-icons md-sm md-dark" data-action="click->${this.controllerName}#sortTable" data-field="account_name" data-mode="desc">south</span>
                                   <span class="material-icons md-sm md-dark d-none" data-action="click->${this.controllerName}#sortTable" data-field="account_name" data-mode="asc">north</span>
                                 </th>
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle">Fonte</th>
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle">Conselho</th>                                
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle pointer">
-                                  Status
-                                  <span class="material-icons md-sm md-dark" data-action="click->${this.controllerName}#sortTable" data-field="status_pretty" data-mode="desc">south</span>
-                                  <span class="material-icons md-sm md-dark d-none" data-action="click->${this.controllerName}#sortTable" data-field="status_pretty" data-mode="asc">north</span>
-                                </th>
-                                <th style="font-size:80%;" scope="col" class="p-1 table-3 align-middle text-center"></th>
+                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle">Conselho</th>                             
+                                <th style="font-size:80%;" scope="col" class="p-1 table-3 align-middle text-center">SQL</th>
                                 <th style="font-size:80%;" scope="col" class="p-1 table-3 align-middle text-center"></th>
                                 <th style="font-size:80%;" scope="col" class="p-1 table-3 align-middle text-center"></th>
                               </tr>
@@ -111,7 +91,7 @@ export default class extends Controller {
       resolve(controller.mainTarget.innerHTML = html)
     }).then(() => {
       controller.mainCardTarget.style.height = ($(window).height() * 0.5) + "px"
-      controller.bodyTableTarget.insertAdjacentHTML("beforeend", controller.getControllerByIdentifier("app--helpers--table").doTablePreloader(8, 4))
+      controller.bodyTableTarget.insertAdjacentHTML("beforeend", controller.getControllerByIdentifier("app--helpers--table").doTablePreloader(6, 4))
       // controller.doDataTable()
     })
   }
@@ -119,9 +99,9 @@ export default class extends Controller {
   doDataTable() {
 
     if (this.sort.mode == `asc`) {
-      var leads = this.getControllerByIdentifier("app--helpers--data").sortByKeyAsc(this.application.leads, this.sort.field)
+      var leads = this.getControllerByIdentifier("app--helpers--data").sortByKeyAsc(this.leads, this.sort.field)
     } else if (this.sort.mode == `desc`) {
-      var leads = this.getControllerByIdentifier("app--helpers--data").sortByKeyDesc(this.application.leads, this.sort.field)
+      var leads = this.getControllerByIdentifier("app--helpers--data").sortByKeyDesc(this.leads, this.sort.field)
     }
 
     if (leads.length == 0) {
@@ -157,7 +137,7 @@ export default class extends Controller {
     this.bodyTableTarget.innerHTML = ""
     if (data == undefined || data == [] || data.length == 0) {
       var noData = `</tr>
-                      <td colspan="8" class="p-3 align-middle text-center" style="font-size:100%;">
+                      <td colspan="6" class="p-3 align-middle text-center" style="font-size:100%;">
                         <span class="fa-stack fa-1x">
                           <i class="fas fa-list fa-stack-1x"></i>
                         </span>
@@ -175,36 +155,22 @@ export default class extends Controller {
 
   leadTablePartial(element, length) {
 
-    if (element.status == `not_contact`) {
-      var actionBtn = `<button data-action="click->${this.controllerName}#addOpportunity" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+
+    if (element.sql) {
+      var actionBtn = ``
+      var sqlIcon = `<span class="mc-tooltip">
+                        <span class="material-icons md-sm md-primary">done_all</span>
+                        <span class="mc-tooltiptext">Já é SQL</span>
+                      </span>`
+    } else {
+      var actionBtn = `<button data-action="click->${this.controllerName}#addSQL" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
                         <span class="material-icons md-sm md-dark">add_circle_outline</span>
-                        <span class="mc-tooltiptext">Criar Oportunidade</span>
+                        <span class="mc-tooltiptext">Gerar SQL</span>
                       </button>`
-      var statusIcon = `<span class="mc-tooltip">
-                          <span class="material-icons md-sm md-warning">new_releases</span>
-                          <span class="mc-tooltiptext">${element.status_pretty}</span>
-                        </span>`
-    } else if (element.status == `in_process`) {
-      var actionBtn = `<button data-action="click->${this.controllerName}#goToOpportunity" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
-                        <span class="material-icons md-sm md-dark">launch</span>
-                        <span class="mc-tooltiptext">Ver Oportunidade</span>
-                      </button>`
-      var statusIcon = `<span class="mc-tooltip">
-                          <span class="material-icons md-sm md-primary">phone_in_talk</span>
-                          <span class="mc-tooltiptext">${element.status_pretty}</span>
-                        </span>`
-    } else if (element.status == `gain`) {
-      var actionBtn = ``
-      var statusIcon = `<span class="mc-tooltip">
-                          <span class="material-icons md-sm md-success">emoji_events</span>
-                          <span class="mc-tooltiptext">${element.status_pretty}</span>
-                        </span>`
-    } else if (element.status == `lost`) {
-      var actionBtn = ``
-      var statusIcon = `<span class="mc-tooltip">
-                          <span class="material-icons md-sm md-danger">clear</span>
-                          <span class="mc-tooltiptext">${element.status_pretty}</span>
-                        </span>`
+      var sqlIcon = `<span class="mc-tooltip">
+                        <span class="material-icons md-sm md-warning">new_releases</span>
+                        <span class="mc-tooltiptext">Gerar SQL</span>
+                      </span>`
     }
 
     if (length == 1) {
@@ -217,10 +183,8 @@ export default class extends Controller {
     var rowHtml = `${tableRow}
                     <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.created_at_pretty}</td>
                     <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.name}</td>
-                    <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.primary_source_pretty}</td>
-                    <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.council}</td>
-                    <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.status_pretty}</td>
-                    <td style="font-size:80%;" scope="col" class="p-1 align-middle pointer">${statusIcon}</td>
+                    <td style="font-size:80%;" scope="col" class="p-1 align-middle">${element.council_pretty}</td>
+                    <td style="font-size:80%;" scope="col" class="p-1 align-middle pointer">${sqlIcon}</td>
                     <td style="font-size:80%;" scope="col" class="p-1 px-3 align-middle pointer">${actionBtn}</td>
                     <td style="font-size:80%;" scope="col" class="p-1 align-middle pointer"></td>
                   </tr>`
@@ -270,13 +234,13 @@ export default class extends Controller {
 
   getLeads() {
     const data = { lead: { active: true }, current_user: { current_user_id: this.application.current_user.id } }
-    const url = "/commercial/sales/leads/entities/list"
+    const url = "/commercial/marketing/leads/generations/list_landings"
     const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
     var controller = this
     fetch(url, init)
       .then(response => response.json())
       .then(response => {
-        this.application.leads = response.data.cln
+        this.leads = response.data.cln
         controller.doDataTable()
       })
       .catch(error => {

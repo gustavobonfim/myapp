@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_001318) do
     t.string "uniq_phone"
     t.string "prefix"
     t.string "phone"
+    t.string "notes"
     t.index ["active"], name: "index_commercial_sales_leads_entities_on_active"
     t.index ["council"], name: "index_commercial_sales_leads_entities_on_council"
     t.index ["council_number"], name: "index_commercial_sales_leads_entities_on_council_number"
@@ -223,6 +224,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_001318) do
     t.boolean "lost", default: false
     t.string "token"
     t.string "slug"
+    t.string "notes"
     t.index ["active"], name: "index_commercial_sales_opportunities_entities_on_active"
     t.index ["closer_id"], name: "index_commercial_sales_opportunities_entities_on_closer_id"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_entities_on_date_id"

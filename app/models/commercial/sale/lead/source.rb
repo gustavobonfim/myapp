@@ -10,7 +10,7 @@ class Commercial::Sale::Lead::Source < ApplicationRecord
   belongs_to :lead, class_name: "Commercial::Sale::Lead::Entity", foreign_key: "lead_id"
   
   # Validations
-  validates :source_id, presence: { message: "A Fonte não pode ficar em branco." }
+  validates :source, presence: { message: "A Fonte não pode ficar em branco." }
 
   #Enums
   enum source: { base: 0, referrer: 1, landing: 2, event: 3 }, _prefix: :_

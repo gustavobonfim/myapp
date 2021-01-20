@@ -2,8 +2,8 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = ["main", "view", "viewCard", "viewTitle", "mainCard", "bodyTable", "footerTable", "submenu", "addNewTaxFilingBtn",
-    "calculation", "goalLead", "goalLeadInput", "goalLeadInputSpan", "goalAmount", "goalAmountInput", "goalAmountInputSpan",
-    "goalGain", "goalGainInput", "goalGainInputSpan"]
+                    "calculation", "goalLead", "goalLeadInput", "goalLeadInputSpan", "goalAmount", "goalAmountInput", "goalAmountInputSpan",
+                    "goalGain", "goalGainInput", "goalGainInputSpan", "salesLeads"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
@@ -271,11 +271,14 @@ export default class extends Controller {
     var field = ev.currentTarget.dataset.field
 
     if (field == `goal_leads`) {
-      var value = this.goalLeadInputTarget.value
+      var newValue = this.goalLeadInputTarget.value
+      var oldValue = this.application.current_calculation.goal_leads
     } else if (field == `goal_amount`) {
-      var value = this.getControllerByIdentifier("app--helpers--numbers").fromCurrencyToNumber(this.goalAmountInputTarget.value)
+      var newValue = this.getControllerByIdentifier("app--helpers--numbers").fromCurrencyToNumber(this.goalAmountInputTarget.value)
+      var oldValue = this.application.current_calculation.goal_amount
     } else if (field == `goal_gain`) {
-      var value = this.getControllerByIdentifier("app--helpers--numbers").fromCurrencyToNumber(this.goalGainInputTarget.value)
+      var newValue = this.getControllerByIdentifier("app--helpers--numbers").fromCurrencyToNumber(this.goalGainInputTarget.value)
+      var oldValue = this.application.current_calculation.goal_gain
     }
 
     this.requestFetchParams = { url: "/commercial/config/calculations/update", method: "PUT", data: { current_user: {}, calculation: {} } }
@@ -283,9 +286,13 @@ export default class extends Controller {
     this.requestFetchParams.data.current_user.current_user_id = this.application.current_user.id
     this.requestFetchParams.data.calculation.id = this.application.current_calculation.id
     this.requestFetchParams.data.calculation.field = field
-    this.requestFetchParams.data.calculation.value = value
+    this.requestFetchParams.data.calculation.value = newValue
 
-    this.requestFetch()
+    if (parseInt(newValue * 100) != parseInt(oldValue * 100)) {
+      this.requestFetch()
+    } else {
+      this.doCalculationCards()
+    }
   }
 
   requestFetch() {
@@ -361,7 +368,6 @@ export default class extends Controller {
   }
 
   getCommercialDates() {
-    console.log(this.application)
     const data = { date: { active: true }, current_user: { current_user_id: this.application.current_user.id } }
     const url = "/commercial/config/dates/list"
     const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
@@ -413,7 +419,7 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>
-                  <div class="col-4" data-controller="commercial--sales--opportunities--entities--view commercial--sales--opportunities--entities--save" data-target="commercial--sales--opportunities--entities--view.main">
+                  <div class="col-4" data-controller="commercial--sales--opportunities--entities--view commercial--sales--opportunities--entities--save commercial--sales--leads--entities--save" data-target="commercial--sales--opportunities--entities--view.main">
                     ${this.cardLoader}
                   </div>
                 </div>`
