@@ -278,6 +278,7 @@ export default class extends Controller {
       .then(response => {
         this.application.leads = response.data.cln
         controller.doDataTable()
+        controller.getControllerByIdentifier(`commercial--dashboards--sales`).doSideCardHtml()
       })
       .catch(error => {
         controller.getControllerByIdentifier("app--helpers--console").console(error)

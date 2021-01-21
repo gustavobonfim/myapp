@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :opportunities, path: '/marketing-vendas', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/dashboards/sales'
   resources :opportunities, path: '/geracao-de-leads', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/dashboards/leads'
   resources :opportunities, path: '/oportunidades', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/sales/opportunities/entities'
+  resources :opportunities, path: '/fluxo-prospeccao', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/sales/opportunities/entities'
+  resources :opportunities, path: '/fluxo-fechamento', only: [:index, :show], path_names: {index: 'todos'}, controller: 'web/commercial/sales/opportunities/entities'
 
 
 
@@ -36,6 +38,7 @@ Rails.application.routes.draw do
 
           namespace :opportunities do
             post "entities/list", to: "entities#list"
+            post "entities/read", to: "entities#read"
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
 

@@ -16,11 +16,20 @@ class Commercial::Sales::Opportunities::EntityRepository < Base
   end
 
   def self.all_active
+    # entity.where(active: true).includes(:leads, :products, :journeys).order(name: :asc)
     entity.where(active: true).order(name: :asc)
   end
 
   def self.all_active_date(date_id)
     entity.where(active: true, date_id: date_id).order(name: :asc)
+  end
+
+  def self.find_by_id(id)
+    entity.find_by(id: id)
+  end
+
+  def self.find_by_token(token)
+    entity.find_by(token: token)
   end
 
   def self.read(lead)

@@ -3,7 +3,7 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["main", "view", "viewCard", "viewTitle", "mainCard", "bodyTable", "footerTable", "submenu", "addNewTaxFilingBtn",
                     "calculation", "goalLead", "goalLeadInput", "goalLeadInputSpan", "goalAmount", "goalAmountInput", "goalAmountInputSpan",
-                    "goalGain", "goalGainInput", "goalGainInputSpan", "salesLeads"]
+                    "goalGain", "goalGainInput", "goalGainInputSpan", "salesLeads", "sideCard"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
@@ -386,8 +386,39 @@ export default class extends Controller {
       })
   }
 
+  goToURL(ev) {
+    var url = ev.currentTarget.dataset.url
+    window.open(url, `_self`)
+  }
+
+  doSideCardHtml() {
+    var html = `<div class="col-4 px-1">
+                  <div class="card border-top-primary">
+                    <div class="card-header p-1 text-center f-065">
+                      <span>Fluxo Prospecção</span>
+                    </div>
+                    <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/fluxo-prospeccao" data-action="click->${this.controllerName}#goToURL">
+                      <span class="material-icons md-lg md-dark">account_box</span>
+                      <span class="mc-tooltiptext">Fluxo Prospecção</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4 px-1">
+                  <div class="card border-top-primary">
+                    <div class="card-header p-1 text-center f-065">
+                      <span>Fluxo Fechamento</span>
+                    </div>
+                    <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/fluxo-fechamento" data-action="click->${this.controllerName}#goToURL">
+                      <span class="material-icons md-lg md-dark">account_box</span>
+                      <span class="mc-tooltiptext">Fluxo Fechamento</span>
+                    </div>
+                  </div>
+                </div>`
+
+    this.sideCardTarget.innerHTML = html
+  }
+
   doPageGrid() {
-    var loader = `<div class='card timeline-item-100 m-0 p-1 w-100' style="box-shadow:none;"><div class='animated-background animated-background-20'><div class='background-masker title'></div></div></div>`
 
     var html = `<div class="row my-3" data-target="${this.controllerName}.calculation">
                   <div class="col-3">
@@ -407,20 +438,26 @@ export default class extends Controller {
                   <div class="col-8" data-controller="commercial--sales--leads--entities--index" data-target="commercial--sales--leads--entities--index.main">
                     <div class="card" style="width:100%;display:relative;" data-target="${this.controllerName}.mainCard">
                       <div class="card-header py-0">
-                        <div class="row my-2"><div class="col">${loader}</div></div>  
+                        <div class="row my-2"><div class="col">${this.loader}</div></div>  
                       </div>
                       <div class="card-body">
-                        <div class="row my-2"><div class="col">${loader}</div></div>
-                        <div class="row my-2"><div class="col">${loader}</div></div>
-                        <div class="row my-2"><div class="col">${loader}</div></div>
+                        <div class="row my-2"><div class="col">${this.loader}</div></div>
+                        <div class="row my-2"><div class="col">${this.loader}</div></div>
+                        <div class="row my-2"><div class="col">${this.loader}</div></div>
                       </div>
                       <div class="card-footer py-0">
-                        <div class="row my-2"><div class="col">${loader}</div></div>
+                        <div class="row my-2"><div class="col">${this.loader}</div></div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-4" data-controller="commercial--sales--opportunities--entities--view commercial--sales--opportunities--entities--save commercial--sales--leads--entities--save" data-target="commercial--sales--opportunities--entities--view.main">
-                    ${this.cardLoader}
+                  <div class="col-4" data-controller="commercial--sales--leads--entities--save">
+                    <div class="row my-2">
+                      <h6 class="mb-0 text-center">Acesso Rápido</h6>
+                      <hr class="mt-1">
+                    </div>
+                    <div class="row my-2" data-target="${this.controllerName}.sideCard">
+                      ${this.loader}
+                    </div>
                   </div>
                 </div>`
 

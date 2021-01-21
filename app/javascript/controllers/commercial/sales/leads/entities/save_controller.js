@@ -146,7 +146,7 @@ export default class extends Controller {
 
     var controller = this
     new Promise(function (resolve) {
-      resolve(controller.getControllerByIdentifier(`commercial--sales--opportunities--entities--view`).mainTarget.innerHTML = html)
+      resolve(controller.getControllerByIdentifier(`commercial--dashboards--sales`).sideCardTarget.innerHTML = html)
     }).then(() => {
       
       controller.viewTitleTarget.innerText = `Novo SQL`
@@ -166,7 +166,7 @@ export default class extends Controller {
 
   cancelSave() {
     this.stopRefreshing()
-    this.getControllerByIdentifier(`commercial--sales--opportunities--entities--view`).doViewHtml()
+    this.getControllerByIdentifier(`commercial--dashboards--sales`).doSideCardHtml()
   }
 
   prefixMask(ev) {
