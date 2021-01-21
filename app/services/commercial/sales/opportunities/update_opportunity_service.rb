@@ -13,9 +13,13 @@ class Commercial::Sales::Opportunities::UpdateOpportunityService
     if obj_class.name == "Commercial::Sale::Opportunity::Journey"
 
       journey = ::Commercial::Sales::Opportunities::JourneyRepository.all_active_by_opportunity(@opportunity.id).first
+
       @opportunity.stage = journey.stage if journey
-      if @opportunity.closed
+      if @opportunity.gain
         @opportunity.total_gain = ::Commercial::Sales::Opportunities::ProductRepository.all_active_by_opportunity(@opportunity.id).sum(:gain)
+      end
+      if @opportunity.lost
+        @opportunity.total_lost = ::Commercial::Sales::Opportunities::ProductRepository.all_active_by_opportunity(@opportunity.id).sum(:lost)
       end
 
     elsif obj_class.name == "Commercial::Sale::Opportunity::Lead"

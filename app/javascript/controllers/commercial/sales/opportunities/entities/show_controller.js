@@ -4,7 +4,8 @@ export default class extends Controller {
   static targets = ["main", "token", "info", "listLeads", "listProducts", "opportunityProspector", "opportunityProspectorName", "opportunityProspectorEdit",
                     "opportunityProspectorInput", "prospectorFilter", "prospectorFilterItem", "opportunityCloser", "opportunityCloserName",
                     "opportunityCloserEdit", "opportunityCloserInput", "closerFilter", "closerFilterItem", "opportunityStage", "opportunityStageName",
-                    "opportunityStageEdit", "opportunityStageInput", "stageFilter", "stageFilterItem", "opportunityStartedAt"]
+                    "opportunityStageEdit", "opportunityStageInput", "stageFilter", "stageFilterItem", "opportunityStartedAt", "opportunityOpenDays", "opportunityStatus",
+                    "opportunityStatus", "opportunityStatusName", "opportunityStatusEdit", "opportunityStatusInput", "statusFilter", "statusFilterItem"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
@@ -45,7 +46,9 @@ export default class extends Controller {
                   <div class="col-2 text-center px-2">
                     <h6 class="mb-0 text-center">Status</h6>
                     <hr class="my-1">
-                    <span>${this.loader}</span>
+                    <span class="f-065 pointer" data-target="${this.controllerName}.opportunityStatus">
+                      ${this.loader}
+                    </span>
                   </div>
                   <div class="col-2 text-center px-2">
                     <h6 class="mb-0 text-center">Data Início</h6>
@@ -55,9 +58,11 @@ export default class extends Controller {
                     </span>
                   </div>
                   <div class="col-2 text-center px-2">
-                    <h6 class="mb-0 text-center">Dias Aberto</h6>
+                    <h6 class="mb-0 text-center">Dias em Aberto</h6>
                     <hr class="my-1">
-                    <span>${this.loader}</span>
+                    <span class="f-065 pointer" data-target="${this.controllerName}.opportunityOpenDays">
+                      ${this.loader}
+                    </span>
                   </div>
                 </div>
                 <div class="row my-5">
@@ -136,10 +141,8 @@ export default class extends Controller {
           // controller.application.domain.id = controller.application.opportunity.id
           // controller.getControllerByIdentifier(`app--navigation--desktop--breadcrumb`).breadcrumbNameTarget.innerText = controller.application.booking.account_name
           controller.setPageTitle()
-          controller.setProspector()
-          controller.setCloser()
-          controller.setStage()
-          controller.setStartedAt()
+          controller.setPageHeader()
+          
 
           controller.setLeads()
           controller.setProducts()
@@ -158,6 +161,15 @@ export default class extends Controller {
     this.infoTarget.innerText = `Valor Total: ${this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(this.application.opportunity.total_amount * 100))}`
     this.infoTarget.innerText += ` | Total Médicos: ${this.application.opportunity.total_leads}`
     this.infoTarget.innerText += ` | Fonte Primária: ${this.application.opportunity.source_pretty}`
+  }
+
+  setPageHeader() {
+    this.setProspector()
+    this.setCloser()
+    this.setStage()
+    this.setStatus()
+    this.setStartedAt()
+    this.setOpenDays()
   }
 
   showInlineEditor(ev) {
@@ -181,7 +193,7 @@ export default class extends Controller {
                       ${this.application.opportunity.prospector_name}
                     </div>
                     <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityProspectorEdit">
-                      <div class="form-group w-100">
+                      <div class="form-group w-100 mb-0">
                         <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityProspectorInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#prospectorFilter keyup->${this.controllerName}#prospectorFilter blur->${this.controllerName}#hideList" type="text" placeholder="Prospector" required>
                         <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.prospectorFilter"></ul>
                       </div>
@@ -201,7 +213,7 @@ export default class extends Controller {
   }
 
   listProspector() {
-    this.application.users = [{ id: 1, nickname: "Gustavo Bonfim" }, { id: 1, nickname: "Breno Morais" }]
+    this.application.users = [{ id: 1, nickname: "Gustavo Bonfim" }, { id: 2, nickname: "Breno Morais" }, { id: 3, nickname: "Bruna Correa" }]
 
 
     var html = ``
@@ -218,9 +230,15 @@ export default class extends Controller {
 
   selectProspector(ev) {
     this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
-    this.application.opportunity.prospector_id = this.opportunityProspectorInputTarget.dataset.filter
-    this.application.opportunity.prospector_name = this.opportunityProspectorInputTarget.dataset.text
-    this.setProspector()
+    this.send_data = { current_user: {}, opportunity: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.opportunity.id = this.application.opportunity.id
+    this.send_data.opportunity.prospector_id = this.opportunityProspectorInputTarget.dataset.filter
+    this.send_data.opportunity.prospector_name = this.opportunityProspectorInputTarget.dataset.text
+    
+    this.requestSaveOpportunity()
   }
 
   setCloser() {
@@ -234,7 +252,7 @@ export default class extends Controller {
                       ${this.application.opportunity.closer_name}
                     </div>
                     <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityCloserEdit">
-                      <div class="form-group w-100">
+                      <div class="form-group w-100 mb-0">
                         <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityCloserInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#closerFilter keyup->${this.controllerName}#closerFilter blur->${this.controllerName}#hideList" type="text" placeholder="Closer" required>
                         <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.closerFilter"></ul>
                       </div>
@@ -254,7 +272,7 @@ export default class extends Controller {
   }
 
   listCloser() {
-    this.application.users = [{ id: 1, nickname: "Gustavo Bonfim" }, { id: 1, nickname: "Breno Morais" }]
+    this.application.users = [{ id: 1, nickname: "Gustavo Bonfim" }, { id: 2, nickname: "Breno Morais" }, { id: 3, nickname: "Bruna Correa" }]
 
 
     var html = ``
@@ -271,9 +289,16 @@ export default class extends Controller {
 
   selectCloser(ev) {
     this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
-    this.application.opportunity.closer_id = this.opportunityCloserInputTarget.dataset.filter
-    this.application.opportunity.closer_name = this.opportunityCloserInputTarget.dataset.text
-    this.setCloser()
+
+    this.send_data = { current_user: {}, opportunity: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.opportunity.id = this.application.opportunity.id
+    this.send_data.opportunity.closer_id = this.opportunityCloserInputTarget.dataset.filter
+    this.send_data.opportunity.closer_name = this.opportunityCloserInputTarget.dataset.text
+
+    this.requestSaveOpportunity()
   }
 
   setStage() {
@@ -283,7 +308,7 @@ export default class extends Controller {
                       ${this.application.opportunity.stage_pretty}
                     </div>
                     <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityStageEdit">
-                      <div class="form-group w-100">
+                      <div class="form-group w-100 mb-0">
                         <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityStageInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#stageFilter keyup->${this.controllerName}#stageFilter blur->${this.controllerName}#hideList" type="text" placeholder="Estágio" required>
                         <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.stageFilter"></ul>
                       </div>
@@ -325,14 +350,82 @@ export default class extends Controller {
 
     if (r) {
       this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
-      this.application.opportunity.stage = this.opportunityStageInputTarget.dataset.filter
-      this.application.opportunity.stage_pretty = this.opportunityStageInputTarget.dataset.text
+
+      this.send_data = { current_user: {}, journey: {} }
+
+      this.send_data.current_user.current_user_id = this.application.current_user.id
+
+      this.send_data.journey.opportunity_id = this.application.opportunity.id
+      this.send_data.journey.stage = this.opportunityStageInputTarget.dataset.filter
+      this.send_data.journey.date = new Date()
+
+      this.requestSaveJourney()
+    } else {
+      this.setStage()
     }
-    this.setStage()
+  }
+
+  setStatus() {
+
+    var html = `<div class="row d-flex align-items-center">
+                    <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityStatusName" data-action="click->${this.controllerName}#showInlineEditor">
+                      ${this.application.opportunity.status_pretty}
+                    </div>
+                    <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityStatusEdit">
+                      <div class="form-group w-100 mb-0">
+                        <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityStatusInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#statusFilter keyup->${this.controllerName}#statusFilter blur->${this.controllerName}#hideList" type="text" placeholder="Status" required>
+                        <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.statusFilter"></ul>
+                      </div>
+                      <div class="ml-3 mb-0">
+                        <button data-target="${this.controllerName}.cancelBtn" data-action="click->${this.controllerName}#hideInlineEditor" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+                          <span aria-hidden="true">&times;</span>
+                          <span class="mc-tooltiptext">Cancelar</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>`
+
+
+
+    this.opportunityStatusTarget.innerHTML = html
+    this.listStatus()
+  }
+
+  listStatus() {
+    
+    var html = `<li data-action="click->${this.controllerName}#selectStatus" data-target="${this.controllerName}.statusFilterItem" data-text="Quente" data-filter="hot" class="li-selector dark f-065">Quente</li>
+                <li data-action="click->${this.controllerName}#selectStatus" data-target="${this.controllerName}.statusFilterItem" data-text="Morno" data-filter="warn" class="li-selector dark f-065">Morno</li>
+                <li data-action="click->${this.controllerName}#selectStatus" data-target="${this.controllerName}.statusFilterItem" data-text="Frio" data-filter="cold" class="li-selector dark f-065">Frio</li>`
+
+    this.statusFilterTarget.innerHTML = html
+  }
+
+  statusFilter(ev) {
+    this.getControllerByIdentifier("app--helpers--input").filterList(ev, 2)
+  }
+
+  selectStatus(ev) {
+    this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
+    this.send_data = { current_user: {}, opportunity: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.opportunity.id = this.application.opportunity.id
+    this.send_data.opportunity.status = this.opportunityStatusInputTarget.dataset.filter
+
+    this.requestSaveOpportunity()
   }
 
   setStartedAt() {
-    this.opportunityStartedAtTarget.innerText = this.application.opportunity.started_pretty
+    this.opportunityStartedAtTarget.innerText = this.application.opportunity.started_at_pretty
+  }
+
+  setOpenDays() {
+    if (this.application.opportunity.open_days == 1) {
+      this.opportunityOpenDaysTarget.innerText = `${this.application.opportunity.open_days} dia`
+    } else {
+      this.opportunityOpenDaysTarget.innerText = `${this.application.opportunity.open_days} dias`
+    }
   }
 
   hideList(ev) {
@@ -397,6 +490,48 @@ export default class extends Controller {
 
 
     this.listProductsTarget.innerHTML = html
+  }
+
+  requestSaveOpportunity() {
+    var url = "/commercial/sales/opportunities/entities/update"
+    var method = "PUT"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        if (response.save) {
+          this.application.opportunity = response.data.cln
+          controller.setPageHeader()
+        }
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  requestSaveJourney() {
+    var url = "/commercial/sales/opportunities/journeys/create"
+    var method = "POST"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        if (response.save) {
+          var journey = response.data.cln
+          this.application.opportunity.stage = journey.stage
+          this.application.opportunity.stage_pretty = journey.stage_pretty
+        }
+        controller.setPageHeader()
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
   }
 
   getControllerByIdentifier(identifier) {

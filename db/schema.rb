@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_001318) do
+ActiveRecord::Schema.define(version: 2021_01_21_021042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,6 +225,8 @@ ActiveRecord::Schema.define(version: 2021_01_19_001318) do
     t.string "token"
     t.string "slug"
     t.string "notes"
+    t.string "closer_name"
+    t.string "prospector_name"
     t.index ["active"], name: "index_commercial_sales_opportunities_entities_on_active"
     t.index ["closer_id"], name: "index_commercial_sales_opportunities_entities_on_closer_id"
     t.index ["date_id"], name: "index_commercial_sales_opportunities_entities_on_date_id"
@@ -245,7 +247,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_001318) do
     t.boolean "active", default: true, null: false
     t.bigint "opportunity_id"
     t.integer "stage"
-    t.date "date"
+    t.datetime "date"
     t.index ["active"], name: "index_commercial_sales_opportunities_journeys_on_active"
     t.index ["date"], name: "index_commercial_sales_opportunities_journeys_on_date"
     t.index ["opportunity_id"], name: "index_commercial_sales_opportunities_journeys_on_opportunity_id"
@@ -342,6 +344,17 @@ ActiveRecord::Schema.define(version: 2021_01_19_001318) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+  end
+
+  create_table "user_account_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "name"
+    t.string "cpf"
+    t.index ["active"], name: "index_user_account_entities_on_active"
+    t.index ["cpf"], name: "index_user_account_entities_on_cpf"
+    t.index ["name"], name: "index_user_account_entities_on_name"
   end
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"

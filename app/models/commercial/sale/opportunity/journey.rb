@@ -6,6 +6,7 @@ class Commercial::Sale::Opportunity::Journey < ApplicationRecord
   belongs_to :opportunity, class_name: "Commercial::Sale::Opportunity::Entity", foreign_key: "opportunity_id"
   
   # Validations
+  validates :stage, presence: { message: "Falta definir o Estágio da Jornada. " }
 
   # Enums
   enum stage: { prospecting: 0, qualification: 1, booking: 2, meeting: 3, proposal: 4, closing: 5, gain: 6, lost: 7 }, _prefix: :_

@@ -5,10 +5,15 @@ class Commercial::Sales::Opportunities::Journeys::Create
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
+    date = Date.parse(@journey_params["date"])
+    time = Time.current
+    @journey_params = @journey_params.merge({ "date" => Time.new(date.year, date.month, date.day, time.hour, time.min, time.sec) })
+
     # @can_current_user_create_journey = can_current_user_create_journey?
     # return false unless @can_current_user_create_journey
 
     @journey = journey
+
     @valid = @journey.valid?
   end
 
@@ -32,7 +37,6 @@ class Commercial::Sales::Opportunities::Journeys::Create
         @message = true
 
         ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@journey).update_opportunity
-
         true
       else
         @data = false
