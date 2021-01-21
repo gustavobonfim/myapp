@@ -203,6 +203,7 @@ export default class extends Controller {
 
       if (controller.current_lead.id) {
         controller.viewTitleTarget.innerText = `Novo SQL: ${this.current_lead.name}`
+        controller.addNewLeadBtnTarget.classList.add("d-none")
 
         controller.nameInputTarget.value = controller.current_lead.name
         // controller.nameInputTarget.disabled = true
@@ -228,6 +229,7 @@ export default class extends Controller {
 
       } else {
         controller.viewTitleTarget.innerText = `Novo SQL`
+        controller.addNewLeadBtnTarget.classList.add("d-none")
         controller.sourceInputTarget.innerText = ``
         controller.sourceInputTarget.dataset.source = ``
         controller.sourceDropdownTarget.value = ``
@@ -309,6 +311,7 @@ export default class extends Controller {
   cancelSave() {
     this.stopRefreshing()
     this.viewTitleTarget.innerText = `Selecione um Lead e gere um novo SQL`
+    this.addNewLeadBtnTarget.classList.remove("d-none")
     this.formTarget.innerHTML = ``
     this.checklistTarget.innerHTML = ``
   }

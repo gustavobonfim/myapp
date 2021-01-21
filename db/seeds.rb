@@ -23,3 +23,4 @@ Commercial::Marketing::Landing::Lead.create!(name: "Isabelly Álvares", crm: "89
 Commercial::Marketing::Landing::Lead.create!(name: "Isabelly Pimenta", crm: "215487", crm_state: "SP", email: "isabelly_alvares3@example.com", ddd: "31", number: "124433805")
 Commercial::Marketing::Landing::Lead.create!(name: "Meire Junqueira", crm: "76565", crm_state: "MG", email: "meire.junqueira@example.net", ddd: "31", number: "512909198")
 Commercial::Marketing::Landing::Lead.create!(name: "Meire Junqueira Silveira", crm: "86565", crm_state: "SP", email: "meire.junqueira@example.net", ddd: "12", number: "982909198")
+Commercial::Marketing::Landing::Lead.create!(name: "Maria Joaquina Cirilo Davi Jaime Redondo", crm: "74125", crm_state: "MG", email: "maria.joaquina@example.net", ddd: "12", number: "912457844")

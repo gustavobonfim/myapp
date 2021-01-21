@@ -24,6 +24,10 @@ class Commercial::Sales::Opportunities::LeadRepository < Base
     entity.where(active: true, opportunity_id: opportunity_id).order(lead_name: :asc)
   end
 
+  def self.find_by_id(id)
+    entity.find_by(id: id)
+  end
+
   def self.read(lead)
     mapper.map(lead)
   end

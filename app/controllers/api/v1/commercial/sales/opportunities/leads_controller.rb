@@ -27,6 +27,11 @@ module API
               list = ::Commercial::Sales::Opportunities::Leads::List.new(params)
               render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json
             end
+
+            def destroy
+              lead = ::Commercial::Sales::Opportunities::Leads::Destroy.new(params)
+              render :json => {:save => lead.save, :data => lead.data, :status => lead.status, :type => lead.type, :message => lead.message}.as_json
+            end
             
           end
         end

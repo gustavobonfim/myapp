@@ -5,7 +5,8 @@ export default class extends Controller {
                     "opportunityProspectorInput", "prospectorFilter", "prospectorFilterItem", "opportunityCloser", "opportunityCloserName",
                     "opportunityCloserEdit", "opportunityCloserInput", "closerFilter", "closerFilterItem", "opportunityStage", "opportunityStageName",
                     "opportunityStageEdit", "opportunityStageInput", "stageFilter", "stageFilterItem", "opportunityStartedAt", "opportunityOpenDays", "opportunityStatus",
-                    "opportunityStatus", "opportunityStatusName", "opportunityStatusEdit", "opportunityStatusInput", "statusFilter", "statusFilterItem"]
+                    "opportunityStatus", "opportunityStatusName", "opportunityStatusEdit", "opportunityStatusInput", "statusFilter", "statusFilterItem",
+                    "opportunityLead", "opportunityLeadName", "opportunityLeadEdit", "opportunityLeadInput", "leadFilter", "leadFilterItem"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
@@ -125,37 +126,6 @@ export default class extends Controller {
     this.mainTarget.innerHTML = html
   }
 
-  getOpportunity() {
-    var data = { opportunity: { token: this.application.opportunity_token }, current_user: { current_user_id: this.application.current_user.id } }
-    const url = "/commercial/sales/opportunities/entities/read"
-    const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
-    var controller = this
-    fetch(url, init)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response)
-        if (response.process) {
-          controller.application.opportunity = response.data.cln
-          // controller.application.domain_type = "Oportunidade Negócio"
-          // controller.application.domain.type = "Oportunidade Negócio"
-          // controller.application.domain.id = controller.application.opportunity.id
-          // controller.getControllerByIdentifier(`app--navigation--desktop--breadcrumb`).breadcrumbNameTarget.innerText = controller.application.booking.account_name
-          controller.setPageTitle()
-          controller.setPageHeader()
-          
-
-          controller.setLeads()
-          controller.setProducts()
-        } else {
-          controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
-        }
-      })
-      .catch(error => {
-        controller.getControllerByIdentifier("app--helpers--console").console(error)
-        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
-      })
-  }
-
   setPageTitle() {
     this.tokenTarget.innerText = this.application.opportunity.token
     this.infoTarget.innerText = `Valor Total: ${this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(this.application.opportunity.total_amount * 100))}`
@@ -206,10 +176,12 @@ export default class extends Controller {
                     </div>
                   </div>`
     
-
-
-    this.opportunityProspectorTarget.innerHTML = html
-    this.listProspector()
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(controller.opportunityProspectorTarget.innerHTML = html)
+    }).then(() => {
+      controller.listProspector()
+    })
   }
 
   listProspector() {
@@ -265,10 +237,12 @@ export default class extends Controller {
                     </div>
                   </div>`
 
-
-
-    this.opportunityCloserTarget.innerHTML = html
-    this.listCloser()
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(controller.opportunityCloserTarget.innerHTML = html)
+    }).then(() => {
+      controller.listCloser()
+    }) 
   }
 
   listCloser() {
@@ -321,10 +295,12 @@ export default class extends Controller {
                     </div>
                   </div>`
 
-
-
-    this.opportunityStageTarget.innerHTML = html
-    this.listStage()
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(controller.opportunityStageTarget.innerHTML = html)
+    }).then(() => {
+      controller.listStage()
+    }) 
   }
 
   listStage() {
@@ -385,10 +361,12 @@ export default class extends Controller {
                     </div>
                   </div>`
 
-
-
-    this.opportunityStatusTarget.innerHTML = html
-    this.listStatus()
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(controller.opportunityStatusTarget.innerHTML = html)
+    }).then(() => {
+      controller.listStatus()
+    }) 
   }
 
   listStatus() {
@@ -439,9 +417,9 @@ export default class extends Controller {
       html += `<div class="row my-2 w-100" data-id="${element.id}" data-target="${this.controllerName}.card-${element.id}">
                   <div class="col-12 px-1">
                     <div class="card">
-                      <div class="card-body px-0 py-2 f-065 text-center pointer">
+                      <div class="card-body px-0 py-2 f-065 pointer">
                         <div class="row my-2">
-                          <div class="col-12">
+                          <div class="col-10 px-1">
                             <div class="card-show-dropdown">
                               ${element.lead_name}
                               <div class="card-show-dropdown-content text-left">
@@ -450,6 +428,12 @@ export default class extends Controller {
                                 <p class="mb-0 f-065">${element.lead_council}</p>
                               </div>
                             </div>
+                          </div>
+                          <div class="col-2 px-0">
+                            <button data-action="click->${this.controllerName}#destroyLead" data-id="${element.id}" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+                              <span class="material-icons md-sm md-dark">delete</span>
+                              <span class="mc-tooltiptext">Apagar</span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -462,15 +446,96 @@ export default class extends Controller {
     this.listLeadsTarget.innerHTML = html
   }
 
+  addLead() {
+    this.actionMode = `new`
+
+    var html = `<div class="row my-2 w-100">
+                  <div class="col-12 px-1">
+                    <div class="card">
+                      <div class="card-body px-0 py-2 f-065 text-center pointer">
+                        <div class="row my-2">
+                          <div class="col-12 px-1">
+                            <div class="card-show-dropdown">
+                              <div class="row d-flex align-items-center">
+                                <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityLeadName" data-action="click->${this.controllerName}#showInlineEditor">
+                                  Clique aqui para Selecionar
+                                </div>
+                                <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityLeadEdit">
+                                  <div class="form-group w-100 mb-0">
+                                    <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityLeadInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#leadFilter keyup->${this.controllerName}#leadFilter blur->${this.controllerName}#hideList" type="text" placeholder="Lead" required>
+                                    <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.leadFilter"></ul>
+                                  </div>
+                                  <div class="ml-3 mb-0">
+                                    <button data-target="${this.controllerName}.cancelBtn" data-action="click->${this.controllerName}#hideInlineEditor" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+                                      <span aria-hidden="true">&times;</span>
+                                      <span class="mc-tooltiptext">Cancelar</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>` 
+
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(controller.listLeadsTarget.insertAdjacentHTML("afterbegin", html))
+    }).then(() => {
+      controller.listLead()
+    }) 
+  }
+
+  listLead() {
+
+    var html = ``
+    this.application.leads.forEach(element => {
+      html += `<li data-action="click->${this.controllerName}#selectLead" data-target="${this.controllerName}.leadFilterItem" data-text="${element.name}" data-filter="${element.id}" class="li-selector dark f-065">${element.name}</li>`
+    })
+
+    this.leadFilterTarget.innerHTML = html
+  }
+
+  leadFilter(ev) {
+    this.getControllerByIdentifier("app--helpers--input").filterList(ev, 2)
+  }
+
+  selectLead(ev) {
+    this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
+    this.send_data = { current_user: {}, lead: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.lead.opportunity_id = this.application.opportunity.id
+    this.send_data.lead.lead_id = this.opportunityLeadInputTarget.dataset.filter
+
+    this.requestSaveLead()
+  }
+
+  destroyLead(ev) {
+    var id = ev.currentTarget.dataset.id
+    this.send_data = { current_user: {}, lead: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.lead.id = id
+    this.send_data.lead.active = false
+
+    this.requestDestroyLead()
+  }
+
   setProducts() {
     var html = ``
     this.application.opportunity.products.forEach(element => {
       html += `<div class="row my-2 w-100" data-id="${element.id}" data-target="${this.controllerName}.card-${element.id}">
                   <div class="col-12 px-1">
                     <div class="card">
-                      <div class="card-body px-0 py-2 pb-0 f-065 pointer text-center">
+                      <div class="card-body px-0 py-2 pb-0 f-065 pointer">
                         <div class="row my-2">
-                          <div class="col-12">
+                          <div class="col-12 px-1">
                             <div class="card-show-dropdown">
                               ${element.name_pretty}
                               <div class="card-show-dropdown-content text-left">
@@ -487,7 +552,6 @@ export default class extends Controller {
                   </div>
                 </div>`
     })
-
 
     this.listProductsTarget.innerHTML = html
   }
@@ -527,6 +591,133 @@ export default class extends Controller {
         }
         controller.setPageHeader()
         controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  requestSaveLead() {
+    var url = "/commercial/sales/opportunities/leads/create"
+    var method = "POST"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        if (response.save) {
+          var lead = response.data.cln
+          if (controller.actionMode == "new") {
+            controller.application.opportunity.leads[controller.application.opportunity.leads.length] = lead
+            controller.application.opportunity.total_leads += 1
+          } else if (controller.actionMode == "edit") {
+            if (lead.active) {
+              controller.application.opportunity.leads.forEach((element, i) => {
+                if (element.id == lead.id) {
+                  controller.application.opportunity.leads.splice(controller.application.opportunity.leads.indexOf(element), 1, lead)
+                }
+              })
+            } else {
+              controller.application.opportunity.leads.forEach((element, i) => {
+                if (element.id == lead.id) {
+                  controller.application.opportunity.leads.splice(controller.application.opportunity.leads.indexOf(element), 1)
+                  controller.application.opportunity.total_leads -= 1
+                }
+              })
+            }
+          }
+        }
+        controller.setLeads()
+        controller.setPageTitle()
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  requestDestroyLead() {
+    var url = "/commercial/sales/opportunities/leads/destroy"
+    var method = "DELETE"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        if (response.save) {
+          var lead = response.data.cln
+          controller.application.opportunity.leads.forEach((element, i) => {
+            if (element.id == lead.id) {
+              controller.application.opportunity.leads.splice(controller.application.opportunity.leads.indexOf(element), 1)
+              controller.application.opportunity.total_leads -= 1
+            }
+          })
+        }
+        controller.setLeads()
+        controller.setPageTitle()
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  getOpportunity() {
+    var data = { opportunity: { token: this.application.opportunity_token }, current_user: { current_user_id: this.application.current_user.id } }
+    const url = "/commercial/sales/opportunities/entities/read"
+    const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response)
+        if (response.process) {
+          controller.application.opportunity = response.data.cln
+          // controller.application.domain_type = "Oportunidade Negócio"
+          // controller.application.domain.type = "Oportunidade Negócio"
+          // controller.application.domain.id = controller.application.opportunity.id
+          // controller.getControllerByIdentifier(`app--navigation--desktop--breadcrumb`).breadcrumbNameTarget.innerText = controller.application.booking.account_name
+          controller.setPageTitle()
+          controller.setPageHeader()
+
+
+          controller.setLeads()
+          controller.setProducts()
+          controller.getLeads()
+        } else {
+          controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+        }
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  getLeads() {
+    const data = { lead: { active: true }, current_user: { current_user_id: this.application.current_user.id } }
+    const url = "/commercial/sales/leads/entities/list"
+    const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        controller.application.leads = response.data.cln
+
+        controller.application.opportunity.leads.forEach(opportunity_lead => {
+          controller.application.leads.forEach((element, i) => {
+            if (element.id == opportunity_lead.lead_id) {
+              controller.application.leads.splice(controller.application.leads.indexOf(element), 1)
+            }
+          })
+        })
+
+        
+        // controller.doDataTable()
+        // controller.getControllerByIdentifier(`commercial--dashboards--sales`).doSideCardHtml()
       })
       .catch(error => {
         controller.getControllerByIdentifier("app--helpers--console").console(error)

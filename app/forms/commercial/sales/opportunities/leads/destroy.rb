@@ -1,4 +1,4 @@
-class Commercial::Sales::Opportunities::Leads::Update
+class Commercial::Sales::Opportunities::Leads::Destroy
 
   def initialize(params)
     @lead_params = params.require(:lead).permit(:id, :active)
@@ -14,6 +14,7 @@ class Commercial::Sales::Opportunities::Leads::Update
 
   def lead
     ::Commercial::Sales::Opportunities::LeadRepository.find_and_change(@lead_params)
+    # ::Commercial::Sales::Opportunities::LeadRepository.find_by_id(@lead_params[:id])
   end
 
   def date
@@ -23,14 +24,16 @@ class Commercial::Sales::Opportunities::Leads::Update
   def save
     # return false unless @can_current_user_update_lead
     ActiveRecord::Base.transaction do
-      if @valid 
+      if @valid
         @lead.save
+        @lead.destroy
         @data = true
         @status = true
         @process = true
         @type = true
         @message = true
 
+        ::Commercial::Sales::Leads::UpdateLeadStatusService.new(@lead.lead_id, "lost").update_lead
         ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead).update_opportunity
 
         true

@@ -34,6 +34,7 @@ class Commercial::Sales::Opportunities::Leads::Create
         @type = true
         @message = true
 
+        ::Commercial::Sales::Leads::UpdateLeadStatusService.new(@lead.lead_id, "in_process").update_lead
         ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@lead).update_opportunity
 
         true

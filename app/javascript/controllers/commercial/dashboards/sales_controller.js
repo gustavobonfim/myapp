@@ -392,25 +392,31 @@ export default class extends Controller {
   }
 
   doSideCardHtml() {
-    var html = `<div class="col-4 px-1">
-                  <div class="card border-top-primary">
-                    <div class="card-header p-1 text-center f-065">
-                      <span>Fluxo Prospecção</span>
-                    </div>
-                    <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/fluxo-prospeccao" data-action="click->${this.controllerName}#goToURL">
-                      <span class="material-icons md-lg md-dark">account_box</span>
-                      <span class="mc-tooltiptext">Fluxo Prospecção</span>
+    var html = `<div class="row my-2">
+                  <h6 class="mb-0 text-center">Acesso Rápido</h6>
+                  <hr class="mt-1">
+                </div>
+                <div class="row my-2">
+                  <div class="col-4 px-1">
+                    <div class="card border-top-primary">
+                      <div class="card-header p-1 text-center f-065">
+                        <span>Fluxo Prospecção</span>
+                      </div>
+                      <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/fluxo-prospeccao" data-action="click->${this.controllerName}#goToURL">
+                        <span class="material-icons md-lg md-dark">account_box</span>
+                        <span class="mc-tooltiptext">Fluxo Prospecção</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-4 px-1">
-                  <div class="card border-top-primary">
-                    <div class="card-header p-1 text-center f-065">
-                      <span>Fluxo Fechamento</span>
-                    </div>
-                    <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/fluxo-fechamento" data-action="click->${this.controllerName}#goToURL">
-                      <span class="material-icons md-lg md-dark">account_box</span>
-                      <span class="mc-tooltiptext">Fluxo Fechamento</span>
+                  <div class="col-4 px-1">
+                    <div class="card border-top-primary">
+                      <div class="card-header p-1 text-center f-065">
+                        <span>Fluxo Fechamento</span>
+                      </div>
+                      <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/fluxo-fechamento" data-action="click->${this.controllerName}#goToURL">
+                        <span class="material-icons md-lg md-dark">account_box</span>
+                        <span class="mc-tooltiptext">Fluxo Fechamento</span>
+                      </div>
                     </div>
                   </div>
                 </div>`
@@ -450,12 +456,8 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>
-                  <div class="col-4" data-controller="commercial--sales--leads--entities--save">
+                  <div class="col-4" data-controller="commercial--sales--leads--entities--save" data-target="${this.controllerName}.sideCard">
                     <div class="row my-2">
-                      <h6 class="mb-0 text-center">Acesso Rápido</h6>
-                      <hr class="mt-1">
-                    </div>
-                    <div class="row my-2" data-target="${this.controllerName}.sideCard">
                       ${this.loader}
                     </div>
                   </div>

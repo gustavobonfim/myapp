@@ -49,6 +49,7 @@ Rails.application.routes.draw do
             post "leads/list", to: "leads#list"
             post "leads/create", to: "leads#create"
             put "leads/update", to: "leads#update"
+            delete "leads/destroy", to: "leads#destroy"
 
             post "journeys/list", to: "journeys#list"
             post "journeys/create", to: "journeys#create"

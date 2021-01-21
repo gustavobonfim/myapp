@@ -78,14 +78,14 @@ export default class extends Controller {
                             <thead>
                               <tr>
                                 <th style="font-size:80%;" scope="col" class="p-1 table-15 align-middle">Data</th>
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle pointer">
+                                <th style="font-size:80%;" scope="col" class="p-1 table-40 align-middle pointer">
                                   Nome
                                   <span class="material-icons md-sm md-dark" data-action="click->${this.controllerName}#sortTable" data-field="account_name" data-mode="desc">south</span>
                                   <span class="material-icons md-sm md-dark d-none" data-action="click->${this.controllerName}#sortTable" data-field="account_name" data-mode="asc">north</span>
                                 </th>
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle">Fonte</th>
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle">Conselho</th>                                
-                                <th style="font-size:80%;" scope="col" class="p-1 table-20 align-middle pointer">
+                                <th style="font-size:80%;" scope="col" class="p-1 table-15 align-middle">Fonte</th>
+                                <th style="font-size:80%;" scope="col" class="p-1 table-15 align-middle">Conselho</th>                                
+                                <th style="font-size:80%;" scope="col" class="p-1 table-15 align-middle pointer">
                                   Status
                                   <span class="material-icons md-sm md-dark" data-action="click->${this.controllerName}#sortTable" data-field="status_pretty" data-mode="desc">south</span>
                                   <span class="material-icons md-sm md-dark d-none" data-action="click->${this.controllerName}#sortTable" data-field="status_pretty" data-mode="asc">north</span>
