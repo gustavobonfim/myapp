@@ -6,7 +6,11 @@ export default class extends Controller {
                     "opportunityCloserEdit", "opportunityCloserInput", "closerFilter", "closerFilterItem", "opportunityStage", "opportunityStageName",
                     "opportunityStageEdit", "opportunityStageInput", "stageFilter", "stageFilterItem", "opportunityStartedAt", "opportunityOpenDays", "opportunityStatus",
                     "opportunityStatus", "opportunityStatusName", "opportunityStatusEdit", "opportunityStatusInput", "statusFilter", "statusFilterItem",
-                    "opportunityLead", "opportunityLeadName", "opportunityLeadEdit", "opportunityLeadInput", "leadFilter", "leadFilterItem"]
+                    "opportunityLead", "opportunityLeadName", "opportunityLeadEdit", "opportunityLeadInput", "leadFilter", "leadFilterItem",
+                    "opportunityProductAddCard", "opportunityProductName", "opportunityProductNameEdit", "opportunityProductNameInput", "productNameFilter", "productFilterItem",
+                    "saveBtn", "opportunityProductPlan", "opportunityProductPlanEdit", "opportunityProductPlanInput", "productPlanFilter", "productFilterItem",
+                    "opportunityProduct", "opportunityProductKind", "opportunityProductKindEdit", "opportunityProductKindInput", "productKindFilter", "productFilterItem",
+                    "opportunityProduct", "opportunityProductAmount", "opportunityProductAmountEdit", "opportunityProductAmountInput", "productAmountFilter", "productFilterItem"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
@@ -83,7 +87,7 @@ export default class extends Controller {
                     <div class="row" data-target="${this.controllerName}.listLeads">
                       <span>${this.loader}</span>
                     </div>
-                    <div class="row" style="margin-top:12rem;">
+                    <div class="row" style="margin-top:7.5rem;">
                       <div class="col-12 px-0">
                         <h6 class="mb-0 d-flex align-items-center">
                           <span>Produtos</span>
@@ -533,9 +537,9 @@ export default class extends Controller {
       html += `<div class="row my-2 w-100" data-id="${element.id}" data-target="${this.controllerName}.card-${element.id}">
                   <div class="col-12 px-1">
                     <div class="card">
-                      <div class="card-body px-0 py-2 pb-0 f-065 pointer">
+                      <div class="card-body p-0 f-065 pointer">
                         <div class="row my-2">
-                          <div class="col-12 px-1">
+                          <div class="col-10 px-1">
                             <div class="card-show-dropdown">
                               ${element.name_pretty}
                               <div class="card-show-dropdown-content text-left">
@@ -545,7 +549,12 @@ export default class extends Controller {
                               </div>
                             </div>
                           </div>
-                          
+                          <div class="col-2 px-0">
+                            <button data-action="click->${this.controllerName}#destroyProduct" data-id="${element.id}" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+                              <span class="material-icons md-sm md-dark">delete</span>
+                              <span class="mc-tooltiptext">Apagar</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -554,6 +563,155 @@ export default class extends Controller {
     })
 
     this.listProductsTarget.innerHTML = html
+  }
+
+  addProduct() {
+    this.actionMode = `new`
+
+    var html = `<div class="row my-2 w-100" data-target="${this.controllerName}.opportunityProductAddCard">
+                  <div class="col-12 px-1">
+                    <div class="card">
+                      <div class="card-body p-0 f-065 pointer">
+                        <div class="row my-2">
+                          <div class="col-12 px-1">
+                            <div class="card-show-dropdown">
+                              <div class="row my-1 d-flex align-items-center">
+                                <div class="col-12 px-0 pointer mc-tooltip" data-target="${this.controllerName}.opportunityProductName" data-action="click->${this.controllerName}#showInlineEditor">
+                                  Selecione o Produto
+                                </div>
+                                <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityProductNameEdit">
+                                  <div class="form-group w-100 mb-0">
+                                    <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityProductNameInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#productFilter keyup->${this.controllerName}#productFilter blur->${this.controllerName}#hideList" type="text" placeholder="Nome" required>
+                                    <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.productNameFilter"></ul>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row my-1 d-flex align-items-center">
+                                <div class="col-12 px-0 pointer mc-tooltip" data-target="${this.controllerName}.opportunityProductPlan" data-action="click->${this.controllerName}#showInlineEditor">
+                                  Selecione o Plano
+                                </div>
+                                <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityProductPlanEdit">
+                                  <div class="form-group w-100 mb-0">
+                                    <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityProductPlanInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#productFilter keyup->${this.controllerName}#productFilter blur->${this.controllerName}#hideList" type="text" placeholder="Plano" required>
+                                    <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.productPlanFilter"></ul>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row my-1 d-flex align-items-center">
+                                <div class="col-12 px-0 pointer mc-tooltip" data-target="${this.controllerName}.opportunityProductKind" data-action="click->${this.controllerName}#showInlineEditor">
+                                  Selecione o Tipo
+                                </div>
+                                <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityProductKindEdit">
+                                  <div class="form-group w-100 mb-0">
+                                    <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityProductKindInput" data-filter-mode="simple" data-action="focus->${this.controllerName}#productFilter keyup->${this.controllerName}#productFilter blur->${this.controllerName}#hideList" type="text" placeholder="Tipo" required>
+                                    <ul class="ul-filter filter-list d-none w-75" style="z-index:1" data-target="${this.controllerName}.productKindFilter"></ul>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row my-1 d-flex align-items-center">
+                                <div class="col-12 px-0 pointer mc-tooltip" data-target="${this.controllerName}.opportunityProductAmount" data-action="click->${this.controllerName}#showInlineEditor">
+                                  Adicione o Valor
+                                </div>
+                                <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityProductAmountEdit">
+                                  <div class="form-group w-100 mb-0">
+                                    <input class="form-control f-075 pt-0" autofocus data-target="${this.controllerName}.opportunityProductAmountInput" data-action="blur->${this.controllerName}#currencyMask keyup->${this.controllerName}#currencyMask keypress->${this.controllerName}#currencyMask" type="tel" placeholder="Valor" required>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row my-1 d-flex align-items-center">
+                                <div class="col-6 px-0 pointer">
+                                  <button type="button" class="btn btn-secondary btn-sm btn-table f-065 p-1" data-action="click->${this.controllerName}#cancelProduct">Fechar</button>
+                                </div>
+                                <div class="col-6 px-1 d-flex align-items-center">
+                                  <button disabled type="button" class="btn btn-primary btn-sm btn-table f-065 p-1" data-action="click->${this.controllerName}#saveProduct" data-target="${this.controllerName}.saveBtn">Salvar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>`
+
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(controller.listProductsTarget.insertAdjacentHTML("afterbegin", html))
+    }).then(() => {
+      controller.listProduct()
+      controller.opportunityProductAmountEditTarget.value = controller.getControllerByIdentifier("app--helpers--numbers").currencyMask(0)
+      controller.refreshSaveBtn()
+    })
+  }
+
+  cancelProduct() {
+    this.opportunityProductAddCardTargets.forEach(element => {
+      element.remove()
+    })
+  }
+
+  listProduct() {
+
+    var html = `<li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="PJ Médica" data-filter="medclinic" class="li-selector dark f-065">PJ Médica</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Funcionário" data-filter="medemployee" class="li-selector dark f-065">Funcionário</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Gestão de Recebimento" data-filter="medreceivement" class="li-selector dark f-065">Gestão de Recebimento</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Seguros" data-filter="medseg" class="li-selector dark f-065">Seguros</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Planner" data-filter="medreturn" class="li-selector dark f-065">Planner</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Livro-Caixa" data-filter="medbooking" class="li-selector dark f-065">Livro-Caixa</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Declaração IRPF" data-filter="medfiling" class="li-selector dark f-065">Declaração IRPF</li>`
+
+    this.productNameFilterTarget.innerHTML = html
+
+    var html = `<li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Recebimento" data-filter="receivement" class="li-selector dark f-065">Recebimento</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Consultório" data-filter="practice" class="li-selector dark f-065">Consultório</li>`
+
+    this.productPlanFilterTarget.innerHTML = html
+
+    var html = `<li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Abertura" data-filter="opening" class="li-selector dark f-065">Abertura</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Migração" data-filter="migration" class="li-selector dark f-065">Migração</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Alteração" data-filter="amendment" class="li-selector dark f-065">Alteração</li>
+                <li data-action="click->${this.controllerName}#selectItem" data-target="${this.controllerName}.statusFilterItem" data-text="Regularização" data-filter="regularization" class="li-selector dark f-065">Regularização</li>`
+
+    this.productKindFilterTarget.innerHTML = html
+  }
+
+  currencyMask(ev) {
+    this.getControllerByIdentifier("app--helpers--numbers").changeNumberToCurrency(ev)
+  }
+
+  productFilter(ev) {
+    this.getControllerByIdentifier("app--helpers--input").filterList(ev, 2)
+  }
+
+  selectItem(ev) {
+    this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
+  }
+
+  saveProduct(ev) {
+    this.stopRefreshing()
+    this.send_data = { current_user: {}, product: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.product.opportunity_id = this.application.opportunity.id
+    this.send_data.product.name = this.opportunityProductNameInputTarget.dataset.filter
+    this.send_data.product.plan = this.opportunityProductPlanInputTarget.dataset.filter
+    this.send_data.product.kind = this.opportunityProductKindInputTarget.dataset.filter
+    this.send_data.product.amount = this.getControllerByIdentifier("app--helpers--numbers").fromCurrencyToNumber(this.opportunityProductAmountInputTarget.value)
+
+    this.requestSaveProduct()
+  }
+
+  destroyProduct(ev) {
+    var id = ev.currentTarget.dataset.id
+    this.send_data = { current_user: {}, product: {} }
+
+    this.send_data.current_user.current_user_id = this.application.current_user.id
+
+    this.send_data.product.id = id
+    this.send_data.product.active = false
+
+    this.requestDestroyProduct()
   }
 
   requestSaveOpportunity() {
@@ -665,6 +823,75 @@ export default class extends Controller {
       })
   }
 
+  requestSaveProduct() {
+    var url = "/commercial/sales/opportunities/products/create"
+    var method = "POST"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response)
+        if (response.save) {
+          var product = response.data.cln
+          if (controller.actionMode == "new") {
+            controller.application.opportunity.products[controller.application.opportunity.products.length] = product
+            controller.application.opportunity.total_amount = Number(controller.application.opportunity.total_amount) + Number(product.amount)
+          } else if (controller.actionMode == "edit") {
+            if (product.active) {
+              controller.application.opportunity.products.forEach((element, i) => {
+                if (element.id == product.id) {
+                  controller.application.opportunity.products.splice(controller.application.opportunity.products.indexOf(element), 1, product)
+                }
+              })
+            } else {
+              controller.application.opportunity.products.forEach((element, i) => {
+                if (element.id == product.id) {
+                  controller.application.opportunity.products.splice(controller.application.opportunity.products.indexOf(element), 1)
+                  controller.application.opportunity.total_amount = Number(controller.application.opportunity.total_amount) - Number(product.amount)
+                }
+              })
+            }
+          }
+        }
+        controller.cancelProduct()
+        controller.setProducts()
+        controller.setPageTitle()
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  requestDestroyProduct() {
+    var url = "/commercial/sales/opportunities/products/destroy"
+    var method = "DELETE"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        if (response.save) {
+          var product = response.data.cln
+          controller.application.opportunity.products.forEach((element, i) => {
+            if (element.id == product.id) {
+              controller.application.opportunity.products.splice(controller.application.opportunity.products.indexOf(element), 1)
+              controller.application.opportunity.total_amount = Number(controller.application.opportunity.total_amount) - Number(product.amount)
+            }
+          })
+        }
+        controller.setProducts()
+        controller.setPageTitle()
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
   getOpportunity() {
     var data = { opportunity: { token: this.application.opportunity_token }, current_user: { current_user_id: this.application.current_user.id } }
     const url = "/commercial/sales/opportunities/entities/read"
@@ -723,6 +950,41 @@ export default class extends Controller {
         controller.getControllerByIdentifier("app--helpers--console").console(error)
         controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
       })
+  }
+
+  refreshSaveBtn() {
+    var controller = this
+    this.refreshTimer = setInterval(function () {
+      var len = 0
+
+      if (controller.opportunityProductNameInputTarget.value == ``) {
+        len += 1
+      }
+
+      if (controller.opportunityProductPlanInputTarget.value == ``) {
+        len += 1
+      }
+
+      if (controller.opportunityProductKindInputTarget.value == ``) {
+        len += 1
+      }
+
+      if (controller.opportunityProductAmountInputTarget.value == `` || controller.opportunityProductAmountInputTarget.value == `R$ 0,00`) {
+        len += 1
+      }
+
+      if (len == 0) {
+        controller.saveBtnTarget.disabled = false
+      } else {
+        controller.saveBtnTarget.disabled = true
+      }
+    }, 200);
+  }
+
+  stopRefreshing() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
   }
 
   getControllerByIdentifier(identifier) {

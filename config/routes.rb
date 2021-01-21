@@ -45,6 +45,7 @@ Rails.application.routes.draw do
             post "products/list", to: "products#list"
             post "products/create", to: "products#create"
             put "products/update", to: "products#update"
+            delete "products/destroy", to: "products#destroy"
 
             post "leads/list", to: "leads#list"
             post "leads/create", to: "leads#create"

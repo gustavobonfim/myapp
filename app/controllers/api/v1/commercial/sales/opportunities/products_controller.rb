@@ -27,6 +27,11 @@ module API
               list = ::Commercial::Sales::Opportunities::Products::List.new(params)
               render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json
             end
+
+            def destroy
+              product = ::Commercial::Sales::Opportunities::Products::Destroy.new(params)
+              render :json => {:save => product.save, :data => product.data, :status => product.status, :type => product.type, :message => product.message}.as_json
+            end
             
           end
         end
