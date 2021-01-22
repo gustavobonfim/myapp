@@ -1,7 +1,7 @@
 class Commercial::Sales::Opportunities::Journeys::List
 
   def initialize(params)
-    @journey_params = params.require(:journey).permit(:active)
+    @journey_params = params.require(:journey).permit(:active, :opportunity_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_list_journey = can_current_user_list_journey?
@@ -11,7 +11,7 @@ class Commercial::Sales::Opportunities::Journeys::List
   end
 
   def journeys
-    ::Commercial::Sales::Opportunities::JourneyRepository.all_active
+    ::Commercial::Sales::Opportunities::JourneyRepository.all_active_by_opportunity(@journey_params[:opportunity_id])
   end
 
   def status

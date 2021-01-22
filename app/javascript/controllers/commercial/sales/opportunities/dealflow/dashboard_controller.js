@@ -7,6 +7,7 @@ export default class extends Controller {
                     "prospectingAmount", "qualificationAmount", "bookingAmount", "meetingAmount", "proposalAmount", "closingAmount"]
   
   connect() {
+    this.application.opportunities = []
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
     this.controllerName = `commercial--sales--opportunities--dealflow--dashboard`
     this.setGrid()
@@ -253,6 +254,7 @@ export default class extends Controller {
       .then(response => {
         controller.application.opportunities = response.data.cln
         controller.getControllerByIdentifier("commercial--sales--opportunities--dealflow--flow").doDataFlow()
+        controller.getControllerByIdentifier("commercial--sales--opportunities--dealflow--flow").doDataIndicator()
       })
       .catch(error => {
         controller.getControllerByIdentifier("app--helpers--console").console(error)

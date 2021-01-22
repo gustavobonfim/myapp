@@ -19,6 +19,20 @@ class Commercial::Config::DateRepository < Base
       return objs
     end
   end
+
+  def self.find_by_token(token)
+    objs = entity.where(active: true, token: token)
+
+    if objs.empty?
+      return [::Commercial::Config::FindOrCreateDateService.new(Date.current).find_or_create_date]
+    else
+      return objs
+    end
+  end
+
+  def self.read(date)
+    mapper.map(date)
+  end
   
   def self.list(dates)
     mapper.map_all(dates)

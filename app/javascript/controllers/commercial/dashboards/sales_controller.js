@@ -392,9 +392,11 @@ export default class extends Controller {
   }
 
   doSideCardHtml() {
-    var html = `<div class="row my-2">
-                  <h6 class="mb-0 text-center">Acesso Rápido</h6>
-                  <hr class="mt-1">
+    var html = `<div class="row mb-2">
+                  <div class="col-12 px-1">
+                    <h6 class="mb-0 text-center">Acesso Rápido</h6>
+                    <hr class="mt-1">
+                  </div>
                 </div>
                 <div class="row my-2">
                   <div class="col-4 px-1">
@@ -456,7 +458,7 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>
-                  <div class="col-4" data-controller="commercial--sales--leads--entities--save" data-target="${this.controllerName}.sideCard">
+                  <div class="col-4" data-controller="commercial--sales--leads--entities--save commercial--sales--opportunities--entities--save" data-target="${this.controllerName}.sideCard">
                     <div class="row my-2">
                       ${this.loader}
                     </div>

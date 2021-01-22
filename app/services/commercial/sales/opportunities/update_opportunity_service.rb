@@ -40,8 +40,6 @@ class Commercial::Sales::Opportunities::UpdateOpportunityService
 
     end
 
-    
-    
     @opportunity.save
 
     ::Commercial::Config::UpdateCalculationService.new(@opportunity).update_opportunity_calculation

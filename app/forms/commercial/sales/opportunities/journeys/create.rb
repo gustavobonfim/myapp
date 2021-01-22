@@ -81,7 +81,7 @@ class Commercial::Sales::Opportunities::Journeys::Create
   def message
     # return message = "A ação não é permitida" unless @can_current_user_create_journey
     if @message
-      message = "Produto adicionado com sucesso!"
+      message = "Estágio  atualizado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

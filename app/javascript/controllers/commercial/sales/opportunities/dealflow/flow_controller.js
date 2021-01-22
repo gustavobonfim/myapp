@@ -9,30 +9,19 @@ export default class extends Controller {
   }
 
   doDataFlow() {
-    // var html = ``
-    var prospectingTotal = 0
-    var qualificationTotal = 0
-    var bookingTotal = 0
-
-    this.controllerDashboard.prospectingTotalTarget.innerText = prospectingTotal
-    this.controllerDashboard.qualificationTotalTarget.innerText = qualificationTotal
-    this.controllerDashboard.bookingTotalTarget.innerText = bookingTotal
-
-    var prospectingAmount = 0
-    var qualificationAmount = 0
-    var bookingAmount = 0
-
-    this.controllerDashboard.prospectingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(prospectingAmount * 100))
-    this.controllerDashboard.qualificationAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(qualificationAmount * 100))
-    this.controllerDashboard.bookingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(bookingAmount * 100))
-
+    
     this.application.opportunities.forEach(element => {
-      var name = ``
-      element.leads.forEach(lead => {
-        name += `<h6 class="mb-1 f-065">${lead.lead_name}</h6>`
-      })
+      this.doSimpleDataFlow(element)    
+    })   
+  }
 
-      var html = `<div class="row my-2 cardRow" data-id="${element.id}" data-stage="${element.stage}" data-stage-number="${element.stage_number}" data-url="${element.url}" data-target="${this.controllerName}.card-${element.id}">
+  doSimpleDataFlow(element) {
+    var name = ``
+    element.leads.forEach(lead => {
+      name += `<h6 class="mb-1 f-065">${lead.lead_name}</h6>`
+    })
+
+    var html = `<div class="row my-2 cardRow" data-id="${element.id}" data-stage="${element.stage}" data-stage-number="${element.stage_number}" data-url="${element.url}" data-target="${this.controllerName}.card-${element.id}">
                  <div class="col-12 px-1">
                    <div class="card">
                      <div class="card-body px-0 pt-1 pb-0 f-065">
@@ -66,48 +55,94 @@ export default class extends Controller {
 
 
 
+    if (window.location.pathname == `/fluxo-prospeccao`) {
+      if (element.stage == `prospecting`) {
+        this.controllerDashboard.prospectingFlowTarget.insertAdjacentHTML("afterbegin", html)
+      } else if (element.stage == `qualification`) {
+        this.controllerDashboard.qualificationFlowTarget.insertAdjacentHTML("afterbegin", html)
+      } else if (element.stage == `booking`) {
+        this.controllerDashboard.bookingFlowTarget.insertAdjacentHTML("afterbegin", html)
+      }
+    } else if (window.location.pathname == `/fluxo-fechamento`) {
+      if (element.stage == `meeting`) {
+        this.controllerDashboard.meetingFlowTarget.insertAdjacentHTML("afterbegin", html)
+      } else if (element.stage == `proposal`) {
+        this.controllerDashboard.proposalFlowTarget.insertAdjacentHTML("afterbegin", html)
+      } else if (element.stage == `closing`) {
+        this.controllerDashboard.closingFlowTarget.insertAdjacentHTML("afterbegin", html)
+      }
+    }
+  }
+
+  doDataIndicator() {
+    var prospectingTotal = 0
+    var qualificationTotal = 0
+    var bookingTotal = 0
+    var meetingTotal = 0
+    var proposalTotal = 0
+    var closingTotal = 0
+
+    var prospectingAmount = 0
+    var qualificationAmount = 0
+    var bookingAmount = 0
+    var meetingAmount = 0
+    var proposalAmount = 0
+    var closingAmount = 0
+
+    this.application.opportunities.forEach(element => {
+
       if (window.location.pathname == `/fluxo-prospeccao`) {
+        this.controllerDashboard.prospectingTotalTarget.innerText = prospectingTotal
+        this.controllerDashboard.qualificationTotalTarget.innerText = qualificationTotal
+        this.controllerDashboard.bookingTotalTarget.innerText = bookingTotal
+
+        this.controllerDashboard.prospectingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(prospectingAmount * 100))
+        this.controllerDashboard.qualificationAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(qualificationAmount * 100))
+        this.controllerDashboard.bookingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(bookingAmount * 100))
+
         if (element.stage == `prospecting`) {
-          this.controllerDashboard.prospectingFlowTarget.insertAdjacentHTML("beforeend", html)
           prospectingTotal += 1
           this.controllerDashboard.prospectingTotalTarget.innerText = prospectingTotal
           prospectingAmount += Number(element.total_amount)
           this.controllerDashboard.prospectingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(prospectingAmount * 100))
         } else if (element.stage == `qualification`) {
-          this.controllerDashboard.qualificationFlowTarget.insertAdjacentHTML("beforeend", html)
           qualificationTotal += 1
           this.controllerDashboard.qualificationTotalTarget.innerText = qualificationTotal
           qualificationAmount += Number(element.total_amount)
           this.controllerDashboard.qualificationAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(qualificationAmount * 100))
         } else if (element.stage == `booking`) {
-          this.controllerDashboard.bookingFlowTarget.insertAdjacentHTML("beforeend", html)
           bookingTotal += 1
           this.controllerDashboard.bookingTotalTarget.innerText = bookingTotal
           bookingAmount += Number(element.total_amount)
           this.controllerDashboard.bookingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(bookingAmount * 100))
-        }  
+        }
       } else if (window.location.pathname == `/fluxo-fechamento`) {
+        this.controllerDashboard.meetingTotalTarget.innerText = meetingTotal
+        this.controllerDashboard.proposalTotalTarget.innerText = proposalTotal
+        this.controllerDashboard.closingTotalTarget.innerText = closingTotal
+
+        this.controllerDashboard.meetingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(meetingAmount * 100))
+        this.controllerDashboard.proposalAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(proposalAmount * 100))
+        this.controllerDashboard.closingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(closingAmount * 100))
+
         if (element.stage == `meeting`) {
-          this.controllerDashboard.meetingFlowTarget.insertAdjacentHTML("beforeend", html)
           meetingTotal += 1
           this.controllerDashboard.meetingTotalTarget.innerText = meetingTotal
           meetingAmount += Number(element.total_amount)
           this.controllerDashboard.meetingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(meetingAmount * 100))
         } else if (element.stage == `proposal`) {
-          this.controllerDashboard.proposalFlowTarget.insertAdjacentHTML("beforeend", html)
           proposalTotal += 1
           this.controllerDashboard.proposalTotalTarget.innerText = proposalTotal
           proposalAmount += Number(element.total_amount)
           this.controllerDashboard.proposalAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(proposalAmount * 100))
         } else if (element.stage == `closing`) {
-          this.controllerDashboard.closingFlowTarget.insertAdjacentHTML("beforeend", html)
           closingTotal += 1
           this.controllerDashboard.closingTotalTarget.innerText = closingTotal
           closingAmount += Number(element.total_amount)
           this.controllerDashboard.closingAmountTarget.innerText = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(closingAmount * 100))
         }
       }
-    })   
+    })
   }
 
   goToURL(ev) {
@@ -127,15 +162,16 @@ export default class extends Controller {
       var id = ev.currentTarget.closest(".cardRow").dataset.id
       var stage = ev.currentTarget.closest(".cardRow").dataset.stage
       var stageNumber = Number(ev.currentTarget.closest(".cardRow").dataset.stageNumber)
+
+      this.send_data = { current_user: {}, journey: {} }
+
+      this.send_data.current_user.current_user_id = this.application.current_user.id
+
+      this.send_data.journey.opportunity_id = id
+      this.send_data.journey.stage = this.setNewStage(stageNumber)
+      this.send_data.journey.date = new Date()
       
-      this.application.opportunities.forEach(element => {
-        if (element.id == id) {
-          element.stage = this.setNewStage(stageNumber)
-          element.stage_number = stageNumber + 1
-        }
-      })
-      
-      this.doDataFlow()
+      this.requestSaveJourney()
     }
   }
 
@@ -143,17 +179,50 @@ export default class extends Controller {
     
     if (window.location.pathname == `/fluxo-prospeccao`) {
       var all_stages = ["qualification", "booking", "meeting"]
-      this.controllerDashboard.prospectingFlowTarget.innerHTML = ``
-      this.controllerDashboard.qualificationFlowTarget.innerHTML = ``
-      this.controllerDashboard.bookingFlowTarget.innerHTML = ``
+      // this.controllerDashboard.prospectingFlowTarget.innerHTML = ``
+      // this.controllerDashboard.qualificationFlowTarget.innerHTML = ``
+      // this.controllerDashboard.bookingFlowTarget.innerHTML = ``
     } else if (window.location.pathname == `/fluxo-fechamento`) {
-      var all_stages = ["proposal", "closing", "gain"]
-      this.controllerDashboard.meetingFlowTarget.innerHTML = ``
-      this.controllerDashboard.proposalFlowTarget.innerHTML = ``
-      this.controllerDashboard.closingFlowTarget.innerHTML = ``
+      var all_stages = ["qualification", "booking", "meeting", "proposal", "closing", "gain"]
+      // this.controllerDashboard.meetingFlowTarget.innerHTML = ``
+      // this.controllerDashboard.proposalFlowTarget.innerHTML = ``
+      // this.controllerDashboard.closingFlowTarget.innerHTML = ``
     }
 
     return all_stages[stageNumber]
+  }
+
+  requestSaveJourney() {
+    var url = "/commercial/sales/opportunities/journeys/create"
+    var method = "POST"
+    const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        if (response.save) {
+          console.log(response)
+          var journey = response.data.cln
+          this.application.opportunities.forEach(element => {
+            if (element.id == journey.opportunity_id) {
+              console.log(element)
+              controller.nameTarget(`card-${element.id}`).remove()
+              element.stage = journey.stage
+              element.stage_pretty = journey.stage
+              element.stage_number = element.stage_number + 1
+              element.journeys[element.journeys.length] = journey
+              controller.doSimpleDataFlow(element)
+              return
+            }
+          })
+          controller.doDataIndicator()
+        }
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
   }
   
   getControllerByIdentifier(identifier) {

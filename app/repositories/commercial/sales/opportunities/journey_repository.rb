@@ -27,7 +27,7 @@ class Commercial::Sales::Opportunities::JourneyRepository < Base
   end
   
   def self.list(journeys)
-    mapper.map_all(journeys)
+    mapper.map_all_with_next(journeys)
   end
   
 

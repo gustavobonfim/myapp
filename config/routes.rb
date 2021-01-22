@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       namespace :commercial do
 
         namespace :config do
+          post "dates/read", to: "dates#read"
           post "dates/list", to: "dates#list"
           put "dates/update", to: "dates#update"
 

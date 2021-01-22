@@ -7,17 +7,17 @@ export default class extends Controller {
                     "opportunityStageEdit", "opportunityStageInput", "stageFilter", "stageFilterItem", "opportunityStartedAt", "opportunityOpenDays", "opportunityStatus",
                     "opportunityStatus", "opportunityStatusName", "opportunityStatusEdit", "opportunityStatusInput", "statusFilter", "statusFilterItem",
                     "opportunityLead", "opportunityLeadName", "opportunityLeadEdit", "opportunityLeadInput", "leadFilter", "leadFilterItem",
-                    "opportunityProductAddCard", "opportunityProductName", "opportunityProductNameEdit", "opportunityProductNameInput", "productNameFilter", "productFilterItem",
-                    "saveBtn", "opportunityProductPlan", "opportunityProductPlanEdit", "opportunityProductPlanInput", "productPlanFilter", "productFilterItem",
+                    "opportunityProductAddCard", "opportunityProductName", "opportunityProductNameEdit", "opportunityProductNameInput", "productNameFilter", "listJourneys",
+                    "saveBtn", "opportunityProductPlan", "opportunityProductPlanEdit", "opportunityProductPlanInput", "productPlanFilter", "listTickets",
                     "opportunityProduct", "opportunityProductKind", "opportunityProductKindEdit", "opportunityProductKindInput", "productKindFilter", "productFilterItem",
                     "opportunityProduct", "opportunityProductAmount", "opportunityProductAmountEdit", "opportunityProductAmountInput", "productAmountFilter", "productFilterItem"]
 
   connect() {
     this.loader = this.getControllerByIdentifier("app--helpers--loaders").loader()
     this.controllerName = `commercial--sales--opportunities--entities--show`
-    this.doGridHtml()
     this.application.opportunity_token = location.pathname.split("/").pop()
-    this.getOpportunity()
+    this.doGridHtml()
+    this.getCommercialDate()
   }
 
   addNewOpportunity() {
@@ -77,15 +77,15 @@ export default class extends Controller {
                         <h6 class="mb-0 d-flex align-items-center">
                           <span>Médicos</span>
                           <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addLead">
-                             <span class="material-icons md-sm md-dark">add</span>
-                             <span class="mc-tooltiptext">Adicionar Médico</span>
-                           </span>
+                            <span class="material-icons md-sm md-dark">add</span>
+                            <span class="mc-tooltiptext">Adicionar Médico</span>
+                          </span>
                         </h6>
                         <hr class="my-1">
                       </div>
                     </div>
                     <div class="row" data-target="${this.controllerName}.listLeads">
-                      <span>${this.loader}</span>
+                      <span class="w-100">${this.loader}</span>
                     </div>
                     <div class="row" style="margin-top:7.5rem;">
                       <div class="col-12 px-0">
@@ -100,24 +100,43 @@ export default class extends Controller {
                       </div>
                     </div>
                     <div class="row" data-target="${this.controllerName}.listProducts">
-                      <span>${this.loader}</span>
+                      <span class="w-100">${this.loader}</span>
                     </div>
                   </div>
-                  <div class="col-5 px-2">
-                    <h6 class="mb-0 d-flex align-items-center">
-                      <span>Tickets</span>
-                      <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addTicket">
-                          <span class="material-icons md-sm md-dark">add</span>
-                          <span class="mc-tooltiptext">Adicionar Ticket</span>
-                        </span>
-                    </h6>
-                    <hr class="my-1">
-                    <span>${this.loader}</span>
+                  <div class="col-2 px-2">
+                    <div class="row">
+                      <div class="col-12 px-0">
+                        <h6 class="mb-0 d-flex align-items-center">
+                          <span>Jornada</span>
+                        </h6>
+                        <hr class="my-1">
+                      </div>
+                    </div>
+                    <div class="row" data-target="${this.controllerName}.listJourneys">
+                      <span class="w-100">${this.loader}</span>
+                    </div>
                   </div>
-                  <div class="col-5 px-2">
+                  <div class="col-4 px-2">
+                    <div class="row">
+                      <div class="col-12 px-0">
+                        <h6 class="mb-0 d-flex align-items-center">
+                          <span>Tickets</span>
+                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addTicket">
+                              <span class="material-icons md-sm md-dark">add</span>
+                              <span class="mc-tooltiptext">Adicionar Ticket</span>
+                            </span>
+                        </h6>
+                        <hr class="my-1">
+                      </div>
+                    </div>
+                    <div class="row" data-target="${this.controllerName}.listTickets commercial--sales--opportunities--entities--tickets.ticketBoard" data-controller="commercial--sales--opportunities--entities--tickets">
+                      <span class="w-100">${this.loader}</span>
+                    </div>
+                  </div>
+                  <div class="col-4 px-2">
                     <h6 class="mb-0 d-flex align-items-center">
                       <span>Anotações</span>
-                      <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addTicket">
+                      <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addNote">
                           <span class="material-icons md-sm md-dark">add</span>
                           <span class="mc-tooltiptext">Adicionar Anotação</span>
                         </span>
@@ -714,6 +733,59 @@ export default class extends Controller {
     this.requestDestroyProduct()
   }
 
+  setJourneys() {
+    var html = ``
+    this.application.opportunity.journeys.forEach(element => {
+
+      if (element.period == 1) {
+        var period = `${element.period} dia`
+      } else {
+        var period = `${element.period} dias`
+      }
+
+      if (element.stage_alert) {
+        var alert = `<div class="col-2 px-0 mc-tooltip">
+                        <span class="material-icons md-sm md-danger">warning</span>
+                        <span class="mc-tooltiptext">Atenção!</span>
+                      </div>`
+      } else {
+        var alert = ``
+      }
+
+      html += `<div class="row my-2 w-100" data-id="${element.id}" data-target="${this.controllerName}.card-${element.id}">
+                  <div class="col-12 px-1">
+                    <div class="card">
+                      <div class="card-body p-0 f-065 pointer">
+                        <div class="row my-2">
+                          <div class="col-10 px-1">
+                            <div class="card-show-dropdown">
+                              ${element.stage_pretty}
+                              <div class="card-show-dropdown-content text-left">
+                                <p class="mb-0 f-065">Data: ${element.date_pretty}</p>
+                                <p class="mb-0 f-065">Tempo: ${period}</p>
+                              </div>
+                            </div>
+                          </div>
+                          ${alert}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>`
+    })
+
+    this.listJourneysTarget.innerHTML = html
+  }
+
+  setTickets() {
+    this.application.tickets = this.application.opportunity.tickets
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--tickets").doDataTable()
+  }
+
+  addTicket() {
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--tickets").createTicket()
+  }
+
   requestSaveOpportunity() {
     var url = "/commercial/sales/opportunities/entities/update"
     var method = "PUT"
@@ -744,8 +816,9 @@ export default class extends Controller {
       .then(response => {
         if (response.save) {
           var journey = response.data.cln
-          this.application.opportunity.stage = journey.stage
-          this.application.opportunity.stage_pretty = journey.stage_pretty
+          controller.application.opportunity.stage = journey.stage
+          controller.application.opportunity.stage_pretty = journey.stage_pretty
+          controller.application.opportunity.journeys[controller.application.opportunity.journeys.length] = journey
         }
         controller.setPageHeader()
         controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
@@ -831,7 +904,6 @@ export default class extends Controller {
     fetch(url, init)
       .then(response => response.json())
       .then(response => {
-        console.log(response)
         if (response.save) {
           var product = response.data.cln
           if (controller.actionMode == "new") {
@@ -913,7 +985,9 @@ export default class extends Controller {
 
           controller.setLeads()
           controller.setProducts()
-          controller.getLeads()
+          controller.setJourneys()
+          controller.setTickets()
+          controller.getSalesLeads()
         } else {
           controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
         }
@@ -924,7 +998,7 @@ export default class extends Controller {
       })
   }
 
-  getLeads() {
+  getSalesLeads() {
     const data = { lead: { active: true }, current_user: { current_user_id: this.application.current_user.id } }
     const url = "/commercial/sales/leads/entities/list"
     const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
@@ -949,6 +1023,24 @@ export default class extends Controller {
       .catch(error => {
         controller.getControllerByIdentifier("app--helpers--console").console(error)
         controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
+      })
+  }
+
+  getCommercialDate() {
+    const data = { date: { date: new Date() }, current_user: { current_user_id: this.application.current_user.id } }
+    const url = "/commercial/config/dates/read"
+    const init = { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }
+    var controller = this
+    fetch(url, init)
+      .then(response => response.json())
+      .then(response => {
+        controller.application.current_date = response.data.cln
+        controller.application.current_calculation = response.data.cln.calculation
+        controller.getOpportunity()
+      })
+      .catch(error => {
+        controller.getControllerByIdentifier("app--helpers--console").console(error)
+        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--helpers--messages").generalError(), 3000)
       })
   }
 

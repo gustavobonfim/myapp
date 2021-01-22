@@ -7,6 +7,11 @@ module API
           # skip_before_action :require_user, only: [:list, :create, :read, :update]
           skip_before_action :verify_authenticity_token
 
+          def read
+            date = ::Commercial::Config::Dates::Read.new(params)
+            render :json => {:data => date.data, :status => date.status, :process => date.process?, :type => date.type, :message => date.message}.as_json
+          end
+
           def list
             list = ::Commercial::Config::Dates::List.new(params)
             render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json

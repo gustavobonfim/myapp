@@ -1,7 +1,7 @@
 class Commercial::Sales::Opportunities::Entities::Create
 
   def initialize(params)
-    @opportunity_params = params.require(:opportunity).permit(:stage, :status, :source, :started_at)
+    @opportunity_params = params.require(:opportunity).permit(:stage, :status, :source, :started_at, :notes)
     @lead_params = params.require(:lead).permit(:id)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)

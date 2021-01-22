@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = ["main", "viewTitle", "saveBtn", "sourceDropdown", "sourceDropdownBtn", "sourceInput", "sourceList", "nameInput",
-                    "startedAtInput", "stageDropdown", "stageDropdownBtn", "stageInput", "stageList"]
+                    "startedAtInput", "stageDropdown", "stageDropdownBtn", "stageInput", "stageList", "notesInput"]
 
   connect() {
     this.controllerName = `commercial--sales--opportunities--entities--save`
@@ -83,6 +83,17 @@ export default class extends Controller {
                       </div>
                      
                     </div>
+
+                    <div class="row my-2">
+                        <div class="col-12 px-2">
+                          <div class="form-group">
+                            <div class="floating-label floating-label-sm">
+                              <label for="notesForm">Anotações</label>
+                              <textarea aria-describedby="notesFormHelp" class="form-control textarea px-0" id="notesForm" data-target="${this.controllerName}.notesInput" placeholder="Anotações" type="text" required rows="4"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     
                   </div>
                   <div class="card-footer border-top text-right py-1">
@@ -94,7 +105,7 @@ export default class extends Controller {
     
     var controller = this
     new Promise(function (resolve) {
-      resolve(controller.getControllerByIdentifier(`commercial--sales--opportunities--entities--view`).mainTarget.innerHTML = html)
+      resolve(controller.getControllerByIdentifier(`commercial--dashboards--sales`).sideCardTarget.innerHTML = html)
     }).then(() => {
       var date = new Date()
 
@@ -115,7 +126,9 @@ export default class extends Controller {
         controller.stageInputTarget.innerText = `Prospecção`
         controller.stageInputTarget.dataset.stage = `prospecting`
         controller.stageDropdownTarget.value = `prospecting`
-        controller.stageDropdownBtnTarget.disabled = true 
+        controller.stageDropdownBtnTarget.disabled = true
+
+        controller.notesInputTarget.value = controller.current_lead.notes
       } else {
         controller.viewTitleTarget.innerText = `Nova Oportunidade`
         controller.getControllerByIdentifier("app--helpers--pickdate").pickWithLimit($(controller.startedAtInputTarget), "monthly", this.application.current_date.year, this.application.current_date.month)
@@ -142,6 +155,7 @@ export default class extends Controller {
     this.send_data.opportunity.stage = this.stageInputTarget.dataset.stage
     this.send_data.opportunity.source = this.sourceInputTarget.dataset.source
     this.send_data.opportunity.started_at = this.getControllerByIdentifier("app--helpers--date").transformFullDate(this.startedAtInputTarget.value)
+    this.send_data.opportunity.notes = this.current_lead.notes
 
     this.send_data.current_user.current_user_id = this.application.current_user.id
 
@@ -159,7 +173,7 @@ export default class extends Controller {
         if (response.save) {
           var opportunity = response.data.cln
 
-          window.open(opportunity.opportunity_path, `_self`)
+          window.open(opportunity.url, `_self`)
 
           // var lead = response.data.cln
           // controller.application.leads.forEach((element, i) => {
@@ -168,13 +182,13 @@ export default class extends Controller {
           //   }
           // })
         }
-        controller.doDataTable()
+        controller.getControllerByIdentifier("commercial--sales--leads--entities--index").doDataTable()
         controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
       })
       .catch(error => {
         controller.getControllerByIdentifier("app--helpers--console").console(error)
         controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar("danger", controller.getControllerByIdentifier("app--shared--messages").generalError(), 3000)
-        controller.doDataTable()
+        controller.getControllerByIdentifier("commercial--sales--leads--entities--index").doDataTable()
       })
   }
 
