@@ -1,7 +1,7 @@
 class Commercial::Sales::Opportunities::Tickets::Create
 
   def initialize(params)
-    @ticket_params = params.require(:ticket).permit(:opportunity_id, :stage, :due_at, :description, :kind, :status)
+    @ticket_params = params.require(:ticket).permit(:opportunity_id, :stage, :due_at, :body, :kind, :status)
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 

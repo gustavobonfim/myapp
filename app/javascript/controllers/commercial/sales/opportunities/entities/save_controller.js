@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = ["main", "viewTitle", "saveBtn", "sourceDropdown", "sourceDropdownBtn", "sourceInput", "sourceList", "nameInput",
-                    "startedAtInput", "stageDropdown", "stageDropdownBtn", "stageInput", "stageList", "notesInput"]
+                    "startedAtInput", "stageDropdown", "stageDropdownBtn", "stageInput", "stageList", "notesInput", "formCardBody"]
 
   connect() {
     this.controllerName = `commercial--sales--opportunities--entities--save`
@@ -141,7 +141,7 @@ export default class extends Controller {
 
   cancelSave() {
     this.stopRefreshing()
-    this.getControllerByIdentifier("commercial--sales--opportunities--entities--view").doViewHtml()
+    this.getControllerByIdentifier("commercial--dashboards--sales").doSideCardHtml()
   }
 
   saveOpportunity() {
@@ -195,29 +195,34 @@ export default class extends Controller {
   refreshSaveBtn() {
     var controller = this
     this.refreshTimer = setInterval(function () {
-      var len = 0
+      if (controller.hasFormCardBody) {
+        var len = 0
 
-      if (controller.nameInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.nameInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (controller.startedAtInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.startedAtInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (controller.sourceInputTarget.innerText == ``) {
-        len += 1
-      }
+        if (controller.sourceInputTarget.innerText == ``) {
+          len += 1
+        }
 
-      if (controller.stageInputTarget.innerText == ``) {
-        len += 1
-      }
+        if (controller.stageInputTarget.innerText == ``) {
+          len += 1
+        }
 
-      if (len == 0) {
-        controller.saveBtnTarget.disabled = false
+        if (len == 0) {
+          controller.saveBtnTarget.disabled = false
+        } else {
+          controller.saveBtnTarget.disabled = true
+        }
       } else {
-        controller.saveBtnTarget.disabled = true
+        controller.stopRefreshing()
       }
+      
     }, 200);
   }
 

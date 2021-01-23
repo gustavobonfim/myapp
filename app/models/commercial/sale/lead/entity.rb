@@ -9,6 +9,8 @@ class Commercial::Sale::Lead::Entity < ApplicationRecord
   # Relations
   belongs_to :date, class_name: "Commercial::Config::Date", foreign_key: "date_id"
   has_many :sources, class_name: "Commercial::Sale::Lead::Source", foreign_key: "lead_id", dependent: :destroy
+  has_many :lead_opportunities, class_name: "Commercial::Sale::Opportunity::Lead", foreign_key: "lead_id"
+  has_many :opportunities, through: :lead_opportunities
   
   # Validations
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

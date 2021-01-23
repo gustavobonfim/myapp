@@ -349,11 +349,6 @@ export default class extends Controller {
     this.submenuTarget.innerHTML = submenuHtml
   }
 
-  goToURL(ev) {
-    var url = ev.target.closest(".itemRow").dataset.productPath
-    window.open(url, `_self`)
-  }
-
   goToDashboard() {
     this.doPageGrid()
     this.doIndexListHtml()
@@ -442,8 +437,8 @@ export default class extends Controller {
                     ${this.cardLoader}
                   </div>
                 </div>
-                <div class="row my-5">
-                  <div class="col-8" data-controller="commercial--sales--leads--entities--index" data-target="commercial--sales--leads--entities--index.main">
+                <div class="row my-5" data-controller="commercial--sales--leads--entities--index">
+                  <div class="col-8" data-target="commercial--sales--leads--entities--index.main">
                     <div class="card" style="width:100%;display:relative;" data-target="${this.controllerName}.mainCard">
                       <div class="card-header py-0">
                         <div class="row my-2"><div class="col">${this.loader}</div></div>  

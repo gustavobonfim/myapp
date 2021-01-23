@@ -32,7 +32,7 @@ end
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
 # t.bigint "opportunity_id"
-# t.string "description"
+# t.string "body"
 # t.date "due_at"
 # t.integer "kind"
 # t.integer "stage"

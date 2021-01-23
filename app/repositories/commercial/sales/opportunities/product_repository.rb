@@ -22,6 +22,10 @@ class Commercial::Sales::Opportunities::ProductRepository < Base
     entity.where(active: true, opportunity_id: opportunity_id).order(name: :asc)
   end
 
+  def self.find_by_id(id)
+    entity.find_by(id: id)
+  end
+
   def self.read(product)
     mapper.map(product)
   end

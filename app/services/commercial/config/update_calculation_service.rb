@@ -47,14 +47,23 @@ class Commercial::Config::UpdateCalculationService
     @calculation.event_amount = event_opportunities.sum(:total_amount)
     @calculation.event_gain = event_opportunities.sum(:total_gain)
 
-    @calculation.count_prospecting = @opportunities.where(stage: "prospecting").size
-    @calculation.count_qualification = @opportunities.where(stage: "qualification").size
-    @calculation.count_booking = @opportunities.where(stage: "booking").size
-    @calculation.count_meeting = @opportunities.where(stage: "meeting").size
-    @calculation.count_proposal = @opportunities.where(stage: "proposal").size
-    @calculation.count_closing = @opportunities.where(stage: "closing").size
-    @calculation.count_gain = @opportunities.where(stage: "gain").size
-    @calculation.count_lost = @opportunities.where(stage: "lost").size
+    @calculation.prospecting_count = @opportunities.where(stage: "prospecting").size
+    @calculation.qualification_count = @opportunities.where(stage: "qualification").size
+    @calculation.booking_count = @opportunities.where(stage: "booking").size
+    @calculation.meeting_count = @opportunities.where(stage: "meeting").size
+    @calculation.proposal_count = @opportunities.where(stage: "proposal").size
+    @calculation.closing_count = @opportunities.where(stage: "closing").size
+    @calculation.gain_count = @opportunities.where(stage: "gain").size
+    @calculation.lost_count = @opportunities.where(stage: "lost").size
+
+    @calculation.prospecting_amount = @opportunities.where(stage: "prospecting").sum(:total_amount)
+    @calculation.qualification_amount = @opportunities.where(stage: "qualification").sum(:total_amount)
+    @calculation.booking_amount = @opportunities.where(stage: "booking").sum(:total_amount)
+    @calculation.meeting_amount = @opportunities.where(stage: "meeting").sum(:total_amount)
+    @calculation.proposal_amount = @opportunities.where(stage: "proposal").sum(:total_amount)
+    @calculation.closing_amount = @opportunities.where(stage: "closing").sum(:total_amount)
+    @calculation.gain_amount = @opportunities.where(stage: "gain").sum(:total_amount)
+    @calculation.lost_amount = @opportunities.where(stage: "lost").sum(:total_amount)
 
     @calculation.total_tickets = @opportunities.sum(:total_tickets)
     @calculation.total_calls = @opportunities.sum(:total_calls)

@@ -2,6 +2,7 @@ class Commercial::Sales::Opportunities::Journeys::Create
 
   def initialize(params)
     @journey_params = params.require(:journey).permit(:opportunity_id, :stage, :date)
+    @product_params = params.require(:product).permit(:stage, :products => [:id, :gain, :lost])
     # @notification_params = params.require(:notification).permit(:domain_id, :domain_type, :date_id, :date_type, :kind, :user_name, :user_id, :action)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
@@ -36,7 +37,11 @@ class Commercial::Sales::Opportunities::Journeys::Create
         @type = true
         @message = true
 
+        if @journey.stage == "gain" || @journey.stage == "lost"
+          ::Commercial::Sales::Opportunities::UpdateOpportunityProductsService.new(@product_params[:products]).update_products
+        end
         ::Commercial::Sales::Opportunities::UpdateOpportunityService.new(@journey).update_opportunity
+
         true
       else
         @data = false

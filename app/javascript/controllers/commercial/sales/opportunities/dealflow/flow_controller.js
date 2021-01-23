@@ -12,7 +12,8 @@ export default class extends Controller {
     
     this.application.opportunities.forEach(element => {
       this.doSimpleDataFlow(element)    
-    })   
+    })
+    this.getControllerByIdentifier("commercial--sales--opportunities--dealflow--dashboard").doTicketsHtml()
   }
 
   doSimpleDataFlow(element) {
@@ -58,20 +59,33 @@ export default class extends Controller {
     if (window.location.pathname == `/fluxo-prospeccao`) {
       if (element.stage == `prospecting`) {
         this.controllerDashboard.prospectingFlowTarget.insertAdjacentHTML("afterbegin", html)
+        this.setTickets(element)
       } else if (element.stage == `qualification`) {
         this.controllerDashboard.qualificationFlowTarget.insertAdjacentHTML("afterbegin", html)
+        this.setTickets(element)
       } else if (element.stage == `booking`) {
         this.controllerDashboard.bookingFlowTarget.insertAdjacentHTML("afterbegin", html)
+        this.setTickets(element)
       }
     } else if (window.location.pathname == `/fluxo-fechamento`) {
       if (element.stage == `meeting`) {
         this.controllerDashboard.meetingFlowTarget.insertAdjacentHTML("afterbegin", html)
+        this.setTickets(element)
       } else if (element.stage == `proposal`) {
         this.controllerDashboard.proposalFlowTarget.insertAdjacentHTML("afterbegin", html)
+        this.setTickets(element)
       } else if (element.stage == `closing`) {
         this.controllerDashboard.closingFlowTarget.insertAdjacentHTML("afterbegin", html)
+        this.setTickets(element)
       }
     }
+  }
+
+  setTickets(element) {
+    element.tickets.forEach(ticket => {
+      ticket.url = element.url
+      this.application.tickets[this.application.tickets.length] = ticket
+    })
   }
 
   doDataIndicator() {
@@ -152,26 +166,35 @@ export default class extends Controller {
 
   addTicket(ev) {
     var id = ev.currentTarget.closest(".cardRow").dataset.id
-    console.log(id)
   }
 
   changeStage(ev) {
-    var r = confirm("Confirma o avanço na Oportunidade?")
+    
+    var stageNumber = Number(ev.currentTarget.closest(".cardRow").dataset.stageNumber)
+    var newStage = this.setNewStage(stageNumber)
 
-    if (r) {
+    if (newStage == `gain`) {
+      var r = confirm("Confirma o Ganho da Oportunidade? Vamos para a página da Oportunidade atualizar os Ganhos!")  
+    } else {
+      var r = confirm("Confirma o avanco da Oportunidade?")  
+    }
+    
+    if (r && newStage != `gain`) {
       var id = ev.currentTarget.closest(".cardRow").dataset.id
       var stage = ev.currentTarget.closest(".cardRow").dataset.stage
-      var stageNumber = Number(ev.currentTarget.closest(".cardRow").dataset.stageNumber)
 
-      this.send_data = { current_user: {}, journey: {} }
+      this.send_data = { current_user: {}, journey: {}, product: {} }
 
       this.send_data.current_user.current_user_id = this.application.current_user.id
 
       this.send_data.journey.opportunity_id = id
       this.send_data.journey.stage = this.setNewStage(stageNumber)
       this.send_data.journey.date = new Date()
+      this.send_data.product.stage = this.setNewStage(stageNumber)
       
       this.requestSaveJourney()
+    } else if (r && newStage == `gain`) {
+      this.goToURL(ev)
     }
   }
 
@@ -201,11 +224,9 @@ export default class extends Controller {
       .then(response => response.json())
       .then(response => {
         if (response.save) {
-          console.log(response)
           var journey = response.data.cln
           this.application.opportunities.forEach(element => {
             if (element.id == journey.opportunity_id) {
-              console.log(element)
               controller.nameTarget(`card-${element.id}`).remove()
               element.stage = journey.stage
               element.stage_pretty = journey.stage

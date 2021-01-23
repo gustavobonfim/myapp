@@ -24,21 +24,71 @@ export default class extends Controller {
 
   addOpportunity(ev) {
     var leadId = ev.currentTarget.closest(".itemRow").dataset.id
-    var lead = {}
+    this.lead = {}
 
     this.application.leads.forEach(element => {
       if (element.id == leadId) {
-        lead = element
+        this.lead = element
       }
     })
 
-    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").current_lead = lead
+    this.opportunities = this.lead.opportunities
+
+    if (this.opportunities.length == 0) {
+      this.addNewOportunity()
+    } else {
+      this.showOpportunities()
+    }
+    
+  }
+
+  showOpportunities() {
+    var opportunitiesHtml = ``
+    this.opportunities.forEach(element => {
+
+      opportunitiesHtml += `<div class="col-4 px-1 my-3">
+                              <div class="card border-top-primary">
+                                <div class="card-header p-1 text-center f-065">
+                                  <span>Oportunidade</span>
+                                </div>
+                                <div class="card-body text-center py-2 mc-tooltip pointer" data-url="/oportunidades/${element.slug}" data-action="click->${this.controllerName}#goToURL">
+                                  <span class="material-icons md-dark">monetization_on</span>
+                                  <span class="mc-tooltiptext">Ver Oportunidade</span>
+                                </div>
+                              </div>
+                            </div>`
+    })
+
+    var html = `<div class="row my-2">
+                  <div class="col-12 px-1 f-075">${this.lead.name} possui as seguintes Oportunidades:</div>
+                </div>
+                <div class="row my-3">
+                  ${opportunitiesHtml}
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 px-1 f-075">Se for adicionar uma nova oportunidade, clique aqui:</div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12">
+                    <div class="card pointer" data-action="click->${this.controllerName}#addNewOportunity">
+                      <div class="card-header p-1 text-center f-1 bg-primary">
+                        <span>Adicionar Nova Oportunidade</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>`
+
+    this.getControllerByIdentifier("commercial--dashboards--sales").sideCardTarget.innerHTML = html
+  }
+
+  addNewOportunity() {
+    this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").current_lead = this.lead
     this.getControllerByIdentifier("commercial--sales--opportunities--entities--save").doFormHtml()
   }
 
-  goToOpportunity(ev) {
-    var url = ev.currentTarget.closest(".itemRow").dataset.opportunityPath
-    window.open(url, `_blank`)
+  goToURL(ev) {
+    var url = ev.currentTarget.dataset.url
+    window.open(url, `_self`)
   }
 
   sortTable(ev) {
@@ -176,10 +226,7 @@ export default class extends Controller {
   leadTablePartial(element, length) {
 
     if (element.status == `not_contact`) {
-      var actionBtn = `<button data-action="click->${this.controllerName}#addOpportunity" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
-                        <span class="material-icons md-sm md-dark">add_circle_outline</span>
-                        <span class="mc-tooltiptext">Criar Oportunidade</span>
-                      </button>`
+      
       var statusIcon = `<span class="mc-tooltip">
                           <span class="material-icons md-sm md-warning">new_releases</span>
                           <span class="mc-tooltiptext">${element.status_pretty}</span>
@@ -206,6 +253,11 @@ export default class extends Controller {
                           <span class="mc-tooltiptext">${element.status_pretty}</span>
                         </span>`
     }
+
+    var actionBtn = `<button data-action="click->${this.controllerName}#addOpportunity" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+                        <span class="material-icons md-sm md-dark">add_circle_outline</span>
+                        <span class="mc-tooltiptext">Criar Oportunidade</span>
+                      </button>`
 
     if (length == 1) {
       var tableRow = `<tr class="itemRow" data-id="${element.id}" data-opportunity-path="${element.opportunity_path}" style="height:50px;">`

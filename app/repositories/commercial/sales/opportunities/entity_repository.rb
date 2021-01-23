@@ -20,6 +20,14 @@ class Commercial::Sales::Opportunities::EntityRepository < Base
     entity.where(active: true).order(name: :asc)
   end
 
+  def self.all_active_prospecting
+    entity.where(active: true).where("stage = ? OR stage = ? OR stage = ?", entity.stages["prospecting"], entity.stages["qualification"], entity.stages["booking"]).order(name: :asc)
+  end
+
+  def self.all_active_closing
+    entity.where(active: true).where("stage = ? OR stage = ? OR stage = ?", entity.stages["meeting"], entity.stages["proposal"], entity.stages["closing"]).order(name: :asc)
+  end
+
   def self.all_active_date(date_id)
     entity.where(active: true, date_id: date_id).order(name: :asc)
   end

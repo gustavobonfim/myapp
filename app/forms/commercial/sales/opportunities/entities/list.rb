@@ -1,7 +1,7 @@
 class Commercial::Sales::Opportunities::Entities::List
 
   def initialize(params)
-    @opportunity_params = params.require(:opportunity).permit(:active)
+    @opportunity_params = params.require(:opportunity).permit(:active, :flow)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_list_opportunity = can_current_user_list_opportunity?
@@ -11,7 +11,13 @@ class Commercial::Sales::Opportunities::Entities::List
   end
 
   def opportunities
-    ::Commercial::Sales::Opportunities::EntityRepository.all_active
+    if @opportunity_params[:flow] == "prospecting"
+      ::Commercial::Sales::Opportunities::EntityRepository.all_active_prospecting
+    elsif @opportunity_params[:flow] == "closing"
+      ::Commercial::Sales::Opportunities::EntityRepository.all_active_closing
+    else
+      ::Commercial::Sales::Opportunities::EntityRepository.all_active
+    end
   end
 
   def status

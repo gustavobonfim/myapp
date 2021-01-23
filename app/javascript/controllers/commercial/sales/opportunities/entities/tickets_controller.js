@@ -21,14 +21,12 @@ export default class extends Controller {
         }
       }
     })
-    console.log(this.in_process_tickets)
     var tickets = this.getControllerByIdentifier("app--helpers--data").sortByKeyAsc(this.in_process_tickets, `due_at_time`)
 
     this.listData(tickets)
   }
 
   listData(data) {
-    console.log(data)
     this.ticketBoardTarget.innerHTML = ""
     if (data == undefined || data == [] || data.length == 0) {
       var noData = `<div class="row w-100" style="height:100px;">
@@ -166,7 +164,7 @@ export default class extends Controller {
 
       var dateBtn = `<div class="col-4 mr-auto px-1 d-flex align-items-center pointer bg-shadow mc-tooltip" data-toggle="collapse" href="#collapseDate-${element.id}" data-ticket-id="${element.id}">
                       <span>${element.due_at_pretty}</span>
-                      <span class="mc-tooltiptext">Data de Finalização</span>
+                      <span class="mc-tooltiptext">Data de Entrega</span>
                     </div>`
       var dateBody = `<div id="collapseDate-${element.id}" class="collapse" data-ticket-id="${element.id}" data-target="${this.controllerName}.collapseDate-${element.id}">
                         <div class="card m-1">
@@ -192,7 +190,7 @@ export default class extends Controller {
                           </div>
                           <div class="card-body p-1 text-center f-065" data-target="${this.controllerName}.ticketCardBody">
                             <div class="row py-1 px-2">
-                              <div class="col-12 px-0 d-flex align-items-center pointer text-left ticket-content" data-target="${this.controllerName}.bodyShow-${element.id}" data-action="click->${this.controllerName}#inlineEditBody">${element.description}</div>
+                              <div class="col-12 px-0 d-flex align-items-center pointer text-left ticket-content" data-target="${this.controllerName}.bodyShow-${element.id}" data-action="click->${this.controllerName}#inlineEditBody">${element.body}</div>
                               <div class="col-12 px-1 d-flex align-items-center d-none" data-target="${this.controllerName}.bodyEdit-${element.id}">
                                 <textarea autofocus data-target="${this.controllerName}.bodyEditInput-${element.id}" data-action="keyup->${this.controllerName}#saveBody change->${this.controllerName}#saveBody blur->${this.controllerName}#saveBody" class="form-control p-1 s-title-0p6rem" type="text" required></textarea>
                               </div>
@@ -478,8 +476,7 @@ export default class extends Controller {
       this.send_data.ticket.sharing = `internal`
       this.send_data.ticket.term = `quick`
       this.send_data.ticket.priority = `low`
-      // this.send_data.ticket.body = `Novo Ticket`
-      this.send_data.ticket.description = `Novo Ticket`
+      this.send_data.ticket.body = `Novo Ticket`
       this.send_data.ticket.due_at = new Date()
       this.send_data.ticket.started_at = new Date()
       this.send_data.ticket.flag = `blue`

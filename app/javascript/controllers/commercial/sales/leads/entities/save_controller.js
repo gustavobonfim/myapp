@@ -3,7 +3,7 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["main", "viewTitle", "saveBtn", "nameInput", "emailInput", "councilInput", "councilStateInput",
                     "prefixInput", "phoneInput", "notesInput", "linkInput", "sourceDropdown", "sourceDropdownBtn", "sourceInput", "sourceList",
-                    "statusDropdown", "statusDropdownBtn", "statusInput", "statusList"]
+                    "statusDropdown", "statusDropdownBtn", "statusInput", "statusList", "formCardBody"]
 
   connect() {
     this.controllerName = `commercial--sales--leads--entities--save`
@@ -58,7 +58,7 @@ export default class extends Controller {
                           <div class="form-group">
                             <div class="floating-label floating-label-sm">
                               <label for="emailForm">E-mail</label>
-                              <input aria-describedby="emailFormHelp" class="form-control" id="emailForm" data-target="${this.controllerName}.emailInput" placeholder="Nome" type="text" required>
+                              <input aria-describedby="emailFormHelp" class="form-control" id="emailForm" data-target="${this.controllerName}.emailInput" placeholder="E-mail" type="text" required>
                             </div>
                           </div>
                         </div>
@@ -83,19 +83,19 @@ export default class extends Controller {
                         </div>
                       </div>
                       <div class="row my-2">
-                        <div class="col-4 pl-0 pr-2">
+                        <div class="col-3 pl-0 pr-2">
                           <div class="form-group">
                             <div class="floating-label floating-label-sm">
                               <label for="councilForm">CRM</label>
-                              <input aria-describedby="councilFormHelp" class="form-control" id="councilForm" data-target="${this.controllerName}.councilInput" placeholder="Nome" type="text" required>
+                              <input aria-describedby="councilFormHelp" class="form-control" id="councilForm" data-target="${this.controllerName}.councilInput" placeholder="CRM" type="text" required>
                             </div>
                           </div>
                         </div>
-                        <div class="col-2 pl-2 pr-2">
+                        <div class="col-3 pl-2 pr-2">
                           <div class="form-group">
                             <div class="floating-label floating-label-sm">
                               <label for="councilStateForm">UF CRM</label>
-                              <input aria-describedby="councilStateFormHelp" class="form-control" id="councilStateForm" data-target="${this.controllerName}.councilStateInput" placeholder="Nome" type="text" required>
+                              <input aria-describedby="councilStateFormHelp" class="form-control" id="councilStateForm" data-target="${this.controllerName}.councilStateInput" placeholder="UF CRM" type="text" required>
                             </div>
                           </div>
                         </div>
@@ -233,47 +233,52 @@ export default class extends Controller {
   refreshSaveBtn() {
     var controller = this
     this.refreshTimer = setInterval(function () {
-      var len = 0
+      if (controller.hasFormCardBodyTarget) {
+        var len = 0
 
-      if (controller.nameInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.nameInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (controller.emailInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.emailInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (controller.councilInputTarget.value == ``) {
-        len += 1
-      }
-      if (controller.councilStateInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.councilInputTarget.value == ``) {
+          len += 1
+        }
+        if (controller.councilStateInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (controller.prefixInputTarget.value == ``) {
-        len += 1
-      }
-      if (controller.phoneInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.prefixInputTarget.value == ``) {
+          len += 1
+        }
+        if (controller.phoneInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (controller.sourceInputTarget.innerText == ``) {
-        len += 1
-      }
+        if (controller.sourceInputTarget.innerText == ``) {
+          len += 1
+        }
 
-      if (controller.statusInputTarget.innerText == ``) {
-        len += 1
-      }
+        if (controller.statusInputTarget.innerText == ``) {
+          len += 1
+        }
 
-      if (controller.notesInputTarget.value == ``) {
-        len += 1
-      }
+        if (controller.notesInputTarget.value == ``) {
+          len += 1
+        }
 
-      if (len == 0) {
-        controller.saveBtnTarget.disabled = false
+        if (len == 0) {
+          controller.saveBtnTarget.disabled = false
+        } else {
+          controller.saveBtnTarget.disabled = true
+        }
       } else {
-        controller.saveBtnTarget.disabled = true
+        controller.stopRefreshing()
       }
+      
     }, 200);
   }
 

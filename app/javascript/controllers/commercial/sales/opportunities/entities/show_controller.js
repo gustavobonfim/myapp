@@ -2,14 +2,14 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = ["main", "token", "info", "listLeads", "listProducts", "opportunityProspector", "opportunityProspectorName", "opportunityProspectorEdit",
-                    "opportunityProspectorInput", "prospectorFilter", "prospectorFilterItem", "opportunityCloser", "opportunityCloserName",
+                    "opportunityProspectorInput", "prospectorFilter", "prospectorFilterItem", "opportunityCloser", "opportunityCloserName", "addLeadBtn", "addProductBtn",
                     "opportunityCloserEdit", "opportunityCloserInput", "closerFilter", "closerFilterItem", "opportunityStage", "opportunityStageName",
                     "opportunityStageEdit", "opportunityStageInput", "stageFilter", "stageFilterItem", "opportunityStartedAt", "opportunityOpenDays", "opportunityStatus",
                     "opportunityStatus", "opportunityStatusName", "opportunityStatusEdit", "opportunityStatusInput", "statusFilter", "statusFilterItem",
-                    "opportunityLead", "opportunityLeadName", "opportunityLeadEdit", "opportunityLeadInput", "leadFilter", "leadFilterItem",
+                    "opportunityLead", "opportunityLeadName", "opportunityLeadEdit", "opportunityLeadInput", "leadFilter", "leadFilterItem", "addTicketBtn", "addNoteBtn",
                     "opportunityProductAddCard", "opportunityProductName", "opportunityProductNameEdit", "opportunityProductNameInput", "productNameFilter", "listJourneys",
                     "saveBtn", "opportunityProductPlan", "opportunityProductPlanEdit", "opportunityProductPlanInput", "productPlanFilter", "listTickets",
-                    "opportunityProduct", "opportunityProductKind", "opportunityProductKindEdit", "opportunityProductKindInput", "productKindFilter", "productFilterItem",
+                    "opportunityProduct", "opportunityProductKind", "opportunityProductKindEdit", "opportunityProductKindInput", "productKindFilter", "opportunityLeadAddCard",
                     "opportunityProduct", "opportunityProductAmount", "opportunityProductAmountEdit", "opportunityProductAmountInput", "productAmountFilter", "productFilterItem"]
 
   connect() {
@@ -76,7 +76,7 @@ export default class extends Controller {
                       <div class="col-12 px-0">
                         <h6 class="mb-0 d-flex align-items-center">
                           <span>Médicos</span>
-                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addLead">
+                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addLead" data-target="${this.controllerName}.addLeadBtn">
                             <span class="material-icons md-sm md-dark">add</span>
                             <span class="mc-tooltiptext">Adicionar Médico</span>
                           </span>
@@ -91,10 +91,10 @@ export default class extends Controller {
                       <div class="col-12 px-0">
                         <h6 class="mb-0 d-flex align-items-center">
                           <span>Produtos</span>
-                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addProduct">
-                             <span class="material-icons md-sm md-dark">add</span>
-                             <span class="mc-tooltiptext">Adicionar Produto</span>
-                           </span>
+                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addProduct" data-target="${this.controllerName}.addProductBtn">
+                            <span class="material-icons md-sm md-dark">add</span>
+                            <span class="mc-tooltiptext">Adicionar Produto</span>
+                          </span>
                         </h6>
                         <hr class="my-1">
                       </div>
@@ -121,7 +121,7 @@ export default class extends Controller {
                       <div class="col-12 px-0">
                         <h6 class="mb-0 d-flex align-items-center">
                           <span>Tickets</span>
-                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addTicket">
+                          <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addTicket" data-target="${this.controllerName}.addTicketBtn">
                               <span class="material-icons md-sm md-dark">add</span>
                               <span class="mc-tooltiptext">Adicionar Ticket</span>
                             </span>
@@ -136,7 +136,7 @@ export default class extends Controller {
                   <div class="col-4 px-2">
                     <h6 class="mb-0 d-flex align-items-center">
                       <span>Anotações</span>
-                      <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addNote">
+                      <span class="mc-tooltip ml-auto pointer" data-action="click->${this.controllerName}#addNote" data-target="${this.controllerName}.addNoteBtn">
                           <span class="material-icons md-sm md-dark">add</span>
                           <span class="mc-tooltiptext">Adicionar Anotação</span>
                         </span>
@@ -181,7 +181,14 @@ export default class extends Controller {
       this.application.opportunity.prospector_name = `Não Definido`
     }
 
-    var html = `<div class="row d-flex align-items-center">
+    if (this.application.opportunity.stage == `gain` || this.application.opportunity.stage == `lost`) {
+      var html = `<div class="row d-flex align-items-center">
+                    <div class="col-12 px-0 mc-tooltip text-center">
+                      ${this.application.opportunity.prospector_name}
+                    </div>
+                  </div>`
+    } else {
+      var html = `<div class="row d-flex align-items-center">
                     <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityProspectorName" data-action="click->${this.controllerName}#showInlineEditor">
                       ${this.application.opportunity.prospector_name}
                     </div>
@@ -198,12 +205,15 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>`
+    }
     
     var controller = this
     new Promise(function (resolve) {
       resolve(controller.opportunityProspectorTarget.innerHTML = html)
     }).then(() => {
-      controller.listProspector()
+      if (controller.application.opportunity.stage != `gain` && controller.application.opportunity.stage != `lost`) {
+        controller.listProspector()
+      }
     })
   }
 
@@ -242,7 +252,14 @@ export default class extends Controller {
       this.application.opportunity.closer_name = `Não Definido`
     }
 
-    var html = `<div class="row d-flex align-items-center">
+    if (this.application.opportunity.stage == `gain` || this.application.opportunity.stage == `lost`) {
+      var html = `<div class="row d-flex align-items-center">
+                    <div class="col-12 px-0 mc-tooltip text-center">
+                      ${this.application.opportunity.closer_name}
+                    </div>
+                  </div>`
+    } else {
+      var html = `<div class="row d-flex align-items-center">
                     <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityCloserName" data-action="click->${this.controllerName}#showInlineEditor">
                       ${this.application.opportunity.closer_name}
                     </div>
@@ -259,12 +276,15 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>`
+    }
 
     var controller = this
     new Promise(function (resolve) {
       resolve(controller.opportunityCloserTarget.innerHTML = html)
     }).then(() => {
-      controller.listCloser()
+      if (controller.application.opportunity.stage != `gain` && controller.application.opportunity.stage != `lost`) {
+        controller.listCloser()
+      }
     }) 
   }
 
@@ -300,7 +320,14 @@ export default class extends Controller {
 
   setStage() {
 
-    var html = `<div class="row d-flex align-items-center">
+    if (this.application.opportunity.stage == `gain` || this.application.opportunity.stage == `lost`) {
+      var html = `<div class="row d-flex align-items-center">
+                    <div class="col-12 px-0 text-center">
+                      ${this.application.opportunity.stage_pretty}
+                    </div>
+                  </div>`
+    } else {
+      var html = `<div class="row d-flex align-items-center">
                     <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityStageName" data-action="click->${this.controllerName}#showInlineEditor">
                       ${this.application.opportunity.stage_pretty}
                     </div>
@@ -317,12 +344,15 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>`
+    }
 
     var controller = this
     new Promise(function (resolve) {
       resolve(controller.opportunityStageTarget.innerHTML = html)
     }).then(() => {
-      controller.listStage()
+      if (controller.application.opportunity.stage != `gain` && controller.application.opportunity.stage != `lost`) {
+        controller.listStage()
+      }
     }) 
   }
 
@@ -350,15 +380,21 @@ export default class extends Controller {
     if (r) {
       this.getControllerByIdentifier("app--helpers--input").selectItem(ev)
 
-      this.send_data = { current_user: {}, journey: {} }
+      this.send_data = { current_user: {}, journey: {}, product: {} }
 
       this.send_data.current_user.current_user_id = this.application.current_user.id
 
       this.send_data.journey.opportunity_id = this.application.opportunity.id
       this.send_data.journey.stage = this.opportunityStageInputTarget.dataset.filter
       this.send_data.journey.date = new Date()
+      this.send_data.product.stage = this.opportunityStageInputTarget.dataset.filter
+      this.send_data.product.products = []
 
-      this.requestSaveJourney()
+      if (this.send_data.journey.stage == `gain` || this.send_data.journey.stage == `lost`) {
+        this.doClosingModalHtml()
+      } else {
+        this.requestSaveJourney()
+      }
     } else {
       this.setStage()
     }
@@ -366,7 +402,14 @@ export default class extends Controller {
 
   setStatus() {
 
-    var html = `<div class="row d-flex align-items-center">
+    if (this.application.opportunity.stage == `gain` || this.application.opportunity.stage == `lost`) {
+      var html = `<div class="row d-flex align-items-center">
+                    <div class="col-12 px-0 mc-tooltip text-center">
+                      ${this.application.opportunity.status_pretty}
+                    </div>
+                  </div>`
+    } else {
+      var html = `<div class="row d-flex align-items-center">
                     <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityStatusName" data-action="click->${this.controllerName}#showInlineEditor">
                       ${this.application.opportunity.status_pretty}
                     </div>
@@ -383,12 +426,15 @@ export default class extends Controller {
                       </div>
                     </div>
                   </div>`
+    }
 
     var controller = this
     new Promise(function (resolve) {
       resolve(controller.opportunityStatusTarget.innerHTML = html)
     }).then(() => {
-      controller.listStatus()
+      if (controller.application.opportunity.stage != `gain` && controller.application.opportunity.stage != `lost`) {
+        controller.listStatus()
+      }
     }) 
   }
 
@@ -441,8 +487,8 @@ export default class extends Controller {
                   <div class="col-12 px-1">
                     <div class="card">
                       <div class="card-body px-0 py-2 f-065 pointer">
-                        <div class="row my-2">
-                          <div class="col-10 px-1">
+                        <div class="row my-2 d-flex align-items-center">
+                          <div class="col-9 px-1">
                             <div class="card-show-dropdown">
                               ${element.lead_name}
                               <div class="card-show-dropdown-content text-left">
@@ -452,7 +498,7 @@ export default class extends Controller {
                               </div>
                             </div>
                           </div>
-                          <div class="col-2 px-0">
+                          <div class="col-3 px-1">
                             <button data-action="click->${this.controllerName}#destroyLead" data-id="${element.id}" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
                               <span class="material-icons md-sm md-dark">delete</span>
                               <span class="mc-tooltiptext">Apagar</span>
@@ -472,7 +518,7 @@ export default class extends Controller {
   addLead() {
     this.actionMode = `new`
 
-    var html = `<div class="row my-2 w-100">
+    var html = `<div class="row my-2 w-100"  data-target="${this.controllerName}.opportunityLeadAddCard">
                   <div class="col-12 px-1">
                     <div class="card">
                       <div class="card-body px-0 py-2 f-065 text-center pointer">
@@ -481,7 +527,17 @@ export default class extends Controller {
                             <div class="card-show-dropdown">
                               <div class="row d-flex align-items-center">
                                 <div class="col-12 px-0 pointer mc-tooltip text-center" data-target="${this.controllerName}.opportunityLeadName" data-action="click->${this.controllerName}#showInlineEditor">
-                                  Clique aqui para Selecionar
+                                  <div class="row d-flex align-items-center">
+                                    <div class="col-9 px-0">
+                                      <span>Clique aqui para Selecionar</span>
+                                    </div>
+                                    <div class="col-3 px-0">
+                                      <button data-action="click->${this.controllerName}#cancelLead" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
+                                        <span aria-hidden="true">&times;</span>
+                                        <span class="mc-tooltiptext">Cancelar</span>
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                                 <div class="col-12 px-1 d-flex align-items-center d-none editInput" data-target="${this.controllerName}.opportunityLeadEdit">
                                   <div class="form-group w-100 mb-0">
@@ -510,6 +566,12 @@ export default class extends Controller {
     }).then(() => {
       controller.listLead()
     }) 
+  }
+
+  cancelLead() {
+    this.opportunityLeadAddCardTargets.forEach(element => {
+      element.remove()
+    })
   }
 
   listLead() {
@@ -557,8 +619,8 @@ export default class extends Controller {
                   <div class="col-12 px-1">
                     <div class="card">
                       <div class="card-body p-0 f-065 pointer">
-                        <div class="row my-2">
-                          <div class="col-10 px-1">
+                        <div class="row my-2 d-flex align-items-center">
+                          <div class="col-9 px-1">
                             <div class="card-show-dropdown">
                               ${element.name_pretty}
                               <div class="card-show-dropdown-content text-left">
@@ -568,7 +630,7 @@ export default class extends Controller {
                               </div>
                             </div>
                           </div>
-                          <div class="col-2 px-0">
+                          <div class="col-3 px-0">
                             <button data-action="click->${this.controllerName}#destroyProduct" data-id="${element.id}" type="button" class="btn btn-sm btn-table p-0 mc-tooltip">
                               <span class="material-icons md-sm md-dark">delete</span>
                               <span class="mc-tooltiptext">Apagar</span>
@@ -786,6 +848,66 @@ export default class extends Controller {
     this.getControllerByIdentifier("commercial--sales--opportunities--entities--tickets").createTicket()
   }
 
+  doClosingModalHtml() {
+    var controllerName = `commercial--sales--opportunities--entities--closing`
+    var productHtml = ``
+
+    this.application.opportunity.products.forEach(product => {
+      productHtml += `<div class="row my-2 d-flex align-items-center">
+                        <div class="col-6 px-2">
+                          ${product.name_pretty}
+                        </div>
+                        <div class="col-2 px-2 d-flex align-items-center">
+                          <div class="form-group w-100 mb-0">
+                            <div class="floating-label floating-label-sm">
+                              <label for="amountForm-${product.id}">Valor Ganho</label>
+                              <input disabled id="amountForm-${product.id}" class="form-control f-075 pt-0" autofocus data-target="${controllerName}.productAmount-${product.id}" data-action="blur->${controllerName}#currencyMask keyup->${controllerName}#currencyMask keypress->${controllerName}#currencyMask" type="tel" placeholder="Valor" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-2 px-2 d-flex align-items-center">
+                          <div class="form-group w-100 mb-0">
+                            <div class="floating-label floating-label-sm">
+                              <label for="gainForm-${product.id}">Valor Ganho</label>
+                              <input id="gainForm-${product.id}" class="form-control f-075 pt-0" autofocus data-target="${controllerName}.productGain-${product.id}" data-action="blur->${controllerName}#currencyMask keyup->${controllerName}#currencyMask keypress->${controllerName}#currencyMask" type="tel" placeholder="Valor" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-2 px-2 d-flex align-items-center">
+                          <div class="form-group w-100 mb-0">
+                            <div class="floating-label floating-label-sm">
+                              <label for="lostForm-${product.id}">Valor Perdido</label>
+                              <input id="lostForm-${product.id}" class="form-control f-075 pt-0" autofocus data-target="${controllerName}.productLost-${product.id}" data-action="blur->${controllerName}#currencyMask keyup->${controllerName}#currencyMask keypress->${controllerName}#currencyMask" type="tel" placeholder="Valor" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>`
+    })
+
+    var html = `<div class="modal fade" data-controller="${controllerName}" data-target="${controllerName}.modal" tabindex="-1 role="dialog" aria-labelledby="connectionModalTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom py-0">
+                        <h6 class="modal-title py-2 mx-auto"><strong class="f-075">Ajuste dos Valores Ganhos!</strong></h6><br>
+                      </div>
+                      <div class="modal-body p-3" data-target="${controllerName}.body">
+                        ${productHtml}
+                      </div>
+                      <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-primary py-1" data-target="${controllerName}.saveBtn" data-action="click->${controllerName}#saveProducts">Salvar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>`
+
+    var controller = this
+    new Promise(function (resolve) {
+      resolve(document.body.insertAdjacentHTML("beforeend", html))
+    }).then(() => {
+      controller.getControllerByIdentifier(`commercial--sales--opportunities--entities--closing`).setValues()
+    })
+  }
+
   requestSaveOpportunity() {
     var url = "/commercial/sales/opportunities/entities/update"
     var method = "PUT"
@@ -811,6 +933,7 @@ export default class extends Controller {
     var method = "POST"
     const init = { method: method, credentials: "same-origin", headers: { "X-CSRF-Token": this.application.token, 'Content-Type': 'application/json' }, body: JSON.stringify(this.send_data) }
     var controller = this
+
     fetch(url, init)
       .then(response => response.json())
       .then(response => {
@@ -820,8 +943,13 @@ export default class extends Controller {
           controller.application.opportunity.stage_pretty = journey.stage_pretty
           controller.application.opportunity.journeys[controller.application.opportunity.journeys.length] = journey
         }
-        controller.setPageHeader()
-        controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+        if (journey.stage == `gain` || journey.stage == `lost`) {
+          window.location.reload()
+        } else {
+          controller.setPageHeader()
+          controller.setJourneys()
+          controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
+        }
       })
       .catch(error => {
         controller.getControllerByIdentifier("app--helpers--console").console(error)
@@ -972,7 +1100,6 @@ export default class extends Controller {
     fetch(url, init)
       .then(response => response.json())
       .then(response => {
-        console.log(response)
         if (response.process) {
           controller.application.opportunity = response.data.cln
           // controller.application.domain_type = "Oportunidade Negócio"
@@ -988,6 +1115,14 @@ export default class extends Controller {
           controller.setJourneys()
           controller.setTickets()
           controller.getSalesLeads()
+
+          if (controller.application.opportunity.stage == `gain` || controller.application.opportunity.stage == `lost`) {
+            controller.addLeadBtnTarget.remove()
+            controller.addProductBtnTarget.remove()
+            controller.addTicketBtnTarget.remove()
+            controller.addNoteBtnTarget.remove()
+          }
+
         } else {
           controller.getControllerByIdentifier("app--helpers--snackbar").doSnackbar(response.type, response.message, 2000)
         }

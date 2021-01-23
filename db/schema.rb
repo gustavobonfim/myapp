@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_021042) do
+ActiveRecord::Schema.define(version: 2021_01_22_223117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,14 +45,22 @@ ActiveRecord::Schema.define(version: 2021_01_21_021042) do
     t.integer "total_calls", default: 0
     t.integer "total_contacts", default: 0
     t.integer "total_in_process", default: 0
-    t.integer "count_prospecting", default: 0
-    t.integer "count_qualification", default: 0
-    t.integer "count_booking", default: 0
-    t.integer "count_meeting", default: 0
-    t.integer "count_proposal", default: 0
-    t.integer "count_closing", default: 0
-    t.integer "count_gain", default: 0
-    t.integer "count_lost", default: 0
+    t.integer "prospecting_count", default: 0
+    t.integer "qualification_count", default: 0
+    t.integer "booking_count", default: 0
+    t.integer "meeting_count", default: 0
+    t.integer "proposal_count", default: 0
+    t.integer "closing_count", default: 0
+    t.integer "gain_count", default: 0
+    t.integer "lost_count", default: 0
+    t.decimal "prospecting_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "qualification_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "booking_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "meeting_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "proposal_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "closing_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "gain_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "lost_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_commercial_calculations_on_active"
     t.index ["date_id"], name: "index_commercial_calculations_on_date_id"
   end
@@ -296,7 +304,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_021042) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.bigint "opportunity_id"
-    t.string "description"
+    t.string "body"
     t.date "due_at"
     t.integer "kind"
     t.integer "stage"
