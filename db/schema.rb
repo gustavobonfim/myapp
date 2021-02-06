@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_223117) do
+ActiveRecord::Schema.define(version: 2021_02_05_225632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,6 +354,49 @@ ActiveRecord::Schema.define(version: 2021_01_22_223117) do
     t.string "name"
   end
 
+  create_table "product_dates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "product_id"
+    t.boolean "open"
+    t.integer "month"
+    t.integer "year"
+    t.string "uniq_product_date"
+    t.index ["active"], name: "index_product_dates_on_active"
+    t.index ["month"], name: "index_product_dates_on_month"
+    t.index ["open"], name: "index_product_dates_on_open"
+    t.index ["product_id"], name: "index_product_dates_on_product_id"
+    t.index ["uniq_product_date"], name: "index_product_dates_on_uniq_product_date", unique: true
+    t.index ["year"], name: "index_product_dates_on_year"
+  end
+
+  create_table "product_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "blocked"
+    t.bigint "account_id"
+    t.bigint "company_id"
+    t.integer "name"
+    t.integer "kind"
+    t.string "uniq_product"
+    t.decimal "amount"
+    t.date "started_at"
+    t.integer "month_started_at"
+    t.integer "year_started_at"
+    t.text "notes"
+    t.integer "status"
+    t.string "slug"
+    t.index ["account_id"], name: "index_product_entities_on_account_id"
+    t.index ["active"], name: "index_product_entities_on_active"
+    t.index ["company_id"], name: "index_product_entities_on_company_id"
+    t.index ["kind"], name: "index_product_entities_on_kind"
+    t.index ["name"], name: "index_product_entities_on_name"
+    t.index ["slug"], name: "index_product_entities_on_slug", unique: true
+    t.index ["uniq_product"], name: "index_product_entities_on_uniq_product", unique: true
+  end
+
   create_table "user_account_entities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -363,6 +406,26 @@ ActiveRecord::Schema.define(version: 2021_01_22_223117) do
     t.index ["active"], name: "index_user_account_entities_on_active"
     t.index ["cpf"], name: "index_user_account_entities_on_cpf"
     t.index ["name"], name: "index_user_account_entities_on_name"
+  end
+
+  create_table "user_company_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "name"
+    t.string "trade_name"
+    t.string "cnpj"
+    t.string "kind", array: true
+    t.string "subkind", array: true
+    t.string "slug"
+    t.date "opened_at"
+    t.text "notes"
+    t.index ["active"], name: "index_user_company_entities_on_active"
+    t.index ["cnpj"], name: "index_user_company_entities_on_cnpj", unique: true
+    t.index ["kind"], name: "index_user_company_entities_on_kind"
+    t.index ["name"], name: "index_user_company_entities_on_name"
+    t.index ["slug"], name: "index_user_company_entities_on_slug", unique: true
+    t.index ["subkind"], name: "index_user_company_entities_on_subkind"
   end
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
@@ -376,4 +439,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_223117) do
   add_foreign_key "commercial_sales_opportunities_products", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_products", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "commercial_sales_opportunities_tickets", "commercial_sales_opportunities_entities", column: "opportunity_id"
+  add_foreign_key "product_dates", "product_entities", column: "product_id"
+  add_foreign_key "product_entities", "user_account_entities", column: "account_id"
+  add_foreign_key "product_entities", "user_company_entities", column: "company_id"
 end

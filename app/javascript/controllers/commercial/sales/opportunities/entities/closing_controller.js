@@ -8,11 +8,23 @@ export default class extends Controller {
   }
 
   setValues() {
-    this.application.opportunity.products.forEach(product => {
-      this.nameTarget(`productAmount-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.amount * 100))
-      this.nameTarget(`productGain-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.gain * 100))
-      this.nameTarget(`productLost-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.lost * 100))
-    })
+    var newStage = this.getControllerByIdentifier("commercial--sales--opportunities--entities--show").send_data.product.stage
+    if (newStage == `gain`) {
+      this.application.opportunity.products.forEach(product => {
+        this.nameTarget(`productAmount-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.amount * 100))
+        this.nameTarget(`productGain-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.amount * 100))
+        this.nameTarget(`productLost-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.lost * 100))
+        this.nameTarget(`productLost-${product.id}`).disabled = true
+      })
+    } else if (newStage== `lost`) {
+      this.application.opportunity.products.forEach(product => {
+        this.nameTarget(`productAmount-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.amount * 100))
+        this.nameTarget(`productGain-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.gain * 100))
+        this.nameTarget(`productGain-${product.id}`).disabled = true
+        this.nameTarget(`productLost-${product.id}`).value = this.getControllerByIdentifier("app--helpers--numbers").currencyMask(parseInt(product.amount * 100))
+      })
+    }
+    
     this.getControllerByIdentifier("app--helpers--forms").floatingLabel()
   }
 

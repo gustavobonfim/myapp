@@ -47,6 +47,8 @@ module Myapp
     config.eager_load_paths << "#{Rails.root}/app/permissions"
     config.autoload_paths << "#{Rails.root}/app/decorators"
     config.eager_load_paths << "#{Rails.root}/app/decorators"
+    config.autoload_paths << "#{Rails.root}/app/values"
+    config.eager_load_paths << "#{Rails.root}/app/values"
     # config.autoload_paths << "#{Rails.root}/lib"
     # config.eager_load_paths << "#{Rails.root}/lib"
 

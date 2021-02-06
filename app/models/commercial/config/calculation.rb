@@ -18,9 +18,14 @@ end
 # t.boolean "active", default: true, null: false
 # t.boolean "open", default: true, null: false
 # t.bigint "date_id"
-# t.integer "total_leads", default: 0
+# t.integer "goal_leads", default: 0
+# t.decimal "goal_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "goal_gain", precision: 15, scale: 2, default: "0.0"
+# t.integer "marketing_leads", default: 0
+# t.integer "sales_leads", default: 0
 # t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_gain", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_lost", precision: 15, scale: 2, default: "0.0"
 # t.integer "base_leads", default: 0
 # t.decimal "base_amount", precision: 15, scale: 2, default: "0.0"
 # t.decimal "base_gain", precision: 15, scale: 2, default: "0.0"
@@ -36,10 +41,20 @@ end
 # t.integer "total_tickets", default: 0
 # t.integer "total_calls", default: 0
 # t.integer "total_contacts", default: 0
-# t.integer "total_documents", default: 0
-# t.integer "total_prospecting", default: 0
-# t.integer "total_qualification", default: 0
-# t.integer "total_booking", default: 0
-# t.integer "total_meeting", default: 0
-# t.integer "total_proposal", default: 0
-# t.integer "total_closing", default: 0
+# t.integer "total_in_process", default: 0
+# t.integer "prospecting_count", default: 0
+# t.integer "qualification_count", default: 0
+# t.integer "booking_count", default: 0
+# t.integer "meeting_count", default: 0
+# t.integer "proposal_count", default: 0
+# t.integer "closing_count", default: 0
+# t.integer "gain_count", default: 0
+# t.integer "lost_count", default: 0
+# t.decimal "prospecting_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "qualification_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "booking_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "meeting_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "proposal_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "closing_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "gain_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "lost_amount", precision: 15, scale: 2, default: "0.0"

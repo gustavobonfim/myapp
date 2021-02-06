@@ -11,6 +11,21 @@ Rails.application.routes.draw do
 
   namespace :api, path: '/' do
     namespace :v1, path: '/' do
+      namespace :operations do
+        namespace :products do
+          namespace :config do
+            post "dates/read", to: "dates#read"
+            post "dates/list", to: "dates#list"
+            put "dates/update", to: "dates#update"
+
+            post "entities/create", to: "entities#create"
+            post "entities/read", to: "entities#read"
+            post "entities/list", to: "entities#list"
+            put "entities/update", to: "entities#update"
+          end
+        end
+      end
+
       namespace :commercial do
 
         namespace :config do
@@ -72,6 +87,16 @@ Rails.application.routes.draw do
 
         end
       end
+
+      namespace :users do
+        namespace :companies do
+          post "entities/list", to: "entities#list"
+          post "entities/create", to: "entities#create"
+          post "entities/read", to: "entities#read"
+          put "entities/update", to: "entities#update"
+        end
+      end
+      
     end
   end
 

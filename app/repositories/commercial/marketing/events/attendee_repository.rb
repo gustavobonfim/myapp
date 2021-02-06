@@ -24,7 +24,7 @@ class Commercial::Marketing::Events::AttendeeRepository < Base
   
   def self.lead_gen(sources)
     mapper.map_all_lead_gen(sources)
-  end  
+  end 
 
   private
 
