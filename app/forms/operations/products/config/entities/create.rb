@@ -1,4 +1,4 @@
-class Operations::Products::Entities::Create
+class Operations::Products::Config::Entities::Create
   include ActiveModel::Model
 
   attr_accessor :status, :type, :message
@@ -9,8 +9,8 @@ class Operations::Products::Entities::Create
     @product_params = params.require(:product).permit(:name, :kind, :started_at, :amount, :notes, :status)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    @can_current_user_create_product = can_current_user_create_product?
-    return false unless @can_current_user_create_product
+    # @can_current_user_create_product = can_current_user_create_product?
+    # return false unless @can_current_user_create_product
     
     @product = product
     @product.attributes = @product_params
@@ -21,7 +21,11 @@ class Operations::Products::Entities::Create
   end
 
   def product
-    @product ||= ::Operations::Products::EntityRepository.build(@account_params[:account_id])
+    if @account_params[:account_id].present?
+      return ::Operations::Products::Config::EntityRepository.build(@account_params)
+    elsif @company_params[:company_id].present?
+      return ::Operations::Products::Config::EntityRepository.build(@company_params)
+    end
   end
   
   def account
@@ -32,11 +36,19 @@ class Operations::Products::Entities::Create
     end
   end
 
+  def company
+    if @company_params[:token].present?
+      ::Users::Companies::EntityRepository.find_by_token(@company_params[:token])
+    elsif @company_params[:company_id].present?
+      ::Users::Companies::EntityRepository.find_by_id(@company_params[:company_id])
+    end
+  end
+
   def save
-    return false unless @can_current_user_create_product
+    # return false unless @can_current_user_create_product
     ActiveRecord::Base.transaction do
       if @valid 
-        # @product.save
+        @product.save
         @data = true
         @status = true
         @type = true
@@ -54,9 +66,9 @@ class Operations::Products::Entities::Create
   end
   
   def data
-    return cln = [] unless @can_current_user_create_product
+    # return cln = [] unless @can_current_user_create_product
     if @data
-      cln = ::Operations::Products::EntityRepository.read(@product)
+      cln = ::Operations::Products::Config::EntityRepository.read(@product)
     else
       cln = []
     end
@@ -65,7 +77,7 @@ class Operations::Products::Entities::Create
   end
 
   def status
-    return :forbidden unless @can_current_user_create_product
+    # return :forbidden unless @can_current_user_create_product
     if @valid
       return :created
     else
@@ -74,7 +86,7 @@ class Operations::Products::Entities::Create
   end
 
   def message
-    return message = "A ação não é permitida" unless @can_current_user_create_product
+    # return message = "A ação não é permitida" unless @can_current_user_create_product
     if @valid
       message = "Produto criado com sucesso!"
       return message
@@ -90,7 +102,7 @@ class Operations::Products::Entities::Create
   end
 
   def type
-    return "danger" unless @can_current_user_create_product
+    # return "danger" unless @can_current_user_create_product
     if @valid
       return "success"
     else

@@ -1,7 +1,7 @@
 class User::Company::Entity < ApplicationRecord
   include CnpjValidates
   extend FriendlyId
-  friendly_id :cnpj, use: :slugged
+  friendly_id :token, use: :slugged
 
   self.table_name = "user_company_entities"
 
@@ -35,6 +35,14 @@ class User::Company::Entity < ApplicationRecord
 
   def cnpj_pretty
     ::CompanyDecorator.new(self).cnpj_pretty
+  end
+
+  def should_generate_new_friendly_id?
+    self.token_changed?
+  end
+
+  def normalize_friendly_id(value)
+    value.to_s.parameterize(preserve_case: true)
   end
    
 end

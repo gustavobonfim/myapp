@@ -418,6 +418,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_225632) do
     t.string "kind", array: true
     t.string "subkind", array: true
     t.string "slug"
+    t.string "token"
     t.date "opened_at"
     t.text "notes"
     t.index ["active"], name: "index_user_company_entities_on_active"
@@ -426,6 +427,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_225632) do
     t.index ["name"], name: "index_user_company_entities_on_name"
     t.index ["slug"], name: "index_user_company_entities_on_slug", unique: true
     t.index ["subkind"], name: "index_user_company_entities_on_subkind"
+    t.index ["token"], name: "index_user_company_entities_on_token", unique: true
   end
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"

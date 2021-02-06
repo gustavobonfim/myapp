@@ -20,7 +20,7 @@ class Operation::Product::Entity < ApplicationRecord
   validates :uniq_product, uniqueness: { case_sensitive: false, message: "A Conta Produto já existe. " }
 
   # Enums
-  enum name: { medpj: 0, medpf: 1, medfat: 2, medseg: 3, medfin: 4, medreturn: 5, medbooking: 6, medfiling: 7 }, _prefix: :_
+  enum name: { medclinic: 0, medpf: 1, medfat: 2, medseg: 3, medfin: 4, medreturn: 5, medbooking: 6, medfiling: 7 }, _prefix: :_
   enum kind: { receivement: 0, practice: 1 }, _prefix: :_
   enum status: { going: 0, onboard: 1, renewal: 2, blocked: 3, cancel: 4 }, _prefix: :_
 

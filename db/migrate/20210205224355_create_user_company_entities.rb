@@ -9,6 +9,7 @@ class CreateUserCompanyEntities < ActiveRecord::Migration[5.2]
       t.string :kind, array: true
       t.string :subkind, array: true
       t.string :slug
+      t.string :token
       t.date :opened_at
       t.text :notes
     end
@@ -19,5 +20,6 @@ class CreateUserCompanyEntities < ActiveRecord::Migration[5.2]
     add_index :user_company_entities, :kind
     add_index :user_company_entities, :subkind
     add_index :user_company_entities, :slug, unique: true
+    add_index :user_company_entities, :token, unique: true
   end
 end

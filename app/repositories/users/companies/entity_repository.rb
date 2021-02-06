@@ -1,7 +1,8 @@
 class Users::Companies::EntityRepository < Base
   
   def self.build(kind)
-    entity.new(kind: [kind])
+    token = set_token
+    entity.new(kind: [kind], token: token.upcase)
   end
 
   def self.all_active_by_kind(kind)
@@ -14,6 +15,10 @@ class Users::Companies::EntityRepository < Base
 
   def self.find_by_id(id)
     entity.find_by(id: id)
+  end
+
+  def self.find_by_token(token)
+    entity.where(token: token).first
   end
 
   def self.read(account)
@@ -93,6 +98,12 @@ class Users::Companies::EntityRepository < Base
   end
 
   private
+
+  def self.set_token
+    token = ::Base.generate_token
+    set_token if valid_token token
+    token
+  end
 
   def self.entity
     "User::Company::Entity".constantize
