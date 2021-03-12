@@ -53,8 +53,14 @@ gem 'font-awesome-sass', '~> 5.8.1'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
+  # RSpec for Rails-3+
+  gem 'rspec-rails', '~> 4.1.0'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # A library for generating fake data such as names, addresses, and phone numbers.
+  gem 'faker', :git => 'https://github.com/stympy/faker.git'
+  # Factory Bot ♥ Rails
+  gem 'factory_bot_rails'
 end
 
 group :development do

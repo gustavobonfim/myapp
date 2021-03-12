@@ -37,6 +37,14 @@ Rails.application.routes.draw do
         end
       end
 
+      namespace :users do
+        namespace :works do
+          namespace :trackers do
+            post "projects/create", to: "projects#create"
+          end
+        end
+      end
+
       namespace :commercial do
 
         namespace :config do
