@@ -23,6 +23,17 @@ Rails.application.routes.draw do
             post "entities/list", to: "entities#list"
             put "entities/update", to: "entities#update"
           end
+
+          namespace :clinics do
+            post "partners/create", to: "partners#create"
+            post "partners/list", to: "partners#list"
+            put "partners/update", to: "partners#update"
+
+            post "entities/create", to: "entities#create"
+            post "entities/read", to: "entities#read"
+            post "entities/list", to: "entities#list"
+            put "entities/update", to: "entities#update"
+          end
         end
       end
 

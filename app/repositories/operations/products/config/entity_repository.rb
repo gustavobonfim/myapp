@@ -57,6 +57,10 @@ class Operations::Products::Config::EntityRepository < Base
     mapper.map(product)
   end
 
+  def self.list(product)
+    mapper.map_all(product)
+  end
+
   def self.read_with_permissions(product, product_name, current_user)
     mapper.map_with_permissions(product, product_name, current_user)
   end 
