@@ -41,6 +41,9 @@ Rails.application.routes.draw do
         namespace :works do
           namespace :trackers do
             post "projects/create", to: "projects#create"
+            post "projects/list", to: "projects#list"
+            put "projects/update", to: "projects#update"
+            
           end
         end
       end

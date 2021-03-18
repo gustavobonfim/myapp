@@ -7,6 +7,10 @@ class CreateUserWorkTrackerSquads < ActiveRecord::Migration[5.2]
       t.bigint :team_id
       t.string :team_name
       t.integer :role
+      t.integer :total_tickets, default: 0
+      t.integer :total_comments, default: 0
+      t.integer :total_delays, default: 0
+      t.integer :total_in_process, default: 0
     end
 
     add_foreign_key :user_work_tracker_squads, :user_work_tracker_projects, column: :project_id

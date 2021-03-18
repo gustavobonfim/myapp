@@ -450,12 +450,15 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.string "token"
     t.string "slug"
     t.string "description"
+    t.datetime "started_at"
     t.integer "unit"
     t.integer "status"
-    t.integer "total_tickets"
-    t.integer "total_comments"
-    t.integer "total_delays"
-    t.integer "total_in_process"
+    t.integer "total_tickets", default: 0
+    t.integer "total_comments", default: 0
+    t.integer "total_delays", default: 0
+    t.integer "total_in_process", default: 0
+    t.integer "total_teams", default: 0
+    t.integer "total_stories", default: 0
     t.index ["slug"], name: "index_user_work_tracker_projects_on_slug", unique: true
     t.index ["status"], name: "index_user_work_tracker_projects_on_status"
     t.index ["token"], name: "index_user_work_tracker_projects_on_token", unique: true
@@ -483,6 +486,10 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.bigint "team_id"
     t.string "team_name"
     t.integer "role"
+    t.integer "total_tickets", default: 0
+    t.integer "total_comments", default: 0
+    t.integer "total_delays", default: 0
+    t.integer "total_in_process", default: 0
     t.index ["project_id"], name: "index_user_work_tracker_squads_on_project_id"
     t.index ["role"], name: "index_user_work_tracker_squads_on_role"
     t.index ["team_id"], name: "index_user_work_tracker_squads_on_team_id"
@@ -501,10 +508,10 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.datetime "finished_at"
     t.integer "stage"
     t.integer "status"
-    t.integer "total_tickets"
-    t.integer "total_comments"
-    t.integer "total_delays"
-    t.integer "total_in_process"
+    t.integer "total_tickets", default: 0
+    t.integer "total_comments", default: 0
+    t.integer "total_delays", default: 0
+    t.integer "total_in_process", default: 0
     t.index ["finished_at"], name: "index_user_work_tracker_stories_on_finished_at"
     t.index ["project_id"], name: "index_user_work_tracker_stories_on_project_id"
     t.index ["slug"], name: "index_user_work_tracker_stories_on_slug", unique: true

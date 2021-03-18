@@ -12,10 +12,10 @@ class CreateUserWorkTrackerStories < ActiveRecord::Migration[5.2]
       t.datetime :finished_at
       t.integer :stage
       t.integer :status
-      t.integer :total_tickets
-      t.integer :total_comments
-      t.integer :total_delays
-      t.integer :total_in_process
+      t.integer :total_tickets, default: 0
+      t.integer :total_comments, default: 0
+      t.integer :total_delays, default: 0
+      t.integer :total_in_process, default: 0
 
     end
 
