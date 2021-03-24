@@ -5,6 +5,8 @@ class User::Work::Tracker::Story < ApplicationRecord
   # attributes
   # belongs_to :account, class_name: "User::Account::Entity", foreign_key: "account_id", optional: true
   belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
+  has_many :relations, class_name: "User::Work::Tracker::Relation", foreign_key: "precedent_id", dependent: :destroy
+  has_many :dependents, class_name: "User::Work::Tracker::Relation", foreign_key: "dependent_id", dependent: :destroy
 
   # Storage
   

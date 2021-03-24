@@ -18,6 +18,10 @@ class Users::Works::Trackers::ProjectRepository < Base
     entity.where(active: true)
   end
 
+  def self.find_by_id(id)
+    entity.find_by(id: id)
+  end
+
   def self.read(project)
     mapper.map(project)
   end

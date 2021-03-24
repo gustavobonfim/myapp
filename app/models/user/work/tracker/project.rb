@@ -7,11 +7,14 @@ class User::Work::Tracker::Project < ApplicationRecord
   # Storage
   
   # Relations
+  has_many :squads, class_name: "User::Work::Tracker::Squad", foreign_key: "project_id"
+  has_many :stories, class_name: "User::Work::Tracker::Story", foreign_key: "project_id"
+  has_many :journeys, class_name: "User::Work::Tracker::Journey", foreign_key: "project_id"
   
   # Validations
 
   #Enums
-  enum unit: { develop: 0, marketing: 1 }, _prefix: :_
+  enum unit: { develop: 0, marketing: 1, financial: 2, operations: 3, people: 4 }, _prefix: :_
   enum status: { frozen: 0, in_progress: 1, canceled: 2, finished: 3 }, _prefix: :_
             
   #Callbacks
