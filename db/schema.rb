@@ -457,7 +457,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.integer "total_comments", default: 0
     t.integer "total_delays", default: 0
     t.integer "total_in_process", default: 0
-    t.integer "total_teams", default: 0
+    t.integer "total_squads", default: 0
     t.integer "total_stories", default: 0
     t.index ["slug"], name: "index_user_work_tracker_projects_on_slug", unique: true
     t.index ["status"], name: "index_user_work_tracker_projects_on_status"
@@ -516,6 +516,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.integer "total_comments", default: 0
     t.integer "total_delays", default: 0
     t.integer "total_in_process", default: 0
+    t.integer "total_relations", default: 0
     t.index ["finished_at"], name: "index_user_work_tracker_stories_on_finished_at"
     t.index ["project_id"], name: "index_user_work_tracker_stories_on_project_id"
     t.index ["slug"], name: "index_user_work_tracker_stories_on_slug", unique: true

@@ -14,6 +14,11 @@ module API
 							squad = ::Users::Works::Trackers::Squads::Update.new(params)
 							render :json => {:save => squad.save, :data => squad.data, :status => squad.status, :type => squad.type, :message => squad.message}.as_json
 						end
+
+						def destroy
+							squad = ::Users::Works::Trackers::Squads::Destroy.new(params)
+							render :json => {:save => squad.save, :data => squad.data, :status => squad.status, :type => squad.type, :message => squad.message}.as_json
+						end
 						
 						def read
 							squad = ::Users::Works::Trackers::Squads::Read.new(params)

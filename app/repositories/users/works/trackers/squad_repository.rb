@@ -18,6 +18,10 @@ class Users::Works::Trackers::SquadRepository < Base
     entity.where(active: true)
   end
 
+  def self.all_active_by_project(project_id)
+    entity.where(active: true, project_id: project_id)
+  end
+
   def self.find_by_id(id)
     entity.find_by(id: id)
   end

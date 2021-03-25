@@ -16,7 +16,4 @@ class Users::Works::Trackers::Projects::CreateSquadService
     return squad
   end
   
-  
-
-
 end

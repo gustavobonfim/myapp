@@ -31,9 +31,12 @@ end
 # t.string "token"
 # t.string "slug"
 # t.string "description"
+# t.datetime "started_at"
 # t.integer "unit"
 # t.integer "status"
-# t.integer "total_tickets"
-# t.integer "total_comments"
-# t.integer "total_delays"
-# t.integer "total_in_process"
+# t.integer "total_tickets", default: 0
+# t.integer "total_comments", default: 0
+# t.integer "total_delays", default: 0
+# t.integer "total_in_process", default: 0
+# t.integer "total_squads", default: 0
+# t.integer "total_stories", default: 0
