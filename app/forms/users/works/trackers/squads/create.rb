@@ -8,7 +8,6 @@ class Users::Works::Trackers::Squads::Create
     # return false unless @can_current_user_create_squad
 
     @squad = squad
-
     @valid = @squad.valid?
   end
 

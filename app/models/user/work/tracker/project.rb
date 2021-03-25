@@ -19,9 +19,7 @@ class User::Work::Tracker::Project < ApplicationRecord
             
   #Callbacks
   
-  
 end
-
 
 # create_table "user_work_tracker_projects", force: :cascade do |t|
 # t.datetime "created_at", null: false

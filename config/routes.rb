@@ -50,6 +50,11 @@ Rails.application.routes.draw do
             post "squads/list", to: "squads#list"
             put "squads/update", to: "squads#update"
             delete "squads/destroy", to: "squads#destroy"
+
+            post "stories/create", to: "stories#create"
+            post "stories/list", to: "stories#list"
+            put "stories/update", to: "stories#update"
+            delete "stories/destroy", to: "stories#destroy"
             
           end
         end
