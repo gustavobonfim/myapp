@@ -23,7 +23,7 @@ class Users::Works::Trackers::ProjectRepository < Base
   end
 
   def self.read(project)
-    mapper.map(project)
+    mapper.map_show(project)
   end
   
   def self.list(projects)

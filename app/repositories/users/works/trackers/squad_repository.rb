@@ -41,7 +41,7 @@ class Users::Works::Trackers::SquadRepository < Base
     "Users::Works::Trackers::SquadMapper".constantize
   end
 
-  ENUM_UNIT = {
+  ENUM_ROLE = {
                 "owner" => "Proprietário",
                 "editor" => "Editor",
                 "viewer" => "Visitante",
