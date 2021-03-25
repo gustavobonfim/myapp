@@ -472,10 +472,12 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.bigint "precedent_id"
     t.bigint "dependent_id"
     t.string "name"
+    t.string "token"
     t.boolean "status", default: false
     t.index ["dependent_id"], name: "index_user_work_tracker_relations_on_dependent_id"
     t.index ["precedent_id"], name: "index_user_work_tracker_relations_on_precedent_id"
     t.index ["status"], name: "index_user_work_tracker_relations_on_status"
+    t.index ["token"], name: "index_user_work_tracker_relations_on_token", unique: true
   end
 
   create_table "user_work_tracker_squads", force: :cascade do |t|
@@ -485,6 +487,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.bigint "project_id"
     t.bigint "team_id"
     t.string "team_name"
+    t.string "token"
     t.integer "role"
     t.integer "total_tickets", default: 0
     t.integer "total_comments", default: 0
@@ -493,6 +496,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.index ["project_id"], name: "index_user_work_tracker_squads_on_project_id"
     t.index ["role"], name: "index_user_work_tracker_squads_on_role"
     t.index ["team_id"], name: "index_user_work_tracker_squads_on_team_id"
+    t.index ["token"], name: "index_user_work_tracker_squads_on_token", unique: true
   end
 
   create_table "user_work_tracker_stories", force: :cascade do |t|

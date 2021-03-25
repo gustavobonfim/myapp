@@ -2,6 +2,7 @@ class Users::Works::Trackers::Projects::Create
 
   def initialize(params)
     @project_params = params.require(:project).permit(:name, :description, :unit, :status, :started_at)
+    @squad_params = params.require(:squad).permit(:team_name, :team_id, :role)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_project = can_current_user_create_project?
@@ -26,6 +27,9 @@ class Users::Works::Trackers::Projects::Create
         @process = true
         @type = true
         @message = true
+
+        @squad_params = @squad_params.merge({ "project_id" => @project.id })
+        ::Users::Works::Trackers::Projects::CreateSquadService.new(@squad_params).create_squad
 
         true
       else

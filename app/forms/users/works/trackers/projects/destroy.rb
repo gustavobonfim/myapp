@@ -1,7 +1,7 @@
-class Users::Works::Trackers::Projects::Update
+class Users::Works::Trackers::Projects::Destroy
 
   def initialize(params)
-    @project_params = params.require(:project).permit(:id, :name, :description, :unit, :status, :started_at)
+    @project_params = params.require(:project).permit(:id, :active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_update_project = can_current_user_update_project?
@@ -28,6 +28,7 @@ class Users::Works::Trackers::Projects::Update
         @message = true
 
         ::Users::Works::Trackers::Projects::DependentsDestroyService.new(@project).destroy
+        @project.destroy
 
         true
       else

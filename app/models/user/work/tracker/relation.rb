@@ -12,11 +12,17 @@ class User::Work::Tracker::Relation < ApplicationRecord
   # Relations
   
   # Validations
-
+  validates :token, uniqueness: { case_sensitive: false, message: "A relação já existe " }
 
   #Enums
+  enum role: { editor: 0, viewer: 1 }, _prefix: :_
             
   #Callbacks
+  before_validation :set_token
+  
+  def set_token
+    self.token = "relation:#{self.precedent_id}:#{self.dependent_id}"
+  end
   
   
 end
@@ -29,4 +35,5 @@ end
 # t.bigint "precedent_id"
 # t.bigint "dependent_id"
 # t.string "name"
+# t.integer "token"
 # t.boolean "status", default: false

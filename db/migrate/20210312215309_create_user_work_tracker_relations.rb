@@ -6,6 +6,7 @@ class CreateUserWorkTrackerRelations < ActiveRecord::Migration[5.2]
       t.bigint :precedent_id
       t.bigint :dependent_id
       t.string :name
+      t.string :token
       t.boolean :status, default: false
     end
 
@@ -14,5 +15,6 @@ class CreateUserWorkTrackerRelations < ActiveRecord::Migration[5.2]
     add_index :user_work_tracker_relations, :precedent_id
     add_index :user_work_tracker_relations, :dependent_id
     add_index :user_work_tracker_relations, :status
+    add_index :user_work_tracker_relations, :token, unique: true
   end
 end

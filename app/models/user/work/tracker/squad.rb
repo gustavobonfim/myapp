@@ -11,12 +11,18 @@ class User::Work::Tracker::Squad < ApplicationRecord
   # Relations
   
   # Validations
+  validates :token, uniqueness: { case_sensitive: false, message: "O parceiro já faz parte desse Projeto! " }
 
 
   #Enums
-  enum role: { editor: 0, viewer: 1 }, _prefix: :_
+  enum role: { owner: 0, editor: 1, viewer: 2 }, _prefix: :_
             
   #Callbacks
+  before_validation :set_token
+  
+  def set_token
+    self.token = "squad:#{self.project_id}:#{self.team_id}"
+  end
   
   
 end
@@ -29,4 +35,9 @@ end
 # t.bigint "project_id"
 # t.bigint "team_id"
 # t.string "team_name"
+# t.string "token"
 # t.integer "role"
+# t.integer "total_tickets", default: 0
+# t.integer "total_comments", default: 0
+# t.integer "total_delays", default: 0
+# t.integer "total_in_process", default: 0
