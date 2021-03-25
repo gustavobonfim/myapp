@@ -73,7 +73,7 @@ class Users::Works::Trackers::Stories::Destroy
   def message
     # return message = "A ação não é permitida" unless @can_current_user_delete_story
     if @message
-      message = "Time atualizado com sucesso!"
+      message = "Entregável apagado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

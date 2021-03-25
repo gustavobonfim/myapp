@@ -30,6 +30,11 @@ module API
 							render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json
 						end
 
+						def list_names
+							list = ::Users::Works::Trackers::Stories::ListNames.new(params)
+							render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json
+						end
+
 					end
 				end
 			end

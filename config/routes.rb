@@ -53,8 +53,12 @@ Rails.application.routes.draw do
 
             post "stories/create", to: "stories#create"
             post "stories/list", to: "stories#list"
+            post "stories/list_names", to: "stories#list_names"
             put "stories/update", to: "stories#update"
             delete "stories/destroy", to: "stories#destroy"
+
+            post "relations/create", to: "relations#create"
+            delete "relations/destroy", to: "relations#destroy"
             
           end
         end

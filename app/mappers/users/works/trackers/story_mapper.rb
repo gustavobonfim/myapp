@@ -14,5 +14,18 @@ class Users::Works::Trackers::StoryMapper < BaseMapper
 
     return obj
   end
+
+  def self.map_names(model)
+    obj = {}
+
+    obj = obj.merge({ "story_id" => model.id })
+    obj = obj.merge({ "story_name" => "#{model.project.name} | #{model.name}" })
+
+    return obj
+  end
+  
+  def self.map_all_names(obj_collection)
+    obj_collection.map{ |obj| map_names(obj) }
+  end
   
 end

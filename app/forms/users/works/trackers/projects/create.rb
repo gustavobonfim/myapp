@@ -75,7 +75,7 @@ class Users::Works::Trackers::Projects::Create
   def message
     # return message = "A ação não é permitida" unless @can_current_user_create_project
     if @message
-      message = "Estágio  atualizado com sucesso!"
+      message = "Projeto atualizado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

@@ -1,7 +1,7 @@
 class Users::Works::Trackers::Projects::List
 
   def initialize(params)
-    @project_params = params.require(:project).permit(:active, :opportunity_id)
+    @project_params = params.require(:project).permit(:active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_list_project = can_current_user_list_project?

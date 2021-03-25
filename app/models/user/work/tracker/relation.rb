@@ -35,5 +35,5 @@ end
 # t.bigint "precedent_id"
 # t.bigint "dependent_id"
 # t.string "name"
-# t.integer "token"
+# t.string "token"
 # t.boolean "status", default: false

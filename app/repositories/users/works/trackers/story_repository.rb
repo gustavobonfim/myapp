@@ -33,7 +33,10 @@ class Users::Works::Trackers::StoryRepository < Base
   def self.list(stories)
     mapper.map_all(stories)
   end
-  
+
+  def self.list_names(stories)
+    mapper.map_all_names(stories)
+  end
 
   private
 

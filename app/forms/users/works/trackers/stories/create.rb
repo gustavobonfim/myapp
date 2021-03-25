@@ -72,7 +72,7 @@ class Users::Works::Trackers::Stories::Create
   def message
     # return message = "A ação não é permitida" unless @can_current_user_create_story
     if @message
-      message = "Time atualizado com sucesso!"
+      message = "Entregável criado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

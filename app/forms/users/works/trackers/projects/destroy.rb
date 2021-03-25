@@ -74,7 +74,7 @@ class Users::Works::Trackers::Projects::Destroy
   def message
     # return message = "A ação não é permitida" unless @can_current_user_update_project
     if @message
-      message = "Estágio  atualizado com sucesso!"
+      message = "Projeto apagado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"
