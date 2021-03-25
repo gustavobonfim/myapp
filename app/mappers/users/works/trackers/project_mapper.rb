@@ -13,7 +13,11 @@ class Users::Works::Trackers::ProjectMapper < BaseMapper
   def self.map_show(model)
     obj = map(model)
 
-    obj = obj.merge({ "squads" => ::Users::Works::Trackers::SquadRepository.list(model.squads) })
+    squads = ::Users::Works::Trackers::SquadRepository.all_active_by_project(model.id)
+    stories = ::Users::Works::Trackers::StoryRepository.all_active_by_project(model.id)
+
+    obj = obj.merge({ "squads" => ::Users::Works::Trackers::SquadRepository.list(squads) })
+    obj = obj.merge({ "stories" => ::Users::Works::Trackers::StoryRepository.list(stories) })
 
     return obj
   end
