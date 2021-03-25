@@ -44,6 +44,11 @@ Rails.application.routes.draw do
             post "projects/list", to: "projects#list"
             put "projects/update", to: "projects#update"
             delete "projects/destroy", to: "projects#destroy"
+
+            post "squads/create", to: "squads#create"
+            post "squads/list", to: "squads#list"
+            put "squads/update", to: "squads#update"
+            delete "squads/destroy", to: "squads#destroy"
             
           end
         end

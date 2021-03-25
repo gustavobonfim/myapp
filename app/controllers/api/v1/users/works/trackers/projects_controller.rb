@@ -14,6 +14,11 @@ module API
 							project = ::Users::Works::Trackers::Projects::Update.new(params)
 							render :json => {:save => project.save, :data => project.data, :status => project.status, :type => project.type, :message => project.message}.as_json
 						end
+
+						def destroy
+							project = ::Users::Works::Trackers::Projects::Destroy.new(params)
+							render :json => {:save => project.save, :data => project.data, :status => project.status, :type => project.type, :message => project.message}.as_json
+						end
 						
 						def read
 							project = ::Users::Works::Trackers::Projects::Read.new(params)
