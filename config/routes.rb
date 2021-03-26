@@ -59,6 +59,11 @@ Rails.application.routes.draw do
 
             post "relations/create", to: "relations#create"
             delete "relations/destroy", to: "relations#destroy"
+
+            post "tickets/create", to: "tickets#create"
+            post "tickets/list", to: "tickets#list"
+            put "tickets/update", to: "tickets#update"
+            delete "tickets/destroy", to: "tickets#destroy"
             
           end
         end

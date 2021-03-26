@@ -13,9 +13,11 @@ class CreateUserWorkTrackerStories < ActiveRecord::Migration[5.2]
       t.integer :stage
       t.integer :status
       t.integer :total_tickets, default: 0
-      t.integer :total_comments, default: 0
+      t.integer :total_resolved, default: 0
+      t.integer :total_canceled, default: 0
       t.integer :total_delays, default: 0
       t.integer :total_in_process, default: 0
+      t.integer :total_comments, default: 0
       t.integer :total_dependents, default: 0
       t.integer :total_precedents, default: 0
 

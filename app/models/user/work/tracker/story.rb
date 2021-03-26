@@ -18,7 +18,6 @@ class User::Work::Tracker::Story < ApplicationRecord
   # Validations
   validates :token, uniqueness: { case_sensitive: false, message: "O Entregável já existe " }
 
-
   #Enums
   enum status: { in_process: 0, frozen: 1 }, _prefix: :_
   enum stage: { icebox: 0, backlog: 1, current: 2, done: 3 }, _prefix: :_
@@ -31,7 +30,6 @@ class User::Work::Tracker::Story < ApplicationRecord
   end
   
 end
-
 
 # create_table "user_work_tracker_stories", force: :cascade do |t|
 # t.datetime "created_at", null: false

@@ -13,7 +13,6 @@ class User::Work::Tracker::Squad < ApplicationRecord
   # Validations
   validates :token, uniqueness: { case_sensitive: false, message: "O parceiro já faz parte desse Projeto! " }
 
-
   #Enums
   enum role: { owner: 0, editor: 1, viewer: 2 }, _prefix: :_
             
@@ -26,7 +25,6 @@ class User::Work::Tracker::Squad < ApplicationRecord
   
   
 end
-
 
 # create_table "user_work_tracker_squads", force: :cascade do |t|
 # t.datetime "created_at", null: false

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_12_215703) do
+ActiveRecord::Schema.define(version: 2021_03_26_010042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -430,6 +430,52 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.index ["token"], name: "index_user_company_entities_on_token", unique: true
   end
 
+  create_table "user_work_activity_tickets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "board_id"
+    t.string "board_type"
+    t.string "board_name"
+    t.bigint "date_id"
+    t.string "date_type"
+    t.bigint "owner_id"
+    t.string "owner_name"
+    t.bigint "performer_id"
+    t.string "performer_name"
+    t.string "body"
+    t.date "started_at"
+    t.date "due_at"
+    t.datetime "finished_at"
+    t.integer "duration"
+    t.integer "stage"
+    t.integer "status"
+    t.integer "flag"
+    t.integer "term"
+    t.integer "sharing"
+    t.integer "priority"
+    t.integer "span"
+    t.integer "kind"
+    t.index ["active"], name: "index_user_work_activity_tickets_on_active"
+    t.index ["board_id"], name: "index_user_work_activity_tickets_on_board_id"
+    t.index ["board_type"], name: "index_user_work_activity_tickets_on_board_type"
+    t.index ["date_id"], name: "index_user_work_activity_tickets_on_date_id"
+    t.index ["date_type"], name: "index_user_work_activity_tickets_on_date_type"
+    t.index ["due_at"], name: "index_user_work_activity_tickets_on_due_at"
+    t.index ["duration"], name: "index_user_work_activity_tickets_on_duration"
+    t.index ["flag"], name: "index_user_work_activity_tickets_on_flag"
+    t.index ["kind"], name: "index_user_work_activity_tickets_on_kind"
+    t.index ["owner_id"], name: "index_user_work_activity_tickets_on_owner_id"
+    t.index ["performer_id"], name: "index_user_work_activity_tickets_on_performer_id"
+    t.index ["priority"], name: "index_user_work_activity_tickets_on_priority"
+    t.index ["sharing"], name: "index_user_work_activity_tickets_on_sharing"
+    t.index ["span"], name: "index_user_work_activity_tickets_on_span"
+    t.index ["stage"], name: "index_user_work_activity_tickets_on_stage"
+    t.index ["started_at"], name: "index_user_work_activity_tickets_on_started_at"
+    t.index ["status"], name: "index_user_work_activity_tickets_on_status"
+    t.index ["term"], name: "index_user_work_activity_tickets_on_term"
+  end
+
   create_table "user_work_tracker_journeys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -454,9 +500,11 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.integer "unit"
     t.integer "status"
     t.integer "total_tickets", default: 0
-    t.integer "total_comments", default: 0
+    t.integer "total_resolved", default: 0
+    t.integer "total_canceled", default: 0
     t.integer "total_delays", default: 0
     t.integer "total_in_process", default: 0
+    t.integer "total_comments", default: 0
     t.integer "total_squads", default: 0
     t.integer "total_stories", default: 0
     t.index ["slug"], name: "index_user_work_tracker_projects_on_slug", unique: true
@@ -517,9 +565,11 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.integer "stage"
     t.integer "status"
     t.integer "total_tickets", default: 0
-    t.integer "total_comments", default: 0
+    t.integer "total_resolved", default: 0
+    t.integer "total_canceled", default: 0
     t.integer "total_delays", default: 0
     t.integer "total_in_process", default: 0
+    t.integer "total_comments", default: 0
     t.integer "total_dependents", default: 0
     t.integer "total_precedents", default: 0
     t.index ["finished_at"], name: "index_user_work_tracker_stories_on_finished_at"
@@ -529,6 +579,17 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.index ["started_at"], name: "index_user_work_tracker_stories_on_started_at"
     t.index ["status"], name: "index_user_work_tracker_stories_on_status"
     t.index ["token"], name: "index_user_work_tracker_stories_on_token", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "account_id"
+    t.string "name"
+    t.string "cpf"
+    t.index ["active"], name: "index_users_on_active"
+    t.index ["cpf"], name: "index_users_on_cpf"
   end
 
   add_foreign_key "commercial_calculations", "commercial_dates", column: "date_id"
@@ -545,10 +606,13 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "user_account_entities", column: "account_id"
   add_foreign_key "product_entities", "user_company_entities", column: "company_id"
+  add_foreign_key "user_work_activity_tickets", "user_account_entities", column: "owner_id"
+  add_foreign_key "user_work_activity_tickets", "user_account_entities", column: "performer_id"
   add_foreign_key "user_work_tracker_journeys", "user_work_tracker_projects", column: "project_id"
   add_foreign_key "user_work_tracker_relations", "user_work_tracker_stories", column: "dependent_id"
   add_foreign_key "user_work_tracker_relations", "user_work_tracker_stories", column: "precedent_id"
   add_foreign_key "user_work_tracker_squads", "user_account_entities", column: "team_id"
   add_foreign_key "user_work_tracker_squads", "user_work_tracker_projects", column: "project_id"
   add_foreign_key "user_work_tracker_stories", "user_work_tracker_projects", column: "project_id"
+  add_foreign_key "users", "user_account_entities", column: "account_id"
 end
