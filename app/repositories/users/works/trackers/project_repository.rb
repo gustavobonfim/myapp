@@ -3,6 +3,7 @@ class Users::Works::Trackers::ProjectRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
+    obj.token = set_token("token").upcase
     
     return obj
   end
@@ -30,8 +31,13 @@ class Users::Works::Trackers::ProjectRepository < Base
     mapper.map_all(projects)
   end
   
-
   private
+
+  def self.set_token(field)
+    token = Base.generate_token
+    set_token if valid_field(field, token)
+    token
+  end
 
   def self.entity
     "User::Work::Tracker::Project".constantize

@@ -1,4 +1,6 @@
 class User::Work::Tracker::Project < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   
   self.table_name = "user_work_tracker_projects"
 

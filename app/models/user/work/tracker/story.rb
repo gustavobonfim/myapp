@@ -1,18 +1,22 @@
 class User::Work::Tracker::Story < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   
   self.table_name = "user_work_tracker_stories"
 
   # attributes
-  # belongs_to :account, class_name: "User::Account::Entity", foreign_key: "account_id", optional: true
-  belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
-  has_many :precedents, class_name: "User::Work::Tracker::Relation", foreign_key: "precedent_id", dependent: :destroy
-  has_many :dependents, class_name: "User::Work::Tracker::Relation", foreign_key: "dependent_id", dependent: :destroy
 
   # Storage
   
   # Relations
+  belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
+  has_many :relation_precedents, class_name: "User::Work::Tracker::Relation", foreign_key: "precedent_id", dependent: :destroy
+  has_many :relation_dependents, class_name: "User::Work::Tracker::Relation", foreign_key: "dependent_id", dependent: :destroy
+  has_many :precedents, through: :relation_precedents
+  has_many :dependents, through: :relation_dependents
   
   # Validations
+  validates :token, uniqueness: { case_sensitive: false, message: "O Entregável já existe " }
 
 
   #Enums
@@ -20,7 +24,11 @@ class User::Work::Tracker::Story < ApplicationRecord
   enum stage: { icebox: 0, backlog: 1, current: 2, done: 3 }, _prefix: :_
             
   #Callbacks
+  before_validation :set_token
   
+  def set_token
+    self.token = "story:#{self.project_id}:#{self.name}"
+  end
   
 end
 

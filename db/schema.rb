@@ -469,13 +469,17 @@ ActiveRecord::Schema.define(version: 2021_03_12_215703) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
-    t.bigint "precedent_id"
     t.bigint "dependent_id"
+    t.bigint "precedent_id"
     t.string "name"
+    t.string "dependent_slug"
+    t.string "precedent_slug"
     t.string "token"
     t.boolean "status", default: false
     t.index ["dependent_id"], name: "index_user_work_tracker_relations_on_dependent_id"
+    t.index ["dependent_slug"], name: "index_user_work_tracker_relations_on_dependent_slug"
     t.index ["precedent_id"], name: "index_user_work_tracker_relations_on_precedent_id"
+    t.index ["precedent_slug"], name: "index_user_work_tracker_relations_on_precedent_slug"
     t.index ["status"], name: "index_user_work_tracker_relations_on_status"
     t.index ["token"], name: "index_user_work_tracker_relations_on_token", unique: true
   end

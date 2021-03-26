@@ -19,7 +19,7 @@ class Users::Works::Trackers::StoryRepository < Base
   end
 
   def self.all_active_by_project(project_id)
-    entity.where(active: true, project_id: project_id)
+    entity.where(active: true, project_id: project_id).includes(:precedents, :dependents)
   end
 
   def self.find_by_id(id)

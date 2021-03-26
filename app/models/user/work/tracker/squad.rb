@@ -3,12 +3,12 @@ class User::Work::Tracker::Squad < ApplicationRecord
   self.table_name = "user_work_tracker_squads"
 
   # attributes
-  belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
-  belongs_to :team, class_name: "User::Account::Entity", foreign_key: "team_id"
 
   # Storage
   
   # Relations
+  belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
+  belongs_to :team, class_name: "User::Account::Entity", foreign_key: "team_id"
   
   # Validations
   validates :token, uniqueness: { case_sensitive: false, message: "O parceiro já faz parte desse Projeto! " }

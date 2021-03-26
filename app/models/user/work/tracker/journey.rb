@@ -3,12 +3,11 @@ class User::Work::Tracker::Journey < ApplicationRecord
   self.table_name = "user_work_tracker_journeys"
 
   # attributes
-  # belongs_to :account, class_name: "User::Account::Entity", foreign_key: "account_id", optional: true
-  belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
 
   # Storage
   
   # Relations
+  belongs_to :project, class_name: "User::Work::Tracker::Project", foreign_key: "project_id"
   
   # Validations
 

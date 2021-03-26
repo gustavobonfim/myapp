@@ -1,7 +1,7 @@
 class Users::Works::Trackers::Relations::Create
 
   def initialize(params)
-    @relation_params = params.require(:relation).permit(:dependent_id, :precedent_id, :name)
+    @relation_params = params.require(:relation).permit(:dependent_id, :precedent_id, :name, :dependent_slug, :precedent_slug)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_relation = can_current_user_create_relation?
