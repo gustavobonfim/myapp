@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_26_010042) do
+ActiveRecord::Schema.define(version: 2021_04_02_155134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -318,6 +318,159 @@ ActiveRecord::Schema.define(version: 2021_03_26_010042) do
     t.index ["status"], name: "index_commercial_sales_opportunities_tickets_on_status"
   end
 
+  create_table "financial_config_dates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "open", default: true, null: false
+    t.integer "month"
+    t.integer "year"
+    t.string "token"
+    t.index ["active"], name: "index_financial_config_dates_on_active"
+    t.index ["month"], name: "index_financial_config_dates_on_month"
+    t.index ["open"], name: "index_financial_config_dates_on_open"
+    t.index ["token"], name: "index_financial_config_dates_on_token", unique: true
+    t.index ["year"], name: "index_financial_config_dates_on_year"
+  end
+
+  create_table "financial_payable_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "chart_id"
+    t.bigint "med_id"
+    t.bigint "form_id"
+    t.bigint "provider_id"
+    t.string "provider_name"
+    t.datetime "due_date"
+    t.datetime "accrual_date"
+    t.decimal "amount", precision: 15, scale: 2
+    t.string "description"
+    t.string "chart_account"
+    t.string "chart_name"
+    t.string "method"
+    t.string "form_name"
+    t.string "bank_line"
+    t.boolean "paid", default: false
+    t.boolean "recurring", default: false
+    t.boolean "splited", default: false
+    t.integer "split"
+    t.integer "installment"
+    t.string "token"
+    t.index ["accrual_date"], name: "index_financial_payable_entities_on_accrual_date"
+    t.index ["active"], name: "index_financial_payable_entities_on_active"
+    t.index ["chart_id"], name: "index_financial_payable_entities_on_chart_id"
+    t.index ["date_id"], name: "index_financial_payable_entities_on_date_id"
+    t.index ["due_date"], name: "index_financial_payable_entities_on_due_date"
+    t.index ["form_id"], name: "index_financial_payable_entities_on_form_id"
+    t.index ["med_id"], name: "index_financial_payable_entities_on_med_id"
+    t.index ["method"], name: "index_financial_payable_entities_on_method"
+    t.index ["paid"], name: "index_financial_payable_entities_on_paid"
+    t.index ["provider_id"], name: "index_financial_payable_entities_on_provider_id"
+    t.index ["recurring"], name: "index_financial_payable_entities_on_recurring"
+    t.index ["splited"], name: "index_financial_payable_entities_on_splited"
+    t.index ["token"], name: "index_financial_payable_entities_on_token"
+  end
+
+  create_table "financial_payable_providers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "name"
+    t.string "id_number"
+    t.integer "id_type"
+    t.bigint "record_id"
+    t.string "record_type"
+    t.index ["active"], name: "index_financial_payable_providers_on_active"
+    t.index ["id_number"], name: "index_financial_payable_providers_on_id_number"
+    t.index ["id_type"], name: "index_financial_payable_providers_on_id_type"
+    t.index ["record_id"], name: "index_financial_payable_providers_on_record_id"
+    t.index ["record_type"], name: "index_financial_payable_providers_on_record_type"
+  end
+
+  create_table "financial_statement_chart_accounts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "code"
+    t.string "name"
+    t.string "master_name"
+    t.string "group"
+    t.string "master_group"
+    t.string "master"
+    t.string "chart_name"
+    t.string "chart_account"
+    t.string "accounting"
+    t.string "token"
+    t.decimal "deductibility", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_financial_statement_chart_accounts_on_active"
+    t.index ["chart_name"], name: "index_financial_statement_chart_accounts_on_chart_name"
+    t.index ["token"], name: "index_financial_statement_chart_accounts_on_token"
+  end
+
+  create_table "financial_statement_forms", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "chart_id"
+    t.string "name"
+    t.integer "kind"
+    t.index ["active"], name: "index_financial_statement_forms_on_active"
+    t.index ["kind"], name: "index_financial_statement_forms_on_kind"
+  end
+
+  create_table "financial_statement_transactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "chart_id"
+    t.bigint "med_id"
+    t.bigint "party_id"
+    t.string "party_type"
+    t.bigint "form_id"
+    t.bigint "from_id"
+    t.bigint "to_id"
+    t.integer "from_master_name"
+    t.integer "from_group"
+    t.integer "from_master_group"
+    t.integer "from_master"
+    t.integer "to_master_name"
+    t.integer "to_group"
+    t.integer "to_master_group"
+    t.integer "to_master"
+    t.decimal "amount", precision: 15, scale: 2
+    t.decimal "from_amount", precision: 15, scale: 2
+    t.decimal "to_amount", precision: 15, scale: 2
+    t.datetime "date"
+    t.string "description"
+    t.integer "method"
+    t.string "form_name"
+    t.boolean "recurring", default: false
+    t.integer "installment"
+    t.string "token_tree"
+    t.index ["active"], name: "index_financial_statement_transactions_on_active"
+    t.index ["date_id"], name: "index_financial_statement_transactions_on_date_id"
+    t.index ["form_id"], name: "index_financial_statement_transactions_on_form_id"
+    t.index ["from_group"], name: "index_financial_statement_transactions_on_from_group"
+    t.index ["from_id"], name: "index_financial_statement_transactions_on_from_id"
+    t.index ["from_master"], name: "index_financial_statement_transactions_on_from_master"
+    t.index ["from_master_group"], name: "index_financial_statement_transactions_on_from_master_group"
+    t.index ["from_master_name"], name: "index_financial_statement_transactions_on_from_master_name"
+    t.index ["med_id"], name: "index_financial_statement_transactions_on_med_id"
+    t.index ["method"], name: "index_financial_statement_transactions_on_method"
+    t.index ["party_id"], name: "index_financial_statement_transactions_on_party_id"
+    t.index ["party_type"], name: "index_financial_statement_transactions_on_party_type"
+    t.index ["recurring"], name: "index_financial_statement_transactions_on_recurring"
+    t.index ["to_group"], name: "index_financial_statement_transactions_on_to_group"
+    t.index ["to_id"], name: "index_financial_statement_transactions_on_to_id"
+    t.index ["to_master"], name: "index_financial_statement_transactions_on_to_master"
+    t.index ["to_master_group"], name: "index_financial_statement_transactions_on_to_master_group"
+    t.index ["to_master_name"], name: "index_financial_statement_transactions_on_to_master_name"
+    t.index ["token_tree"], name: "index_financial_statement_transactions_on_token_tree"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -603,6 +756,17 @@ ActiveRecord::Schema.define(version: 2021_03_26_010042) do
   add_foreign_key "commercial_sales_opportunities_products", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_products", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "commercial_sales_opportunities_tickets", "commercial_sales_opportunities_entities", column: "opportunity_id"
+  add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_payable_entities", "financial_payable_providers", column: "provider_id"
+  add_foreign_key "financial_payable_entities", "financial_statement_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_payable_entities", "financial_statement_forms", column: "form_id"
+  add_foreign_key "financial_payable_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_statement_forms", "financial_statement_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_statement_transactions", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_statement_transactions", "financial_statement_chart_accounts", column: "from_id"
+  add_foreign_key "financial_statement_transactions", "financial_statement_chart_accounts", column: "to_id"
+  add_foreign_key "financial_statement_transactions", "financial_statement_forms", column: "form_id"
+  add_foreign_key "financial_statement_transactions", "user_company_entities", column: "med_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "user_account_entities", column: "account_id"
   add_foreign_key "product_entities", "user_company_entities", column: "company_id"
