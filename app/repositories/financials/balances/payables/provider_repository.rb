@@ -26,12 +26,12 @@ class Financials::Balances::Payables::ProviderRepository < Base
     entity.find_by(date_id: date_id)
   end
 
-  def self.read(calculation)
-    mapper.map(calculation)
+  def self.read(provider)
+    mapper.map(provider)
   end
   
-  def self.list(calculations)
-    mapper.map_all(calculations)
+  def self.list(providers)
+    mapper.map_all(providers)
   end
   
 

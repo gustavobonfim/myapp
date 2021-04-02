@@ -47,7 +47,9 @@ Rails.application.routes.draw do
           end
 
           namespace :statements do
-            # post "providers/create", to: "providers#create"
+            post "chart_accounts/create", to: "chart_accounts#create"
+            put "chart_accounts/update", to: "chart_accounts#update"
+            post "chart_accounts/list", to: "chart_accounts#list"
 
           end
         end

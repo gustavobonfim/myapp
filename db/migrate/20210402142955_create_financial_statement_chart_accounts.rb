@@ -5,10 +5,10 @@ class CreateFinancialStatementChartAccounts < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true, null: false
       t.string :code
       t.string :name
-      t.string :master_name
-      t.string :group
-      t.string :master_group
-      t.string :master
+      t.integer :master_name
+      t.integer :group
+      t.integer :master_group
+      t.integer :master
       t.string :chart_name
       t.string :chart_account
       t.string :accounting
