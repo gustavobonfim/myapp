@@ -1,6 +1,6 @@
-class CreateFinancialStatementChartAccounts < ActiveRecord::Migration[5.2]
+class CreateFinancialSettingChartAccounts < ActiveRecord::Migration[5.2]
   def change
-    create_table :financial_statement_chart_accounts do |t|
+    create_table :financial_setting_chart_accounts do |t|
       t.timestamps
       t.boolean :active, default: true, null: false
       t.string :code
@@ -16,8 +16,8 @@ class CreateFinancialStatementChartAccounts < ActiveRecord::Migration[5.2]
       t.decimal :deductibility, default: 0, precision: 15, scale: 2
     end
 
-    add_index :financial_statement_chart_accounts, :active
-    add_index :financial_statement_chart_accounts, :chart_name
-    add_index :financial_statement_chart_accounts, :token
+    add_index :financial_setting_chart_accounts, :active
+    add_index :financial_setting_chart_accounts, :chart_name
+    add_index :financial_setting_chart_accounts, :token
   end
 end

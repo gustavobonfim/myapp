@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::Channels::Update
+class Financials::Balances::Settings::Channels::Update
 
   def initialize(params)
     @channel_params = params.require(:channel).permit(:id, :name, :kind, :med_id, :chart_id)
@@ -12,7 +12,7 @@ class Financials::Balances::Statements::Channels::Update
   end
 
   def channel
-    ::Financials::Balances::Statements::ChannelRepository.find_and_change(@channel_params)
+    ::Financials::Balances::Settings::ChannelRepository.find_and_change(@channel_params)
   end
   
   def save
@@ -42,7 +42,7 @@ class Financials::Balances::Statements::Channels::Update
   def data
     # return cln = [] unless @can_current_user_update_channel
     if @data
-      cln = ::Financials::Balances::Statements::ChannelRepository.read(@channel)
+      cln = ::Financials::Balances::Settings::ChannelRepository.read(@channel)
     else
       cln = []
     end
@@ -87,7 +87,7 @@ class Financials::Balances::Statements::Channels::Update
   private
 
   def can_current_user_update_channel?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "update", "financial_statement_channels").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "update", "financial_setting_channels").can_current_user?
   end
 
 end

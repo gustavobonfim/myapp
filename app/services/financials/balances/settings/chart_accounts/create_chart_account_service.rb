@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::ChartAccounts::CreateChartAccountService
+class Financials::Balances::Settings::ChartAccounts::CreateChartAccountService
 
   def initialize(attrs)
     @attrs = attrs
@@ -8,7 +8,7 @@ class Financials::Balances::Statements::ChartAccounts::CreateChartAccountService
   end
 
   def destroy_all_chart_accounts
-    Financial::Balance::Statement::ChartAccount.destroy_all
+    Financial::Balance::Setting::ChartAccount.destroy_all
   end
   
 
@@ -24,7 +24,7 @@ class Financials::Balances::Statements::ChartAccounts::CreateChartAccountService
   end
   
   def chart_account(attrs)
-    ::Financials::Balances::Statements::ChartAccountRepository.build(attrs)
+    ::Financials::Balances::Settings::ChartAccountRepository.build(attrs)
   end
   
 end

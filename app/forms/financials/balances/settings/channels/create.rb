@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::Channels::Create
+class Financials::Balances::Settings::Channels::Create
 
   def initialize(params)
     @channel_params = params.require(:channel).permit(:name, :kind, :med_id, :chart_id)
@@ -12,7 +12,7 @@ class Financials::Balances::Statements::Channels::Create
   end
 
   def channel
-    ::Financials::Balances::Statements::ChannelRepository.build(@channel_params)
+    ::Financials::Balances::Settings::ChannelRepository.build(@channel_params)
   end
   
   def save
@@ -42,7 +42,7 @@ class Financials::Balances::Statements::Channels::Create
   def data
     # return cln = [] unless @can_current_user_create_channel
     if @data
-      cln = ::Financials::Balances::Statements::ChannelRepository.read(@channel)
+      cln = ::Financials::Balances::Settings::ChannelRepository.read(@channel)
     else
       cln = []
     end
@@ -87,7 +87,7 @@ class Financials::Balances::Statements::Channels::Create
   private
 
   def can_current_user_create_channel?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "financial_statement_channels").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "financial_setting_channels").can_current_user?
   end
 
 end

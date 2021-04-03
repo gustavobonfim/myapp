@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::ChartAccounts::Create
+class Financials::Balances::Settings::ChartAccounts::Create
 
   def initialize(params)
     @chart_account_params = params.require(:chart_account).permit(:name, :code, :master_name, :group, :master_group, :master, :accounting, :deductibility)
@@ -13,7 +13,7 @@ class Financials::Balances::Statements::ChartAccounts::Create
   end
 
   def chart_account
-    ::Financials::Balances::Statements::ChartAccountRepository.build(@chart_account_params)
+    ::Financials::Balances::Settings::ChartAccountRepository.build(@chart_account_params)
   end
   
   def save
@@ -43,7 +43,7 @@ class Financials::Balances::Statements::ChartAccounts::Create
   def data
     # return cln = [] unless @can_current_user_create_chart_account
     if @data
-      cln = ::Financials::Balances::Statements::ChartAccountRepository.read(@chart_account)
+      cln = ::Financials::Balances::Settings::ChartAccountRepository.read(@chart_account)
     else
       cln = []
     end
@@ -88,7 +88,7 @@ class Financials::Balances::Statements::ChartAccounts::Create
   private
 
   def can_current_user_create_chart_account?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "financial_statement_chart_accounts").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "financial_setting_chart_accounts").can_current_user?
   end
 
   def prepare_code

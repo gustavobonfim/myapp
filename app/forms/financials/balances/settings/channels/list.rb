@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::Channels::List
+class Financials::Balances::Settings::Channels::List
 
   def initialize(params)
     @channel_params = params.require(:channel).permit(:active)
@@ -11,7 +11,7 @@ class Financials::Balances::Statements::Channels::List
   end
 
   def channels
-    ::Financials::Balances::Statements::ChannelRepository.all_active
+    ::Financials::Balances::Settings::ChannelRepository.all_active
   end
 
   def status
@@ -36,7 +36,7 @@ class Financials::Balances::Statements::Channels::List
 
   def data
     # return cln = [] unless @can_current_user_list_channel
-    cln = ::Financials::Balances::Statements::ChannelRepository.list(@channels)
+    cln = ::Financials::Balances::Settings::ChannelRepository.list(@channels)
 
     if cln.empty?
       @status = :ok
@@ -56,7 +56,7 @@ class Financials::Balances::Statements::Channels::List
   private
 
   def can_current_user_list_channel?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_statement_channels").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_setting_channels").can_current_user?
   end
 
 end

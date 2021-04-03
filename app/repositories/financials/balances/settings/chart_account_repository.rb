@@ -1,11 +1,11 @@
-class Financials::Balances::Statements::ChartAccountRepository < Base
+class Financials::Balances::Settings::ChartAccountRepository < Base
 
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
     obj.token = "#{NUM_MASTER[attrs["master"]]}.#{NUM_MASTER_GROUP[attrs["master_group"]]}.#{NUM_GROUP[attrs["group"]]}.#{NUM_MASTER_NAME[attrs["master_name"]]}.#{attrs["code"]}"
-    obj.chart_account = "#{NUM_MASTER[attrs["master"]]}.#{NUM_MASTER_GROUP[attrs["master_group"]]}.#{NUM_GROUP[attrs["group"]]}.#{NUM_MASTER_NAME[attrs["master_name"]]}.#{attrs["code"]} - #{attrs["name"]}"
-    obj.chart_name = "#{ENUM_MASTER_NAME[attrs["master_name"]]} - #{attrs["name"]}"
+    obj.chart_account = "#{NUM_MASTER[attrs["master"]]}.#{NUM_MASTER_GROUP[attrs["master_group"]]}.#{NUM_GROUP[attrs["group"]]}.#{NUM_MASTER_NAME[attrs["master_name"]]}.#{attrs["code"]} - #{ENUM_MASTER_NAME[attrs["master_name"]]} | #{attrs["name"]}"
+    obj.chart_name = "#{ENUM_MASTER_NAME[attrs["master_name"]]} | #{attrs["name"]}"
     
     return obj
   end
@@ -13,8 +13,8 @@ class Financials::Balances::Statements::ChartAccountRepository < Base
   def self.find_and_change(attrs)
     obj = entity.find_by(id: attrs["id"])
     obj.attributes = attrs
-    obj.chart_account = "#{NUM_MASTER[attrs["master"]]}.#{NUM_MASTER_GROUP[attrs["master_group"]]}.#{NUM_GROUP[attrs["group"]]}.#{NUM_MASTER_NAME[attrs["master_name"]]}.#{attrs["code"]} - #{attrs["name"]}"
-    obj.chart_name = "#{ENUM_MASTER_NAME[attrs["master_name"]]} - #{attrs["name"]}"
+    obj.chart_account = "#{NUM_MASTER[attrs["master"]]}.#{NUM_MASTER_GROUP[attrs["master_group"]]}.#{NUM_GROUP[attrs["group"]]}.#{NUM_MASTER_NAME[attrs["master_name"]]}.#{attrs["code"]} - #{ENUM_MASTER_NAME[attrs["master_name"]]} | #{attrs["name"]}"
+    obj.chart_name = "#{ENUM_MASTER_NAME[attrs["master_name"]]} | #{attrs["name"]}"
 
     return obj
   end
@@ -43,11 +43,11 @@ class Financials::Balances::Statements::ChartAccountRepository < Base
   private
 
   def self.entity
-    "Financial::Balance::Statement::ChartAccount".constantize
+    "Financial::Balance::Setting::ChartAccount".constantize
   end
 
   def self.mapper
-    "Financials::Balances::Statements::ChartAccountMapper".constantize
+    "Financials::Balances::Settings::ChartAccountMapper".constantize
   end
 
   ENUM_MASTER_NAME = {

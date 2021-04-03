@@ -5,7 +5,7 @@ pt-BR:
       models:
         financial:
           balance:
-            statement:
+            setting:
               channel:
                 chart_id: "Plano de Contas"
         operation:

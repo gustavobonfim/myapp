@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::ChartAccounts::List
+class Financials::Balances::Settings::ChartAccounts::List
 
   def initialize(params)
     @chart_account_params = params.require(:chart_account).permit(:active)
@@ -11,7 +11,7 @@ class Financials::Balances::Statements::ChartAccounts::List
   end
 
   def chart_accounts
-    ::Financials::Balances::Statements::ChartAccountRepository.all_active
+    ::Financials::Balances::Settings::ChartAccountRepository.all_active
   end
 
   def status
@@ -36,7 +36,7 @@ class Financials::Balances::Statements::ChartAccounts::List
 
   def data
     # return cln = [] unless @can_current_user_list_chart_account
-    cln = ::Financials::Balances::Statements::ChartAccountRepository.list(@chart_accounts)
+    cln = ::Financials::Balances::Settings::ChartAccountRepository.list(@chart_accounts)
 
     if cln.empty?
       @status = :ok
@@ -56,7 +56,7 @@ class Financials::Balances::Statements::ChartAccounts::List
   private
 
   def can_current_user_list_chart_account?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_statement_chart_accounts").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_setting_chart_accounts").can_current_user?
   end
 
 end

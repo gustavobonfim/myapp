@@ -1,22 +1,22 @@
-class API::V1::Financials::Balances::Statements::ChartAccountsController < ApplicationController
+class API::V1::Financials::Balances::Settings::ChartAccountsController < ApplicationController
 
   def create
-  chart = ::Financials::Balances::Statements::ChartAccounts::Create.new(params)
+  chart = ::Financials::Balances::Settings::ChartAccounts::Create.new(params)
   render :json => {:save => chart.save, :data => chart.data, :status => chart.status, :type => chart.type, :message => chart.message}.as_json
   end
 
   def update
-    chart = ::Financials::Balances::Statements::ChartAccounts::Update.new(params)
+    chart = ::Financials::Balances::Settings::ChartAccounts::Update.new(params)
     render :json => {:save => chart.save, :data => chart.data, :status => chart.status, :type => chart.type, :message => chart.message}.as_json
   end
 
   def read
-    chart = ::Financials::Balances::Statements::ChartAccounts::Read.new(params)
+    chart = ::Financials::Balances::Settings::ChartAccounts::Read.new(params)
     render :json => {:data => chart.data, :status => chart.status, :process => chart.process?, :type => chart.type, :message => chart.message}.as_json
   end
 
   def list
-    list = ::Financials::Balances::Statements::ChartAccounts::List.new(params)
+    list = ::Financials::Balances::Settings::ChartAccounts::List.new(params)
     render :json => {:data => list.data, :status => list.status, :process => list.process?, :type => list.type, :message => list.message}.as_json
   end
   

@@ -1,4 +1,4 @@
-class Financials::Balances::Statements::ChannelRepository < Base
+class Financials::Balances::Settings::ChannelRepository < Base
 
   def self.build(attrs)
     obj = entity.new
@@ -38,11 +38,11 @@ class Financials::Balances::Statements::ChannelRepository < Base
   private
 
   def self.entity
-    "Financial::Balance::Statement::Channel".constantize
+    "Financial::Balance::Setting::Channel".constantize
   end
 
   def self.mapper
-    "Financials::Balances::Statements::ChannelMapper".constantize
+    "Financials::Balances::Settings::ChannelMapper".constantize
   end
 
   ENUM_KIND = {

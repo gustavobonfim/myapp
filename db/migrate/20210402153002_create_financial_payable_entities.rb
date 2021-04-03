@@ -27,10 +27,10 @@ class CreateFinancialPayableEntities < ActiveRecord::Migration[5.2]
       
     end
 
-    add_foreign_key :financial_payable_entities, :financial_statement_chart_accounts, column: :chart_id
+    add_foreign_key :financial_payable_entities, :financial_setting_chart_accounts, column: :chart_id
     add_foreign_key :financial_payable_entities, :user_company_entities, column: :med_id
     add_foreign_key :financial_payable_entities, :financial_payable_providers, column: :provider_id
-    add_foreign_key :financial_payable_entities, :financial_statement_channels, column: :channel_id
+    add_foreign_key :financial_payable_entities, :financial_setting_channels, column: :channel_id
     add_foreign_key :financial_payable_entities, :financial_config_dates, column: :date_id
     add_index :financial_payable_entities, :active
     add_index :financial_payable_entities, :date_id

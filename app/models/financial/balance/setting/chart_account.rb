@@ -1,6 +1,6 @@
-class Financial::Balance::Statement::ChartAccount < ApplicationRecord
+class Financial::Balance::Setting::ChartAccount < ApplicationRecord
 
-  self.table_name = "financial_statement_chart_accounts"
+  self.table_name = "financial_setting_chart_accounts"
   
   # Relations
   # belongs_to :date, class_name: "Financial::Config::Date", foreign_key: "date_id"
@@ -74,7 +74,7 @@ class Financial::Balance::Statement::ChartAccount < ApplicationRecord
   
 end
 
-# create_table "financial_statement_chart_accounts", force: :cascade do |t|
+# create_table "financial_setting_chart_accounts", force: :cascade do |t|
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false

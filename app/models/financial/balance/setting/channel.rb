@@ -1,10 +1,10 @@
-class Financial::Balance::Statement::Channel < ApplicationRecord
+class Financial::Balance::Setting::Channel < ApplicationRecord
 
-  self.table_name = "financial_statement_channels"
+  self.table_name = "financial_setting_channels"
   
   # Relations
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
-  belongs_to :chart, class_name: "Financial::Balance::Statement::ChartAccount", foreign_key: "chart_id"
+  belongs_to :chart, class_name: "Financial::Balance::Setting::ChartAccount", foreign_key: "chart_id"
   
   # Validations
   validates :kind, presence: {message: "O Tipo não pode ficar em Branco. "}
@@ -19,7 +19,7 @@ class Financial::Balance::Statement::Channel < ApplicationRecord
   
 end
 
-# create_table "financial_statement_channels", force: :cascade do |t|
+# create_table "financial_setting_channels", force: :cascade do |t|
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
