@@ -1,42 +1,42 @@
-class Financials::Books::Statements::Transactions::List
+class Financials::Books::Statements::Calculations::List
 
   def initialize(params)
-    @transaction_params = params.require(:transaction).permit(:active)
+    @calculation_params = params.require(:calculation).permit(:active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    # @can_current_user_list_transaction = can_current_user_list_transaction?
-    # return false unless @can_current_user_list_transaction
+    # @can_current_user_list_calculation = can_current_user_list_calculation?
+    # return false unless @can_current_user_list_calculation
 
-    @transactions = transactions
+    @calculations = calculations
   end
 
-  def transactions
-    ::Financials::Books::Statements::TransactionRepository.all_active
+  def calculations
+    ::Financials::Books::Statements::CalculationRepository.all_active
   end
 
   def status
-    # return :forbidden unless @can_current_user_list_transaction
+    # return :forbidden unless @can_current_user_list_calculation
     @status
   end
 
   def process?
-    # return false unless @can_current_user_list_transaction
+    # return false unless @can_current_user_list_calculation
     @process
   end
 
   def type
-    # return "danger" unless @can_current_user_list_transaction
+    # return "danger" unless @can_current_user_list_calculation
     @type
   end
 
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_list_transaction
+    # return message = "A ação não é permitida" unless @can_current_user_list_calculation
     @message
   end
 
   def data
-    # return cln = [] unless @can_current_user_list_transaction
-    cln = ::Financials::Books::Statements::TransactionRepository.list(@transactions)
+    # return cln = [] unless @can_current_user_list_calculation
+    cln = ::Financials::Books::Statements::CalculationRepository.list(@calculations)
 
     if cln.empty?
       @status = :ok
@@ -55,8 +55,8 @@ class Financials::Books::Statements::Transactions::List
 
   private
 
-  def can_current_user_list_transaction?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_statement_transactions").can_current_user?
+  def can_current_user_list_calculation?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_statement_calculations").can_current_user?
   end
 
 end

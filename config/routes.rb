@@ -70,6 +70,12 @@ Rails.application.routes.draw do
             put "entities/update", to: "entities#update"
             post "entities/list", to: "entities#list"
           end
+
+          namespace :balances do
+            post "entities/create", to: "entities#create"
+            put "entities/update", to: "entities#update"
+            post "entities/list", to: "entities#list"
+          end
         end
       end
 

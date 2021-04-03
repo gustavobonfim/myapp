@@ -45,6 +45,11 @@ class Financials::Books::Transactions::EntityRepository < Base
     "Financials::Books::Transactions::EntityMapper".constantize
   end
 
+  ENUM_KIND = {
+                "statement" => "Resultado",
+                "balance" => "Patrimonial",
+              }
+
   ENUM_METHOD = {
                   "bank_split" => "Boleto Bancário",
                   "credit_card" => "Cartão de Crédito",

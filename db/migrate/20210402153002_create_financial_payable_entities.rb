@@ -11,7 +11,7 @@ class CreateFinancialPayableEntities < ActiveRecord::Migration[5.2]
       t.string :provider_name
       t.datetime :due_date
       t.datetime :accrual_date
-      t.decimal :amount, precision: 15, scale: 2
+      t.decimal :amount, default: 0, precision: 15, scale: 2
       t.string :description
       t.string :chart_account
       t.string :chart_name

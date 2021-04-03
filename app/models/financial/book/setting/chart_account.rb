@@ -12,6 +12,8 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
   # validates :accounting, uniqueness: { case_sensitive: false, message: "Plano de Contas Contábil já existe. "  }
 
   # Enums
+  enum kind: { statement: 0, balance: 1 }, _prefix: :_
+  
   enum master_name: { 
                       availabilities: 0,
                       short_term_financial_investments: 1,
@@ -84,6 +86,7 @@ end
 # t.integer "group"
 # t.integer "master_group"
 # t.integer "master"
+# t.integer "kind"
 # t.string "chart_name"
 # t.string "chart_account"
 # t.string "accounting"

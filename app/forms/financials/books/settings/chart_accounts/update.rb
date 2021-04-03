@@ -1,7 +1,7 @@
 class Financials::Books::Settings::ChartAccounts::Update
 
   def initialize(params)
-    @chart_account_params = params.require(:chart_account).permit(:id, :name, :code, :master_name, :group, :master_group, :master, :accounting, :deductibility)
+    @chart_account_params = params.require(:chart_account).permit(:id, :name, :code, :master_name, :group, :master_group, :master, :accounting, :deductibility, :kind)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_update_chart_account = can_current_user_update_chart_account?

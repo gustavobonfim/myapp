@@ -31,7 +31,7 @@ class Financials::Books::Payables::Entities::Create
       if @valid
         # @payable.save
         
-        # ::Financials::Books::Payables::CreatePayableStatementTransactionService.new(@payable).update_payable_calculation
+        ::Financials::Books::Payables::CreatePayableStatementTransactionService.new(@payable)
 
         @data = true
         @status = true

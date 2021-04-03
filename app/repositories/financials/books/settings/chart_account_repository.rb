@@ -35,6 +35,10 @@ class Financials::Books::Settings::ChartAccountRepository < Base
     entity.find_by(name: name)
   end
 
+  def self.find_by_master_name(master_name)
+    entity.find_by(master_name: master_name)
+  end
+
   def self.read(chart_account)
     mapper.map(chart_account)
   end
@@ -53,6 +57,11 @@ class Financials::Books::Settings::ChartAccountRepository < Base
   def self.mapper
     "Financials::Books::Settings::ChartAccountMapper".constantize
   end
+
+  ENUM_KIND = {
+                "statement" => "Resultado",
+                "balance" => "Patrimonial",
+              }
 
   ENUM_MASTER_NAME = {
                         "availabilities" => "Disponibilidades",

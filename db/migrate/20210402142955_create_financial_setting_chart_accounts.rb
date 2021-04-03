@@ -9,6 +9,7 @@ class CreateFinancialSettingChartAccounts < ActiveRecord::Migration[5.2]
       t.integer :group
       t.integer :master_group
       t.integer :master
+      t.integer :kind
       t.string :chart_name
       t.string :chart_account
       t.string :accounting
@@ -19,5 +20,6 @@ class CreateFinancialSettingChartAccounts < ActiveRecord::Migration[5.2]
     add_index :financial_setting_chart_accounts, :active
     add_index :financial_setting_chart_accounts, :chart_name
     add_index :financial_setting_chart_accounts, :token
+    add_index :financial_setting_chart_accounts, :kind
   end
 end

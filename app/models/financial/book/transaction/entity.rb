@@ -3,7 +3,7 @@ class Financial::Book::Transaction::Entity < ApplicationRecord
   self.table_name = "financial_transaction_entities"
   
   # Relations
-  belongs_to :date, class_name: "Financial::Config::Date", foreign_key: "date_id"
+  belongs_to :financial_date, class_name: "Financial::Config::Date", foreign_key: "date_id"
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
   belongs_to :channel, class_name: "Financial::Book::Setting::Channel", foreign_key: "channel_id"
   belongs_to :from, class_name: "Financial::Book::Setting::ChartAccount", foreign_key: "from_id"
@@ -11,9 +11,11 @@ class Financial::Book::Transaction::Entity < ApplicationRecord
   
   # Validations
   validates :method, presence: {message: "O método de pagamento não pode ficar em branco. "}
+  validates :kind, presence: {message: "O tipo de transação não pode ficar em branco. "}
 
   # Enums
   enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
+  enum kind: { statement: 0, balance: 1 }, _prefix: :_
 
   # Callbacks
 
@@ -46,3 +48,4 @@ end
 # t.boolean "recurring", default: false
 # t.integer "installment"
 # t.string "token_tree"
+# t.integer "kind"

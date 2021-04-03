@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_02_155134) do
+ActiveRecord::Schema.define(version: 2021_04_03_181355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -318,6 +318,26 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.index ["status"], name: "index_commercial_sales_opportunities_tickets_on_status"
   end
 
+  create_table "financial_balance_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "med_id"
+    t.bigint "chart_id"
+    t.integer "kind"
+    t.decimal "balance", precision: 15, scale: 2, default: "0.0"
+    t.decimal "previous_balance", precision: 15, scale: 2, default: "0.0"
+    t.string "chart_name"
+    t.string "token"
+    t.index ["active"], name: "index_financial_balance_entities_on_active"
+    t.index ["chart_id"], name: "index_financial_balance_entities_on_chart_id"
+    t.index ["date_id"], name: "index_financial_balance_entities_on_date_id"
+    t.index ["kind"], name: "index_financial_balance_entities_on_kind"
+    t.index ["med_id"], name: "index_financial_balance_entities_on_med_id"
+    t.index ["token"], name: "index_financial_balance_entities_on_token"
+  end
+
   create_table "financial_config_dates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -345,7 +365,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.string "provider_name"
     t.datetime "due_date"
     t.datetime "accrual_date"
-    t.decimal "amount", precision: 15, scale: 2
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
     t.string "description"
     t.string "chart_account"
     t.string "chart_name"
@@ -411,6 +431,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.integer "group"
     t.integer "master_group"
     t.integer "master"
+    t.integer "kind"
     t.string "chart_name"
     t.string "chart_account"
     t.string "accounting"
@@ -418,6 +439,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.decimal "deductibility", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_setting_chart_accounts_on_active"
     t.index ["chart_name"], name: "index_financial_setting_chart_accounts_on_chart_name"
+    t.index ["kind"], name: "index_financial_setting_chart_accounts_on_kind"
     t.index ["token"], name: "index_financial_setting_chart_accounts_on_token"
   end
 
@@ -430,20 +452,23 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.bigint "channel_id"
     t.bigint "from_id"
     t.bigint "to_id"
+    t.string "from_code"
     t.string "from_master_name"
     t.string "from_group"
     t.string "from_master_group"
     t.string "from_master"
+    t.string "to_code"
     t.string "to_master_name"
     t.string "to_group"
     t.string "to_master_group"
     t.string "to_master"
-    t.decimal "amount", precision: 15, scale: 2
-    t.decimal "from_amount", precision: 15, scale: 2
-    t.decimal "to_amount", precision: 15, scale: 2
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "from_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "to_amount", precision: 15, scale: 2, default: "0.0"
     t.datetime "date"
     t.string "description"
     t.integer "method"
+    t.integer "kind"
     t.string "channel_name"
     t.boolean "recurring", default: false
     t.integer "installment"
@@ -451,14 +476,17 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.index ["active"], name: "index_financial_transaction_entities_on_active"
     t.index ["channel_id"], name: "index_financial_transaction_entities_on_channel_id"
     t.index ["date_id"], name: "index_financial_transaction_entities_on_date_id"
+    t.index ["from_code"], name: "index_financial_transaction_entities_on_from_code"
     t.index ["from_group"], name: "index_financial_transaction_entities_on_from_group"
     t.index ["from_id"], name: "index_financial_transaction_entities_on_from_id"
     t.index ["from_master"], name: "index_financial_transaction_entities_on_from_master"
     t.index ["from_master_group"], name: "index_financial_transaction_entities_on_from_master_group"
     t.index ["from_master_name"], name: "index_financial_transaction_entities_on_from_master_name"
+    t.index ["kind"], name: "index_financial_transaction_entities_on_kind"
     t.index ["med_id"], name: "index_financial_transaction_entities_on_med_id"
     t.index ["method"], name: "index_financial_transaction_entities_on_method"
     t.index ["recurring"], name: "index_financial_transaction_entities_on_recurring"
+    t.index ["to_code"], name: "index_financial_transaction_entities_on_to_code"
     t.index ["to_group"], name: "index_financial_transaction_entities_on_to_group"
     t.index ["to_id"], name: "index_financial_transaction_entities_on_to_id"
     t.index ["to_master"], name: "index_financial_transaction_entities_on_to_master"
@@ -752,6 +780,9 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
   add_foreign_key "commercial_sales_opportunities_products", "commercial_dates", column: "date_id"
   add_foreign_key "commercial_sales_opportunities_products", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "commercial_sales_opportunities_tickets", "commercial_sales_opportunities_entities", column: "opportunity_id"
+  add_foreign_key "financial_balance_entities", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_balance_entities", "financial_setting_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_balance_entities", "user_company_entities", column: "med_id"
   add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_payable_entities", "financial_payable_providers", column: "provider_id"
   add_foreign_key "financial_payable_entities", "financial_setting_channels", column: "channel_id"

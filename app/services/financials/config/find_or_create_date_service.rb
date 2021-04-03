@@ -12,6 +12,7 @@ class Financials::Config::FindOrCreateDateService
     if financial_date.new_record?
       financial_date.save
       # ::Financials::Products::Purchases::CreateCalculationService.new(financial_date)
+      ::Financials::Books::Balances::CreateBalancesService.new(financial_date)
     end
     
     return financial_date
