@@ -3,6 +3,11 @@ pt-BR:
   activerecord:
     attributes:
       models:
+        financial:
+          balance:
+            statement:
+              channel:
+                chart_id: "Plano de Contas"
         operation:
           product:
             booking:

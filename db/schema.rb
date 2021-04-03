@@ -340,7 +340,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.bigint "date_id"
     t.bigint "chart_id"
     t.bigint "med_id"
-    t.bigint "form_id"
+    t.bigint "channel_id"
     t.bigint "provider_id"
     t.string "provider_name"
     t.datetime "due_date"
@@ -350,7 +350,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.string "chart_account"
     t.string "chart_name"
     t.string "method"
-    t.string "form_name"
+    t.string "channel_name"
     t.string "bank_line"
     t.boolean "paid", default: false
     t.boolean "recurring", default: false
@@ -360,10 +360,10 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.string "token"
     t.index ["accrual_date"], name: "index_financial_payable_entities_on_accrual_date"
     t.index ["active"], name: "index_financial_payable_entities_on_active"
+    t.index ["channel_id"], name: "index_financial_payable_entities_on_channel_id"
     t.index ["chart_id"], name: "index_financial_payable_entities_on_chart_id"
     t.index ["date_id"], name: "index_financial_payable_entities_on_date_id"
     t.index ["due_date"], name: "index_financial_payable_entities_on_due_date"
-    t.index ["form_id"], name: "index_financial_payable_entities_on_form_id"
     t.index ["med_id"], name: "index_financial_payable_entities_on_med_id"
     t.index ["method"], name: "index_financial_payable_entities_on_method"
     t.index ["paid"], name: "index_financial_payable_entities_on_paid"
@@ -389,6 +389,18 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.index ["record_type"], name: "index_financial_payable_providers_on_record_type"
   end
 
+  create_table "financial_statement_channels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "chart_id"
+    t.bigint "med_id"
+    t.string "name"
+    t.integer "kind"
+    t.index ["active"], name: "index_financial_statement_channels_on_active"
+    t.index ["kind"], name: "index_financial_statement_channels_on_kind"
+  end
+
   create_table "financial_statement_chart_accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -409,17 +421,6 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.index ["token"], name: "index_financial_statement_chart_accounts_on_token"
   end
 
-  create_table "financial_statement_forms", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "active", default: true, null: false
-    t.bigint "chart_id"
-    t.string "name"
-    t.integer "kind"
-    t.index ["active"], name: "index_financial_statement_forms_on_active"
-    t.index ["kind"], name: "index_financial_statement_forms_on_kind"
-  end
-
   create_table "financial_statement_transactions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -429,7 +430,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.bigint "med_id"
     t.bigint "party_id"
     t.string "party_type"
-    t.bigint "form_id"
+    t.bigint "channel_id"
     t.bigint "from_id"
     t.bigint "to_id"
     t.integer "from_master_name"
@@ -446,13 +447,13 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.datetime "date"
     t.string "description"
     t.integer "method"
-    t.string "form_name"
+    t.string "channel_name"
     t.boolean "recurring", default: false
     t.integer "installment"
     t.string "token_tree"
     t.index ["active"], name: "index_financial_statement_transactions_on_active"
+    t.index ["channel_id"], name: "index_financial_statement_transactions_on_channel_id"
     t.index ["date_id"], name: "index_financial_statement_transactions_on_date_id"
-    t.index ["form_id"], name: "index_financial_statement_transactions_on_form_id"
     t.index ["from_group"], name: "index_financial_statement_transactions_on_from_group"
     t.index ["from_id"], name: "index_financial_statement_transactions_on_from_id"
     t.index ["from_master"], name: "index_financial_statement_transactions_on_from_master"
@@ -758,14 +759,15 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
   add_foreign_key "commercial_sales_opportunities_tickets", "commercial_sales_opportunities_entities", column: "opportunity_id"
   add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_payable_entities", "financial_payable_providers", column: "provider_id"
+  add_foreign_key "financial_payable_entities", "financial_statement_channels", column: "channel_id"
   add_foreign_key "financial_payable_entities", "financial_statement_chart_accounts", column: "chart_id"
-  add_foreign_key "financial_payable_entities", "financial_statement_forms", column: "form_id"
   add_foreign_key "financial_payable_entities", "user_company_entities", column: "med_id"
-  add_foreign_key "financial_statement_forms", "financial_statement_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_statement_channels", "financial_statement_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_statement_channels", "user_company_entities", column: "med_id"
   add_foreign_key "financial_statement_transactions", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_statement_transactions", "financial_statement_channels", column: "channel_id"
   add_foreign_key "financial_statement_transactions", "financial_statement_chart_accounts", column: "from_id"
   add_foreign_key "financial_statement_transactions", "financial_statement_chart_accounts", column: "to_id"
-  add_foreign_key "financial_statement_transactions", "financial_statement_forms", column: "form_id"
   add_foreign_key "financial_statement_transactions", "user_company_entities", column: "med_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "user_account_entities", column: "account_id"

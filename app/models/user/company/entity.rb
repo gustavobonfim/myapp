@@ -30,7 +30,7 @@ class User::Company::Entity < ApplicationRecord
   #Callbacks
 
   #Enums
-  # enum kind: { clinic: 0, pjtaker: 1, provider: 2, operator: 3, supplier: 3, med: 3 }, _prefix: :_
+  # enum kind: { clinic: 0, pjtaker: 1, provider: 2, operator: 3, supplier: 4, med: 5 }, _prefix: :_
 
 
   def cnpj_pretty

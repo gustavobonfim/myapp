@@ -72,7 +72,7 @@ class Financials::Balances::Statements::ChartAccounts::Create
   def message
     # return message = "A ação não é permitida" unless @can_current_user_create_chart_account
     if @message
-      message = "Lead criado com sucesso!"
+      message = "Conta criado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

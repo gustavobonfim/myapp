@@ -82,7 +82,7 @@ class Financials::Balances::Payables::Providers::Update
   def message
     # return message = "A ação não é permitida" unless @can_current_user_update_provider
     if @message
-      message = "Lead criado com sucesso!"
+      message = "Fornecedor criado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

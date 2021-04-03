@@ -8,7 +8,7 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
       t.bigint :med_id
       t.bigint :party_id
       t.string :party_type
-      t.bigint :form_id
+      t.bigint :channel_id
       t.bigint :from_id
       t.bigint :to_id
       t.integer :from_master_name
@@ -25,7 +25,7 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
       t.datetime :date
       t.string :description
       t.integer :method
-      t.string :form_name
+      t.string :channel_name
       t.boolean :recurring, default: false
       t.integer :installment
       t.string :token_tree
@@ -35,7 +35,7 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
     add_foreign_key :financial_statement_transactions, :financial_statement_chart_accounts, column: :from_id
     add_foreign_key :financial_statement_transactions, :financial_statement_chart_accounts, column: :to_id
     add_foreign_key :financial_statement_transactions, :user_company_entities, column: :med_id
-    add_foreign_key :financial_statement_transactions, :financial_statement_forms, column: :form_id
+    add_foreign_key :financial_statement_transactions, :financial_statement_channels, column: :channel_id
     add_foreign_key :financial_statement_transactions, :financial_config_dates, column: :date_id
     add_index :financial_statement_transactions, :active
     add_index :financial_statement_transactions, :date_id
@@ -44,7 +44,7 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
     add_index :financial_statement_transactions, :med_id
     add_index :financial_statement_transactions, :party_id
     add_index :financial_statement_transactions, :party_type
-    add_index :financial_statement_transactions, :form_id
+    add_index :financial_statement_transactions, :channel_id
     add_index :financial_statement_transactions, :method
     add_index :financial_statement_transactions, :recurring
     add_index :financial_statement_transactions, :from_master_name

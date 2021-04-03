@@ -51,6 +51,10 @@ Rails.application.routes.draw do
             put "chart_accounts/update", to: "chart_accounts#update"
             post "chart_accounts/list", to: "chart_accounts#list"
 
+            post "channels/create", to: "channels#create"
+            put "channels/update", to: "channels#update"
+            post "channels/list", to: "channels#list"
+
           end
         end
       end
