@@ -5,8 +5,6 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true, null: false
       t.bigint :date_id
       t.bigint :med_id
-      t.bigint :party_id
-      t.string :party_type
       t.bigint :channel_id
       t.bigint :from_id
       t.bigint :to_id
@@ -41,8 +39,6 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
     add_index :financial_statement_transactions, :from_id
     add_index :financial_statement_transactions, :to_id
     add_index :financial_statement_transactions, :med_id
-    add_index :financial_statement_transactions, :party_id
-    add_index :financial_statement_transactions, :party_type
     add_index :financial_statement_transactions, :channel_id
     add_index :financial_statement_transactions, :method
     add_index :financial_statement_transactions, :recurring

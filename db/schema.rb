@@ -427,8 +427,6 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.boolean "active", default: true, null: false
     t.bigint "date_id"
     t.bigint "med_id"
-    t.bigint "party_id"
-    t.string "party_type"
     t.bigint "channel_id"
     t.bigint "from_id"
     t.bigint "to_id"
@@ -460,8 +458,6 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.index ["from_master_name"], name: "index_financial_statement_transactions_on_from_master_name"
     t.index ["med_id"], name: "index_financial_statement_transactions_on_med_id"
     t.index ["method"], name: "index_financial_statement_transactions_on_method"
-    t.index ["party_id"], name: "index_financial_statement_transactions_on_party_id"
-    t.index ["party_type"], name: "index_financial_statement_transactions_on_party_type"
     t.index ["recurring"], name: "index_financial_statement_transactions_on_recurring"
     t.index ["to_group"], name: "index_financial_statement_transactions_on_to_group"
     t.index ["to_id"], name: "index_financial_statement_transactions_on_to_id"

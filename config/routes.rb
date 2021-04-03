@@ -38,7 +38,7 @@ Rails.application.routes.draw do
       end
 
       namespace :financials do
-        namespace :balances do
+        namespace :books do
           namespace :payables do
             post "providers/create", to: "providers#create"
             put "providers/update", to: "providers#update"
