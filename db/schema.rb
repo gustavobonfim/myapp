@@ -421,7 +421,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.index ["token"], name: "index_financial_setting_chart_accounts_on_token"
   end
 
-  create_table "financial_statement_transactions", force: :cascade do |t|
+  create_table "financial_transaction_entities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
@@ -448,23 +448,23 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
     t.boolean "recurring", default: false
     t.integer "installment"
     t.string "token_tree"
-    t.index ["active"], name: "index_financial_statement_transactions_on_active"
-    t.index ["channel_id"], name: "index_financial_statement_transactions_on_channel_id"
-    t.index ["date_id"], name: "index_financial_statement_transactions_on_date_id"
-    t.index ["from_group"], name: "index_financial_statement_transactions_on_from_group"
-    t.index ["from_id"], name: "index_financial_statement_transactions_on_from_id"
-    t.index ["from_master"], name: "index_financial_statement_transactions_on_from_master"
-    t.index ["from_master_group"], name: "index_financial_statement_transactions_on_from_master_group"
-    t.index ["from_master_name"], name: "index_financial_statement_transactions_on_from_master_name"
-    t.index ["med_id"], name: "index_financial_statement_transactions_on_med_id"
-    t.index ["method"], name: "index_financial_statement_transactions_on_method"
-    t.index ["recurring"], name: "index_financial_statement_transactions_on_recurring"
-    t.index ["to_group"], name: "index_financial_statement_transactions_on_to_group"
-    t.index ["to_id"], name: "index_financial_statement_transactions_on_to_id"
-    t.index ["to_master"], name: "index_financial_statement_transactions_on_to_master"
-    t.index ["to_master_group"], name: "index_financial_statement_transactions_on_to_master_group"
-    t.index ["to_master_name"], name: "index_financial_statement_transactions_on_to_master_name"
-    t.index ["token_tree"], name: "index_financial_statement_transactions_on_token_tree"
+    t.index ["active"], name: "index_financial_transaction_entities_on_active"
+    t.index ["channel_id"], name: "index_financial_transaction_entities_on_channel_id"
+    t.index ["date_id"], name: "index_financial_transaction_entities_on_date_id"
+    t.index ["from_group"], name: "index_financial_transaction_entities_on_from_group"
+    t.index ["from_id"], name: "index_financial_transaction_entities_on_from_id"
+    t.index ["from_master"], name: "index_financial_transaction_entities_on_from_master"
+    t.index ["from_master_group"], name: "index_financial_transaction_entities_on_from_master_group"
+    t.index ["from_master_name"], name: "index_financial_transaction_entities_on_from_master_name"
+    t.index ["med_id"], name: "index_financial_transaction_entities_on_med_id"
+    t.index ["method"], name: "index_financial_transaction_entities_on_method"
+    t.index ["recurring"], name: "index_financial_transaction_entities_on_recurring"
+    t.index ["to_group"], name: "index_financial_transaction_entities_on_to_group"
+    t.index ["to_id"], name: "index_financial_transaction_entities_on_to_id"
+    t.index ["to_master"], name: "index_financial_transaction_entities_on_to_master"
+    t.index ["to_master_group"], name: "index_financial_transaction_entities_on_to_master_group"
+    t.index ["to_master_name"], name: "index_financial_transaction_entities_on_to_master_name"
+    t.index ["token_tree"], name: "index_financial_transaction_entities_on_token_tree"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -759,11 +759,11 @@ ActiveRecord::Schema.define(version: 2021_04_02_155134) do
   add_foreign_key "financial_payable_entities", "user_company_entities", column: "med_id"
   add_foreign_key "financial_setting_channels", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_setting_channels", "user_company_entities", column: "med_id"
-  add_foreign_key "financial_statement_transactions", "financial_config_dates", column: "date_id"
-  add_foreign_key "financial_statement_transactions", "financial_setting_channels", column: "channel_id"
-  add_foreign_key "financial_statement_transactions", "financial_setting_chart_accounts", column: "from_id"
-  add_foreign_key "financial_statement_transactions", "financial_setting_chart_accounts", column: "to_id"
-  add_foreign_key "financial_statement_transactions", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_transaction_entities", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_transaction_entities", "financial_setting_channels", column: "channel_id"
+  add_foreign_key "financial_transaction_entities", "financial_setting_chart_accounts", column: "from_id"
+  add_foreign_key "financial_transaction_entities", "financial_setting_chart_accounts", column: "to_id"
+  add_foreign_key "financial_transaction_entities", "user_company_entities", column: "med_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "user_account_entities", column: "account_id"
   add_foreign_key "product_entities", "user_company_entities", column: "company_id"
