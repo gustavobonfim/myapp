@@ -1,8 +1,8 @@
 class API::V1::Financials::Balances::Settings::ChannelsController < ApplicationController
 
   def create
-  channel = ::Financials::Balances::Settings::Channels::Create.new(params)
-  render :json => {:save => channel.save, :data => channel.data, :status => channel.status, :type => channel.type, :message => channel.message}.as_json
+    channel = ::Financials::Balances::Settings::Channels::Create.new(params)
+    render :json => {:save => channel.save, :data => channel.data, :status => channel.status, :type => channel.type, :message => channel.message}.as_json
   end
 
   def update

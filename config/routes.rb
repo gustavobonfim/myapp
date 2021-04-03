@@ -44,6 +44,9 @@ Rails.application.routes.draw do
             put "providers/update", to: "providers#update"
             post "providers/list", to: "providers#list"
 
+            post "entities/create", to: "entities#create"
+            put "entities/update", to: "entities#update"
+            post "entities/list", to: "entities#list"
           end
 
           namespace :settings do

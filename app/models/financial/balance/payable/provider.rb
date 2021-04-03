@@ -12,8 +12,7 @@ class Financial::Balance::Payable::Provider < ApplicationRecord
   enum id_type: { individual: 0, legal: 1 }, _prefix: :_
 
   # Callbacks
-  
-  
+
 end
 
 # Financial::Balance::Payable::Provider.new(name: "Gustavo Bonfim", id_number: "07412332660", id_type: "individual")
