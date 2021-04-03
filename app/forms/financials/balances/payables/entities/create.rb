@@ -30,9 +30,8 @@ class Financials::Balances::Payables::Entities::Create
     ActiveRecord::Base.transaction do
       if @valid
         # @payable.save
-        # @source_params = @source_params.merge({ "phone" => @payable.phone })
-        # ::Commercial::Sales::Leads::CreateSourceService.new(@source_params).save_source
-        # ::Commercial::Config::UpdateCalculationService.new(@payable).update_payable_calculation
+        
+        ::Commercial::Config::UpdateCalculationService.new(@payable).update_payable_calculation
 
         @data = true
         @status = true

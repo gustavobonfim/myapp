@@ -59,10 +59,10 @@ Rails.application.routes.draw do
             post "channels/list", to: "channels#list"
           end
 
-          namespace :payables do
-            # post "providers/create", to: "providers#create"
-            # put "providers/update", to: "providers#update"
-            # post "providers/list", to: "providers#list"
+          namespace :statements do
+            post "transactions/create", to: "transactions#create"
+            put "transactions/update", to: "transactions#update"
+            post "transactions/list", to: "transactions#list"
           end
         end
       end

@@ -4,21 +4,20 @@ class CreateFinancialStatementTransactions < ActiveRecord::Migration[5.2]
     t.timestamps
       t.boolean :active, default: true, null: false
       t.bigint :date_id
-      t.bigint :chart_id
       t.bigint :med_id
       t.bigint :party_id
       t.string :party_type
       t.bigint :channel_id
       t.bigint :from_id
       t.bigint :to_id
-      t.integer :from_master_name
-      t.integer :from_group
-      t.integer :from_master_group
-      t.integer :from_master
-      t.integer :to_master_name
-      t.integer :to_group
-      t.integer :to_master_group
-      t.integer :to_master
+      t.string :from_master_name
+      t.string :from_group
+      t.string :from_master_group
+      t.string :from_master
+      t.string :to_master_name
+      t.string :to_group
+      t.string :to_master_group
+      t.string :to_master
       t.decimal :amount, precision: 15, scale: 2
       t.decimal :from_amount, precision: 15, scale: 2
       t.decimal :to_amount, precision: 15, scale: 2
