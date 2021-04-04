@@ -46,6 +46,7 @@ Rails.application.routes.draw do
 
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
+            put "entities/update_paid", to: "entities#update_paid"
             post "entities/list", to: "entities#list"
           end
 
@@ -74,6 +75,7 @@ Rails.application.routes.draw do
           namespace :balances do
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
+            put "entities/refresh", to: "entities#refresh"
             post "entities/list", to: "entities#list"
           end
         end

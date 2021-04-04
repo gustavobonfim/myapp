@@ -18,6 +18,14 @@ class Financials::Books::Transactions::EntityRepository < Base
     entity.where(active: true)
   end
 
+  def self.all_active_by_date_and_from(date_id, from_id)
+    entity.where(active: true, date_id: date_id, from_id: from_id)
+  end
+
+  def self.all_active_by_date_and_to(date_id, to_id)
+    entity.where(active: true, date_id: date_id, to_id: to_id)
+  end
+
   def self.find_by_id(id)
     entity.find_by(id: id)
   end
@@ -34,7 +42,6 @@ class Financials::Books::Transactions::EntityRepository < Base
     mapper.map_all(transactions)
   end
   
-
   private
 
   def self.entity

@@ -9,6 +9,7 @@ class Financial::Book::Balance::Entity < ApplicationRecord
   
   # Validations
   validates :kind, presence: {message: "O tipo de transação não pode ficar em branco. "}
+  validates :token, uniqueness: { case_sensitive: false, message: "Conta Balanço já existe. "  }
 
   # Enums
   enum kind: { statement: 0, balance: 1 }, _prefix: :_
@@ -20,7 +21,7 @@ class Financial::Book::Balance::Entity < ApplicationRecord
     date = self.financial_date
 
     med_code = self.med_id.to_s(36).rjust(5,"0").upcase
-    chart_code = self.chart.code
+    chart_code = self.chart.token
     year_code = date.year.to_s.rjust(4,"0").upcase
     month_code = date.month.to_s.rjust(2,"0").upcase
 

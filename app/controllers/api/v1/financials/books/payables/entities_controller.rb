@@ -10,6 +10,11 @@ class API::V1::Financials::Books::Payables::EntitiesController < ApplicationCont
     render :json => {:save => payables.save, :data => payables.data, :status => payables.status, :type => payables.type, :message => payables.message}.as_json
   end
 
+  def update_paid
+    payables = ::Financials::Books::Payables::Entities::UpdatePaid.new(params)
+    render :json => {:save => payables.save, :data => payables.data, :status => payables.status, :type => payables.type, :message => payables.message}.as_json
+  end
+
   def read
     payables = ::Financials::Books::Payables::Entities::Read.new(params)
     render :json => {:data => payables.data, :status => payables.status, :process => payables.process?, :type => payables.type, :message => payables.message}.as_json

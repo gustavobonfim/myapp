@@ -29,9 +29,9 @@ class Financials::Books::Payables::Entities::Create
     # return false unless @can_current_user_create_payable
     ActiveRecord::Base.transaction do
       if @valid
-        # @payable.save
+        @payable.save
         
-        ::Financials::Books::Payables::CreatePayableStatementTransactionService.new(@payable)
+        ::Financials::Books::Payables::CreatePayableTransactionService.new(@payable)
 
         @data = true
         @status = true
@@ -83,7 +83,7 @@ class Financials::Books::Payables::Entities::Create
   def message
     # return message = "A ação não é permitida" unless @can_current_user_create_payable
     if @message
-      message = "Fornecedor criado com sucesso!"
+      message = "Pagamento criado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"

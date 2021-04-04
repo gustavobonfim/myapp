@@ -1,4 +1,4 @@
-class Financials::Books::Payables::CreatePayableStatementTransactionService
+class Financials::Books::Payables::UpdatePaidPayableTransactionService
 
   def initialize(payable)
     @payable = payable
@@ -9,6 +9,9 @@ class Financials::Books::Payables::CreatePayableStatementTransactionService
   def create_payable_transaction
     set_from_and_to_chart_account
     set_from_and_to_amount
+
+
+    debugger
 
     attrs = {
               "date_id" => @payable.date_id,
@@ -32,11 +35,12 @@ class Financials::Books::Payables::CreatePayableStatementTransactionService
               "amount" => @payable.amount,
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
+              "kind" => "balance",
             }
 
     obj = transaction(attrs)
     if obj.valid?
-      obj.save
+      # obj.save
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
     end
   end
@@ -46,9 +50,9 @@ class Financials::Books::Payables::CreatePayableStatementTransactionService
   end
 
   def set_from_and_to_chart_account
-    @to = @payable.chart
-    from_master_name = ::Financials::Books::Settings::ChartAccountRepository::ENUM_MASTER_NAME.select{|key,value| value == @to.name}.keys.first
-    @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_master_name(from_master_name)
+    @from = @payable.channel.chart
+    to_name = ::Financials::Books::Settings::ChartAccountRepository::ENUM_MASTER_NAME.select{|key,value| key == @payable.chart.master_name}.values.first
+    @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_name(to_name)
   end
 
   def set_from_and_to_amount

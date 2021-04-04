@@ -9,18 +9,34 @@ class Financials::Books::Balances::UpdateBalancesService
   
   def update_from_balance
 
-    from_balance = balance(from_id)
-    from_transaction = transactions
+    from_balance = balance(@obj.from_id)
+    @from_transactions = from_transactions
 
-    obj = transaction(attrs)
-    if obj.valid?
-      obj.save
-      ::Financials::Books::Balances::UpdateBalanceService.new(obj)
-    end
+    from_balance.balance = from_balance.previous_balance + @from_transactions.sum(:from_amount)
+
+    from_balance.save
+  end
+
+  def update_to_balance
+
+    to_balance = balance(@obj.to_id)
+    @to_transactions = to_transactions
+
+    to_balance.balance = to_balance.previous_balance + @to_transactions.sum(:to_amount)
+
+    to_balance.save
   end
   
   def balance(chart_id)
     ::Financials::Books::Balances::EntityRepository.find_by_date_and_med(@obj.date_id, @obj.med_id, chart_id)
+  end
+
+  def from_transactions
+    ::Financials::Books::Transactions::EntityRepository.all_active_by_date_and_from(@obj.date_id, @obj.from_id)
+  end
+
+  def to_transactions
+    ::Financials::Books::Transactions::EntityRepository.all_active_by_date_and_to(@obj.date_id, @obj.to_id)
   end
   
 end

@@ -1,18 +1,23 @@
 class API::V1::Financials::Books::Balances::EntitiesController < ApplicationController
 
   def create
-    transaction = ::Financials::Books::Balances::Entities::Create.new(params)
-    render :json => {:save => transaction.save, :data => transaction.data, :status => transaction.status, :type => transaction.type, :message => transaction.message}.as_json
+    balance = ::Financials::Books::Balances::Entities::Create.new(params)
+    render :json => {:save => balance.save, :data => balance.data, :status => balance.status, :type => balance.type, :message => balance.message}.as_json
   end
 
   def update
-    transaction = ::Financials::Books::Balances::Entities::Update.new(params)
-    render :json => {:save => transaction.save, :data => transaction.data, :status => transaction.status, :type => transaction.type, :message => transaction.message}.as_json
+    balance = ::Financials::Books::Balances::Entities::Update.new(params)
+    render :json => {:save => balance.save, :data => balance.data, :status => balance.status, :type => balance.type, :message => balance.message}.as_json
+  end
+
+  def refresh
+    balance = ::Financials::Books::Balances::Entities::Refresh.new(params)
+    render :json => {:save => balance.save, :data => balance.data, :status => balance.status, :type => balance.type, :message => balance.message}.as_json
   end
 
   def read
-    transaction = ::Financials::Books::Balances::Entities::Read.new(params)
-    render :json => {:data => transaction.data, :status => transaction.status, :process => transaction.process?, :type => transaction.type, :message => transaction.message}.as_json
+    balance = ::Financials::Books::Balances::Entities::Read.new(params)
+    render :json => {:data => balance.data, :status => balance.status, :process => balance.process?, :type => balance.type, :message => balance.message}.as_json
   end
 
   def list

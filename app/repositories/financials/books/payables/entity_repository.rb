@@ -34,6 +34,19 @@ class Financials::Books::Payables::EntityRepository < Base
   def self.list(payables)
     mapper.map_all(payables)
   end
+
+  def self.clean_database
+    # Financials::Books::Payables::EntityRepository.clean_database
+
+    if Rails.env == "development"
+      Financial::Book::Payable::Entity.all.each do |payable|
+        Financial::Book::Transaction::Entity.where(token_tree: payable.token).destroy_all
+
+        payable.destroy
+      end
+    end    
+  end
+  
   
 
   private
