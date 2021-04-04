@@ -19,6 +19,10 @@ class Financials::Books::Payables::EntityRepository < Base
     entity.where(active: true)
   end
 
+  def self.all_active_by_date(date_id)
+    entity.where(active: true, date_id: date_id)
+  end
+
   def self.find_by_id(id)
     entity.find_by(id: id)
   end

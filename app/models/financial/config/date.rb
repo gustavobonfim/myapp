@@ -8,7 +8,7 @@ class Financial::Config::Date < ApplicationRecord
 
   # Relations Books
   has_many :payable_transaction, class_name: "Financial::Book::Payable::Entity", foreign_key: "date_id", dependent: :destroy
-  # has_one :statement_calculation, class_name: "Financial::Book::Payable::Calculation", foreign_key: "date_id", dependent: :destroy
+  has_one :payable_calculation, class_name: "Financial::Book::Payable::Calculation", foreign_key: "date_id", dependent: :destroy
   # has_many :statement_transaction, class_name: "Financial::Book::Payable::Transaction", foreign_key: "date_id", dependent: :destroy
 
   # Validations

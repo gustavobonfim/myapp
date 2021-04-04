@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_181355) do
+ActiveRecord::Schema.define(version: 2021_04_04_145734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,6 +354,19 @@ ActiveRecord::Schema.define(version: 2021_04_03_181355) do
     t.index ["open"], name: "index_financial_config_dates_on_open"
     t.index ["token"], name: "index_financial_config_dates_on_token", unique: true
     t.index ["year"], name: "index_financial_config_dates_on_year"
+  end
+
+  create_table "financial_payable_calculations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "med_id"
+    t.decimal "people_expenses", precision: 15, scale: 2, default: "0.0"
+    t.decimal "technology_expenses", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_financial_payable_calculations_on_active"
+    t.index ["date_id"], name: "index_financial_payable_calculations_on_date_id"
+    t.index ["med_id"], name: "index_financial_payable_calculations_on_med_id"
   end
 
   create_table "financial_payable_entities", force: :cascade do |t|
@@ -788,6 +801,8 @@ ActiveRecord::Schema.define(version: 2021_04_03_181355) do
   add_foreign_key "financial_balance_entities", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_balance_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_balance_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_payable_calculations", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_payable_calculations", "user_company_entities", column: "med_id"
   add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_payable_entities", "financial_payable_providers", column: "provider_id"
   add_foreign_key "financial_payable_entities", "financial_setting_channels", column: "channel_id"

@@ -38,6 +38,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
     obj = transaction(attrs)
     if obj.valid?
       obj.save
+      ::Financials::Books::Payables::UpdateCalculationService.new(obj.financial_date)
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
       ::Financials::Books::Statements::CreateProfitTransactionService.new(obj)
     end
