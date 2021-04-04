@@ -77,6 +77,7 @@ Rails.application.routes.draw do
             put "entities/update", to: "entities#update"
             put "entities/refresh", to: "entities#refresh"
             post "entities/list", to: "entities#list"
+            post "entities/read", to: "entities#read"
           end
         end
       end

@@ -26,6 +26,10 @@ class Financials::Books::Transactions::EntityRepository < Base
     entity.where(active: true, date_id: date_id, to_id: to_id)
   end
 
+  def self.all_active_by_date_and_chart(date_id, chart_id)
+    entity.where(active: true, date_id: date_id).where("from_id == ? OR to_id == ?", chart_id, chart_id)
+  end
+
   def self.find_by_id(id)
     entity.find_by(id: id)
   end
