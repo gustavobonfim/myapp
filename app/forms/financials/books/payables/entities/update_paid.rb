@@ -23,10 +23,9 @@ class Financials::Books::Payables::Entities::UpdatePaid
     # return false unless @can_current_user_update_payable
     ActiveRecord::Base.transaction do
       if @valid
-        # @payable.save
-        
-        ::Financials::Books::Payables::UpdatePaidPayableTransactionService.new(@payable)
-        # ::Financials::Books::Payables::UpdatePaidPayableTransactionService.new(@payable) if @payable.paid
+        @payable.save
+      
+        ::Financials::Books::Payables::UpdatePaidPayableTransactionService.new(@payable) if @payable.paid
 
         @data = true
         @status = true

@@ -19,7 +19,7 @@ class Financials::Books::Balances::EntityRepository < Base
   end
 
   def self.all_active_by_date(date_id)
-    entity.where(active: true, date_id: date_id)
+    entity.where(active: true, date_id: date_id).includes(:chart)
   end
 
   def self.find_by_id(id)

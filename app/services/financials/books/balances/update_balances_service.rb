@@ -12,7 +12,11 @@ class Financials::Books::Balances::UpdateBalancesService
     from_balance = balance(@obj.from_id)
     @from_transactions = from_transactions
 
-    from_balance.balance = from_balance.previous_balance + @from_transactions.sum(:from_amount)
+    if from_balance.kind == "balance"
+      from_balance.balance = from_balance.previous_balance + @from_transactions.sum(:from_amount) + @from_transactions.sum(:to_amount)
+    else
+      from_balance.balance = @from_transactions.sum(:from_amount) + @from_transactions.sum(:to_amount)
+    end
 
     from_balance.save
   end
@@ -22,7 +26,11 @@ class Financials::Books::Balances::UpdateBalancesService
     to_balance = balance(@obj.to_id)
     @to_transactions = to_transactions
 
-    to_balance.balance = to_balance.previous_balance + @to_transactions.sum(:to_amount)
+    if to_balance.kind == "balance"
+      to_balance.balance = to_balance.previous_balance + @to_transactions.sum(:from_amount) + @to_transactions.sum(:to_amount)
+    else
+      to_balance.balance = @to_transactions.sum(:from_amount) + @to_transactions.sum(:to_amount)
+    end
 
     to_balance.save
   end

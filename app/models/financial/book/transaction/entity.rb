@@ -5,7 +5,7 @@ class Financial::Book::Transaction::Entity < ApplicationRecord
   # Relations
   belongs_to :financial_date, class_name: "Financial::Config::Date", foreign_key: "date_id"
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
-  belongs_to :channel, class_name: "Financial::Book::Setting::Channel", foreign_key: "channel_id"
+  belongs_to :channel, class_name: "Financial::Book::Setting::Channel", foreign_key: "channel_id", optional: true
   belongs_to :from, class_name: "Financial::Book::Setting::ChartAccount", foreign_key: "from_id"
   belongs_to :to, class_name: "Financial::Book::Setting::ChartAccount", foreign_key: "to_id"
   

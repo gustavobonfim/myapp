@@ -22,6 +22,7 @@ class Financials::Books::Balances::CreateBalancesService
                   "balance" => 0,
                   "previous_balance" => previous_obj.balance,
                   "chart_name" => chart_account.chart_name,
+                  "chart_code" => chart_account.token,
                 }
 
         obj = balance(attrs)

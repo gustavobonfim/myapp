@@ -10,9 +10,6 @@ class Financials::Books::Payables::UpdatePaidPayableTransactionService
     set_from_and_to_chart_account
     set_from_and_to_amount
 
-
-    debugger
-
     attrs = {
               "date_id" => @payable.date_id,
               "med_id" => @payable.med_id,
@@ -40,7 +37,7 @@ class Financials::Books::Payables::UpdatePaidPayableTransactionService
 
     obj = transaction(attrs)
     if obj.valid?
-      # obj.save
+      obj.save
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
     end
   end

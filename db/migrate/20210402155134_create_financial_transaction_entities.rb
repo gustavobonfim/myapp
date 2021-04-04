@@ -18,14 +18,15 @@ class CreateFinancialTransactionEntities < ActiveRecord::Migration[5.2]
       t.string :to_group
       t.string :to_master_group
       t.string :to_master
+      t.string :channel_name
       t.decimal :amount, default: 0, precision: 15, scale: 2
       t.decimal :from_amount, default: 0, precision: 15, scale: 2
       t.decimal :to_amount, default: 0, precision: 15, scale: 2
-      t.datetime :date
+      t.date :date
       t.string :description
       t.integer :method
       t.integer :kind
-      t.string :channel_name
+      t.boolean :intern, default: false
       t.boolean :recurring, default: false
       t.integer :installment
       t.string :token_tree
@@ -45,6 +46,7 @@ class CreateFinancialTransactionEntities < ActiveRecord::Migration[5.2]
     add_index :financial_transaction_entities, :channel_id
     add_index :financial_transaction_entities, :method
     add_index :financial_transaction_entities, :kind
+    add_index :financial_transaction_entities, :intern
     add_index :financial_transaction_entities, :recurring
     add_index :financial_transaction_entities, :from_code
     add_index :financial_transaction_entities, :from_master_name

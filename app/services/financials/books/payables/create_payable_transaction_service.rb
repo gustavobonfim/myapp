@@ -39,6 +39,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
     if obj.valid?
       obj.save
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
+      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj)
     end
   end
   
@@ -48,8 +49,8 @@ class Financials::Books::Payables::CreatePayableTransactionService
 
   def set_from_and_to_chart_account
     @to = @payable.chart
-    from_master_name = ::Financials::Books::Settings::ChartAccountRepository::ENUM_MASTER_NAME.select{|key,value| key == @to.master_name}.values.first
-    @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_name(from_master_name)
+    from_name = ::Financials::Books::Settings::ChartAccountRepository::ENUM_MASTER_NAME.select{|key,value| key == @to.master_name}.values.first
+    @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_name(from_name)
   end
 
   def set_from_and_to_amount

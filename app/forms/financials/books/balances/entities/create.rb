@@ -1,11 +1,11 @@
-class Financials::Books::Balances::Entities::Refresh
+class Financials::Books::Balances::Entities::Create
 
   def initialize(params)
     @balance_params = params.require(:balance).permit(:date_id, :date)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    # @can_current_user_update_balance = can_current_user_update_balance?
-    # return false unless @can_current_user_update_balance
+    # @can_current_user_create_balance = can_current_user_create_balance?
+    # return false unless @can_current_user_create_balance
 
     @date = ::Financials::Config::FindOrCreateDateService.new(@balance_params[:date]).find_or_create_date
     @valid = @date.valid?
@@ -20,31 +20,31 @@ class Financials::Books::Balances::Entities::Refresh
   end
 
   def status
-    # return :forbidden unless @can_current_user_update_balance
+    # return :forbidden unless @can_current_user_create_balance
     @status
   end
 
   def process?
-    # return false unless @can_current_user_update_balance
+    # return false unless @can_current_user_create_balance
     @process
   end
 
   def type
-    # return "danger" unless @can_current_user_update_balance
+    # return "danger" unless @can_current_user_create_balance
     @type
   end
 
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_update_balance
+    # return message = "A ação não é permitida" unless @can_current_user_create_balance
     @message
   end
 
   def save
-    # return false unless @can_current_user_update_payable
+    # return false unless @can_current_user_create_payable
     ActiveRecord::Base.transaction do
       if @valid
         
-        ::Financials::Books::Balances::RefreshBalancesService.new(@date)
+        ::Financials::Books::Balances::CreateBalancesService.new(@date)
 
         @data = true
         @status = true
@@ -65,7 +65,7 @@ class Financials::Books::Balances::Entities::Refresh
   end
   
   def data
-    # return cln = [] unless @can_current_user_update_payable
+    # return cln = [] unless @can_current_user_create_payable
     if @data
       @balances = balances
 
@@ -79,8 +79,8 @@ class Financials::Books::Balances::Entities::Refresh
 
   private
 
-  def can_current_user_update_balance?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "update", "financial_balance_entities").can_current_user?
+  def can_current_user_create_balance?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "create", "financial_balance_entities").can_current_user?
   end
 
 end

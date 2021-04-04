@@ -10,6 +10,7 @@ class CreateFinancialBalanceEntities < ActiveRecord::Migration[5.2]
       t.decimal :balance, default: 0, precision: 15, scale: 2
       t.decimal :previous_balance, default: 0, precision: 15, scale: 2
       t.string :chart_name
+      t.string :chart_code
       t.string :token
     end
 
@@ -21,6 +22,8 @@ class CreateFinancialBalanceEntities < ActiveRecord::Migration[5.2]
     add_index :financial_balance_entities, :chart_id
     add_index :financial_balance_entities, :med_id
     add_index :financial_balance_entities, :kind
+    add_index :financial_balance_entities, :chart_name
+    add_index :financial_balance_entities, :chart_code
     add_index :financial_balance_entities, :token
   end
 end
