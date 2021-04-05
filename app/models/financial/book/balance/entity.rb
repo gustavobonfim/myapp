@@ -41,4 +41,5 @@ end
 # t.decimal "balance", precision: 15, scale: 2, default: "0.0"
 # t.decimal "previous_balance", precision: 15, scale: 2, default: "0.0"
 # t.string "chart_name"
+# t.string "chart_code"
 # t.string "token"

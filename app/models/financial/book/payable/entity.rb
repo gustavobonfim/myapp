@@ -34,6 +34,8 @@ end
 # t.string "description"
 # t.string "chart_account"
 # t.string "chart_name"
+# t.string "chart_master_name"
+# t.string "chart_group"
 # t.integer "method"
 # t.string "channel_name"
 # t.string "bank_line"

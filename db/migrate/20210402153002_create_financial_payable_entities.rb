@@ -15,6 +15,8 @@ class CreateFinancialPayableEntities < ActiveRecord::Migration[5.2]
       t.string :description
       t.string :chart_account
       t.string :chart_name
+      t.string :chart_master_name
+      t.string :chart_group
       t.integer :method
       t.string :channel_name
       t.string :bank_line
@@ -24,7 +26,7 @@ class CreateFinancialPayableEntities < ActiveRecord::Migration[5.2]
       t.integer :split
       t.integer :installment
       t.string :token
-      
+      t.string :token_recurring
     end
 
     add_foreign_key :financial_payable_entities, :financial_setting_chart_accounts, column: :chart_id
@@ -42,8 +44,12 @@ class CreateFinancialPayableEntities < ActiveRecord::Migration[5.2]
     add_index :financial_payable_entities, :paid
     add_index :financial_payable_entities, :recurring
     add_index :financial_payable_entities, :splited
-    add_index :financial_payable_entities, :token
     add_index :financial_payable_entities, :due_date
     add_index :financial_payable_entities, :accrual_date
+    add_index :financial_payable_entities, :chart_name
+    add_index :financial_payable_entities, :chart_master_name
+    add_index :financial_payable_entities, :chart_group
+    add_index :financial_payable_entities, :token, unique: true
+    add_index :financial_payable_entities, :token_recurring
   end
 end
