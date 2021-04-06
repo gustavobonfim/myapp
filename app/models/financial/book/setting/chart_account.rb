@@ -4,6 +4,7 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
   
   # Relations
   # belongs_to :date, class_name: "Financial::Config::Date", foreign_key: "date_id"
+  has_one :channel, class_name: "Financial::Book::Setting::Channel", foreign_key: "chart_id", dependent: :destroy
   
   # Validations
   validates :token, uniqueness: { case_sensitive: false, message: "Já existe uma conta com essa codificação. "  }
@@ -17,7 +18,7 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
   enum master_name: {
                       :availabilities=>1,
                       :short_term_financial_investments=>2,
-                      :clients=>3,
+                      :clients_receivables=>3,
                       :miscellaneous_credits=>4,
                       :prepaid_expenses=>5,
                       :taxes_to_be_recovered=>6,
@@ -105,7 +106,7 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
                 :cash_and_cash_equivalents=>1,
                 :receivables=>2,
                 :prepaid_expenses_and_taxes=>3,
-                :mutual_inside_group=>4,
+                :asset_mutual_inside_group=>4,
                 :tangible=>5,
                 :intagible=>6,
                 :payables=>7,
@@ -114,32 +115,33 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
                 :short_term_financial_obligations=>10,
                 :refund_payables=>11,
                 :advance_revenues=>12,
-                :long_term_financial_obligations=>13,
-                :grant_liabilities_provision=>14,
-                :grant_capital_stock=>15,
-                :reserves=>16,
-                :accrued_profit_and_loss=>17,
-                :accounting=>18,
-                :biling=>19,
-                :investment=>20,
-                :protection=>21,
-                :miscellaneous=>22,
-                :financial_revenues=>23,
-                :operation_staff_expenses=>24,
-                :technology_expenses=>25,
-                :services_expenses=>26,
-                :commercial_staff_expenses=>27,
-                :sales_expenses=>28,
-                :marketing_expenses=>29,
-                :administrative_staff_expenses=>30,
-                :administrative_expenses=>31,
-                :general_staff_expenses=>32,
-                :general_expenses=>33,
-                :grant_depreciation_expenses=>34,
-                :financial_expenses=>35,
-                :grant_losses_realization=>36,
-                :group_result=>37,
-                :taxes_and_contributions=>38
+                :liability_mutual_inside_group=>13,
+                :long_term_financial_obligations=>14,
+                :grant_liabilities_provision=>15,
+                :grant_capital_stock=>16,
+                :reserves=>17,
+                :accrued_profit_and_loss=>18,
+                :accounting=>19,
+                :biling=>20,
+                :investment=>21,
+                :protection=>22,
+                :miscellaneous=>23,
+                :financial_revenues=>24,
+                :operation_staff_expenses=>25,
+                :technology_expenses=>26,
+                :services_expenses=>27,
+                :commercial_staff_expenses=>28,
+                :sales_expenses=>29,
+                :marketing_expenses=>30,
+                :administrative_staff_expenses=>31,
+                :administrative_expenses=>32,
+                :general_staff_expenses=>33,
+                :general_expenses=>34,
+                :grant_depreciation_expenses=>35,
+                :financial_expenses=>36,
+                :grant_losses_realization=>37,
+                :group_result=>38,
+                :taxes_and_contributions=>39
               }, _prefix: :_
 
   enum master_group: {

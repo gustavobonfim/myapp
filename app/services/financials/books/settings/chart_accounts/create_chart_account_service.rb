@@ -12,13 +12,28 @@ class Financials::Books::Settings::ChartAccounts::CreateChartAccountService
   end
   
   def create_chart_account
-    @attrs.each do |attrs|
-      if attrs["code"].to_i < 10
-        attrs = attrs.merge({ "code" => "0#{attrs["code"]}" })      
-      end
+    ActiveRecord::Base.transaction do
+      @attrs.each do |attrs|
+        # if attrs["code"].to_i < 10
+        #   attrs = attrs.merge({ "code" => "0#{attrs["code"]}" })      
+        # end
 
-      obj = chart_account(attrs)
-      obj.save
+        obj = chart_account(attrs)
+
+        if obj.valid?
+          obj.save
+        else
+
+
+
+
+          debugger
+
+
+
+          raise ActiveRecord::Rollback
+        end
+      end
     end
   end
   
