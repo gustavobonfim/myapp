@@ -3,7 +3,7 @@ class Financials::Books::Settings::ChartAccounts::CreateChartAccountService
   def initialize(attrs)
     @attrs = attrs
 
-    destroy_all_chart_accounts
+    # destroy_all_chart_accounts
     create_chart_account
   end
 

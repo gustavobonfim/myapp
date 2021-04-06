@@ -17,6 +17,16 @@ class App::Faker
     puts generated
   end
 
+  def self.company
+    generated = "#{Faker::Company.name} LTDA"
+    puts generated
+  end
+
 end
 
 # sudo apt-get install xclip
+
+# App::Faker.cpf
+# App::Faker.cnpj
+# App::Faker.name
+# App::Faker.company
