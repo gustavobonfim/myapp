@@ -47,6 +47,10 @@ Rails.application.routes.draw do
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
             post "entities/list", to: "entities#list"
+
+            post "transactions/create", to: "transactions#create"
+            put "transactions/update", to: "transactions#update"
+            post "transactions/list", to: "transactions#list"
           end
 
           namespace :payables do
