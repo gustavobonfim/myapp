@@ -39,6 +39,17 @@ Rails.application.routes.draw do
 
       namespace :financials do
         namespace :books do
+          namespace :cards do
+            post "bills/create", to: "bills#create"
+            put "bills/update", to: "bills#update"
+            put "bills/update_paid", to: "bills#update_paid"
+            post "bills/list", to: "bills#list"
+
+            post "entities/create", to: "entities#create"
+            put "entities/update", to: "entities#update"
+            post "entities/list", to: "entities#list"
+          end
+
           namespace :payables do
             post "providers/create", to: "providers#create"
             put "providers/update", to: "providers#update"
