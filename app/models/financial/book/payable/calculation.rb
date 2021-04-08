@@ -19,6 +19,7 @@ end
 # t.boolean "active", default: true, null: false
 # t.bigint "date_id"
 # t.bigint "med_id"
+# t.decimal "technology_staff_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "operation_staff_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "commercial_staff_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "administrative_staff_expenses", precision: 15, scale: 2, default: "0.0"
@@ -33,6 +34,9 @@ end
 # t.decimal "financial_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "grant_losses_realization", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_staff_expenses", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_technology_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_commercial_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_operation_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_administrative_expenses", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_paid_amount", precision: 15, scale: 2, default: "0.0"

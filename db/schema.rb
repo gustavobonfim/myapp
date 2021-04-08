@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_04_145734) do
+ActiveRecord::Schema.define(version: 2021_04_08_152133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,6 +341,75 @@ ActiveRecord::Schema.define(version: 2021_04_04_145734) do
     t.index ["token"], name: "index_financial_balance_entities_on_token"
   end
 
+  create_table "financial_card_bills", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "card_id"
+    t.integer "day"
+    t.integer "month"
+    t.integer "year"
+    t.boolean "paid", default: false
+    t.integer "invoice"
+    t.date "due_date"
+    t.date "closing_date"
+    t.decimal "balance", precision: 15, scale: 2, default: "0.0"
+    t.string "name"
+    t.string "token"
+    t.index ["active"], name: "index_financial_card_bills_on_active"
+    t.index ["card_id"], name: "index_financial_card_bills_on_card_id"
+    t.index ["closing_date"], name: "index_financial_card_bills_on_closing_date"
+    t.index ["due_date"], name: "index_financial_card_bills_on_due_date"
+    t.index ["invoice"], name: "index_financial_card_bills_on_invoice"
+    t.index ["name"], name: "index_financial_card_bills_on_name"
+    t.index ["paid"], name: "index_financial_card_bills_on_paid"
+    t.index ["token"], name: "index_financial_card_bills_on_token", unique: true
+  end
+
+  create_table "financial_card_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "med_id"
+    t.integer "pay_day"
+    t.integer "closing_day"
+    t.integer "status"
+    t.string "last_four"
+    t.string "name"
+    t.string "token"
+    t.decimal "credit_limit", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_financial_card_entities_on_active"
+    t.index ["med_id"], name: "index_financial_card_entities_on_med_id"
+    t.index ["name"], name: "index_financial_card_entities_on_name"
+    t.index ["status"], name: "index_financial_card_entities_on_status"
+    t.index ["token"], name: "index_financial_card_entities_on_token", unique: true
+  end
+
+  create_table "financial_card_transactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "card_id"
+    t.bigint "bill_id"
+    t.bigint "provider_id"
+    t.integer "quota"
+    t.date "date"
+    t.date "first_pay"
+    t.date "last_pay"
+    t.date "pay_day"
+    t.date "closing_day"
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.string "description"
+    t.string "chart_name"
+    t.string "token"
+    t.string "token_tree"
+    t.index ["active"], name: "index_financial_card_transactions_on_active"
+    t.index ["card_id"], name: "index_financial_card_transactions_on_card_id"
+    t.index ["chart_name"], name: "index_financial_card_transactions_on_chart_name"
+    t.index ["token"], name: "index_financial_card_transactions_on_token", unique: true
+    t.index ["token_tree"], name: "index_financial_card_transactions_on_token_tree"
+  end
+
   create_table "financial_config_dates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -459,7 +528,9 @@ ActiveRecord::Schema.define(version: 2021_04_04_145734) do
     t.bigint "med_id"
     t.string "name"
     t.integer "kind"
+    t.bigint "card_id"
     t.index ["active"], name: "index_financial_setting_channels_on_active"
+    t.index ["card_id"], name: "index_financial_setting_channels_on_card_id"
     t.index ["kind"], name: "index_financial_setting_channels_on_kind"
   end
 
@@ -827,6 +898,11 @@ ActiveRecord::Schema.define(version: 2021_04_04_145734) do
   add_foreign_key "financial_balance_entities", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_balance_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_balance_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_card_bills", "financial_card_entities", column: "card_id"
+  add_foreign_key "financial_card_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_card_transactions", "financial_card_bills", column: "bill_id"
+  add_foreign_key "financial_card_transactions", "financial_card_entities", column: "card_id"
+  add_foreign_key "financial_card_transactions", "financial_payable_providers", column: "provider_id"
   add_foreign_key "financial_payable_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_payable_calculations", "user_company_entities", column: "med_id"
   add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
@@ -834,6 +910,7 @@ ActiveRecord::Schema.define(version: 2021_04_04_145734) do
   add_foreign_key "financial_payable_entities", "financial_setting_channels", column: "channel_id"
   add_foreign_key "financial_payable_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_payable_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_setting_channels", "financial_card_entities", column: "card_id"
   add_foreign_key "financial_setting_channels", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_setting_channels", "user_company_entities", column: "med_id"
   add_foreign_key "financial_transaction_entities", "financial_config_dates", column: "date_id"

@@ -5,6 +5,12 @@ class Financials::Books::Payables::ProviderMapper < BaseMapper
 
     obj = obj.merge({ "id_type_pretty" => Financials::Books::Payables::ProviderRepository::ENUM_TYPE[model.id_type] })
 
+    if model.id_type == "individual"
+      obj = obj.merge({ "id_number_pretty" => ::AccountDecorator.cpf_pretty(model.id_number) })
+    elsif model.id_type == "legal"
+      obj = obj.merge({ "id_number_pretty" => ::CompanyDecorator.cnpj_pretty(model.id_number) })
+    end
+
     return obj
   end
 

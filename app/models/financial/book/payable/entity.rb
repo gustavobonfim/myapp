@@ -1,6 +1,12 @@
 class Financial::Book::Payable::Entity < ApplicationRecord
 
   self.table_name = "financial_payable_entities"
+
+  # Storage
+  has_one_attached :bill
+  has_one_attached :invoice
+  has_one_attached :receipt
+
   
   # Relations
   belongs_to :financial_date, class_name: "Financial::Config::Date", foreign_key: "date_id"

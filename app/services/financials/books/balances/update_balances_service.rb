@@ -42,11 +42,11 @@ class Financials::Books::Balances::UpdateBalancesService
   end
 
   def from_transactions(chart_id)
-    ::Financials::Books::Transactions::EntityRepository.all_active_by_date_and_from(@obj.date_id, chart_id)
+    ::Financials::Books::Transactions::EntityRepository.all_active_by_date_and_med_and_from(@obj.date_id, @obj.med_id, chart_id)
   end
 
   def to_transactions(chart_id)
-    ::Financials::Books::Transactions::EntityRepository.all_active_by_date_and_to(@obj.date_id, chart_id)
+    ::Financials::Books::Transactions::EntityRepository.all_active_by_date_and_med_and_to(@obj.date_id, @obj.med_id, chart_id)
   end
   
 end

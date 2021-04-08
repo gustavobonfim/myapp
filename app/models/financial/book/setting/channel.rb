@@ -5,6 +5,7 @@ class Financial::Book::Setting::Channel < ApplicationRecord
   # Relations
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
   belongs_to :chart, class_name: "Financial::Book::Setting::ChartAccount", foreign_key: "chart_id"
+  belongs_to :card, class_name: "Financial::Book::Payable::Card", foreign_key: "card_id", optional: true
   
   # Validations
   validates :kind, presence: {message: "O Tipo não pode ficar em Branco. "}
