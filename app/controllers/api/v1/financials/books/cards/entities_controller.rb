@@ -10,11 +10,6 @@ class API::V1::Financials::Books::Cards::EntitiesController < ApplicationControl
     render :json => {:save => card.save, :data => card.data, :status => card.status, :type => card.type, :message => card.message}.as_json
   end
 
-  def update_paid
-    card = ::Financials::Books::Cards::Entities::UpdatePaid.new(params)
-    render :json => {:save => card.save, :data => card.data, :status => card.status, :type => card.type, :message => card.message}.as_json
-  end
-
   def read
     card = ::Financials::Books::Cards::Entities::Read.new(params)
     render :json => {:data => card.data, :status => card.status, :process => card.process?, :type => card.type, :message => card.message}.as_json

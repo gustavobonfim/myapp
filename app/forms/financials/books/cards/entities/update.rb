@@ -70,7 +70,7 @@ class Financials::Books::Cards::Entities::Update
   def message
     # return message = "A ação não é permitida" unless @can_current_user_update_card
     if @message
-      message = "Pagamento criado com sucesso!"
+      message = "Cartão de Crédito criado com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"
