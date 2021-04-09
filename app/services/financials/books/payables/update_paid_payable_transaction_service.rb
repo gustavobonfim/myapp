@@ -39,6 +39,7 @@ class Financials::Books::Payables::UpdatePaidPayableTransactionService
     if obj.valid?
       obj.save
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
+      ::Financials::Books::Cards::CreateCardTransactionService.new(@payable) if @payable.method == "credit_card"
     end
   end
   

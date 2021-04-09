@@ -10,6 +10,11 @@ class API::V1::Financials::Books::Cards::BillsController < ApplicationController
     render :json => {:save => bill.save, :data => bill.data, :status => bill.status, :type => bill.type, :message => bill.message}.as_json
   end
 
+  def close_bill
+    bill = ::Financials::Books::Cards::Bills::CloseBill.new(params)
+    render :json => {:save => bill.save, :data => bill.data, :status => bill.status, :type => bill.type, :message => bill.message}.as_json
+  end
+
   def read
     bill = ::Financials::Books::Cards::Bills::Read.new(params)
     render :json => {:data => bill.data, :status => bill.status, :process => bill.process?, :type => bill.type, :message => bill.message}.as_json

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
           namespace :cards do
             put "bills/update", to: "bills#update"
             put "bills/update_paid", to: "bills#update_paid"
+            put "bills/close_bill", to: "bills#close_bill"
             post "bills/list", to: "bills#list"
 
             post "entities/create", to: "entities#create"

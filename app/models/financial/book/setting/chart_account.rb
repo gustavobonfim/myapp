@@ -10,6 +10,7 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
   validates :token, uniqueness: { case_sensitive: false, message: "Já existe uma conta com essa codificação. "  }
   validates :chart_account, uniqueness: { case_sensitive: false, message: "Conta já existe no Plano de Contas. "  }
   validates :chart_name, uniqueness: { case_sensitive: false, message: "Conta já existe no Plano de Contas. "  }
+  validates :name, uniqueness: { case_sensitive: false, message: "Conta já existe no Plano de Contas. "  }
   # validates :accounting, uniqueness: { case_sensitive: false, message: "Plano de Contas Contábil já existe. "  }
 
   # Enums
