@@ -6,6 +6,8 @@ class Financial::Book::Card::Entity < ApplicationRecord
   
   # Relations
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
+  has_many :transactions, class_name: "Financial::Book::Card::Transaction", foreign_key: "card_id", dependent: :destroy
+  has_many :bills, class_name: "Financial::Book::Card::Bill", foreign_key: "card_id", dependent: :destroy
 
   # Validations
   validates :last_four, presence: {message: "Os últimos 4 dígitos não pode ficar em branco. "}
