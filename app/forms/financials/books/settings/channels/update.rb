@@ -1,7 +1,7 @@
 class Financials::Books::Settings::Channels::Update
 
   def initialize(params)
-    @channel_params = params.require(:channel).permit(:id, :name, :kind, :med_id, :chart_id)
+    @channel_params = params.require(:channel).permit(:id, :name, :kind, :med_id, :chart_id, :card_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_update_channel = can_current_user_update_channel?

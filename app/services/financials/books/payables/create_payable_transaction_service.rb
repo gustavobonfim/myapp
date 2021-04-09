@@ -41,6 +41,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
       ::Financials::Books::Payables::UpdateCalculationService.new(obj.financial_date)
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
       ::Financials::Books::Statements::CreateProfitTransactionService.new(obj)
+      ::Financials::Books::Cards::CreateCardTransactionService.new(@payable) if @payable.method == "credit_card"
     end
   end
   

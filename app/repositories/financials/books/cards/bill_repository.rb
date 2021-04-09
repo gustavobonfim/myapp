@@ -3,7 +3,6 @@ class Financials::Books::Cards::BillRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
-    obj.token = set_token("token").upcase
     
     return obj
   end
@@ -16,19 +15,29 @@ class Financials::Books::Cards::BillRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true).includes(:med)
+    entity.where(active: true).includes(:card)
   end
 
   def self.all_active_by_date(date_id)
     entity.where(active: true, date_id: date_id)
   end
 
+  def self.find_or_initialize_by_token(bill_token)
+    bill = find_by_token(bill_token)
+    
+    if bill.present?
+      return bill
+    else
+      return entity.new
+    end
+  end
+  
   def self.find_by_id(id)
     entity.find_by(id: id)
   end
 
-  def self.find_by_date(date_id)
-    entity.find_by(date_id: date_id)
+  def self.find_by_token(token)
+    entity.find_by(token: token)
   end
 
   def self.read(bill)

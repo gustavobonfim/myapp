@@ -6,6 +6,7 @@ class Financial::Book::Card::Bill < ApplicationRecord
   
   # Relations
   belongs_to :card, class_name: "Financial::Book::Card::Entity", foreign_key: "card_id"
+  has_many :transactions, class_name: "Financial::Book::Card::Transaction", foreign_key: "card_id", dependent: :destroy
 
   # Validations
   validates :token, presence: { message: "Os últimos 4 dígitos não pode ficar em branco. " },
@@ -21,7 +22,6 @@ class Financial::Book::Card::Bill < ApplicationRecord
   before_validation :set_name
 
   def set_token
-
     card_code = self.card_id.to_s.rjust(3,"0").upcase
     year_code = self.year.to_s.rjust(4,"0").upcase
     month_code = self.month.to_s.rjust(2,"0").upcase
@@ -32,7 +32,7 @@ class Financial::Book::Card::Bill < ApplicationRecord
   def set_name
     month_code = self.month.to_s.rjust(2,"0").upcase
     year_code = self.year.to_s.rjust(4,"0").upcase
-    self.name = "Fatura #{self.credit_card.name} | #{month_code}-#{year_code}"
+    self.name = "Fatura #{self.card.name} | #{month_code}-#{year_code}"
   end
 
 end
