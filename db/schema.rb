@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_015546) do
+ActiveRecord::Schema.define(version: 2021_04_14_023748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -331,6 +331,8 @@ ActiveRecord::Schema.define(version: 2021_04_14_015546) do
     t.string "chart_name"
     t.string "chart_code"
     t.string "token"
+    t.decimal "from_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "to_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_balance_entities_on_active"
     t.index ["chart_code"], name: "index_financial_balance_entities_on_chart_code"
     t.index ["chart_id"], name: "index_financial_balance_entities_on_chart_id"

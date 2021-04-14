@@ -19,6 +19,9 @@ class Financials::Books::Balances::UpdateBalancesService
       from_balance.balance = from_balance_transactions.sum(:from_amount) + to_balance_transactions.sum(:to_amount)
     end
 
+    from_balance.from_amount = from_balance_transactions.sum(:from_amount)
+    from_balance.to_amount = to_balance_transactions.sum(:to_amount)
+
     from_balance.save
   end
 
@@ -33,6 +36,10 @@ class Financials::Books::Balances::UpdateBalancesService
     else
       to_balance.balance = from_balance_transactions.sum(:from_amount) + to_balance_transactions.sum(:to_amount)
     end
+
+
+    to_balance.from_amount = from_balance_transactions.sum(:from_amount)
+    to_balance.to_amount = to_balance_transactions.sum(:to_amount)
 
     to_balance.save
   end
