@@ -1,4 +1,4 @@
-class Financials::Books::Cards::CloseBillPayableService
+class Financials::Books::Cards::CloseBillPayableServiceex
 
   def initialize(bill)
     @bill = bill

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_023748) do
+ActiveRecord::Schema.define(version: 2021_04_14_144338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -432,6 +432,22 @@ ActiveRecord::Schema.define(version: 2021_04_14_023748) do
     t.index ["open"], name: "index_financial_config_dates_on_open"
     t.index ["token"], name: "index_financial_config_dates_on_token", unique: true
     t.index ["year"], name: "index_financial_config_dates_on_year"
+  end
+
+  create_table "financial_contract_takers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "name"
+    t.string "id_number"
+    t.integer "id_type"
+    t.bigint "record_id"
+    t.string "record_type"
+    t.index ["active"], name: "index_financial_contract_takers_on_active"
+    t.index ["id_number"], name: "index_financial_contract_takers_on_id_number", unique: true
+    t.index ["id_type"], name: "index_financial_contract_takers_on_id_type"
+    t.index ["record_id"], name: "index_financial_contract_takers_on_record_id"
+    t.index ["record_type"], name: "index_financial_contract_takers_on_record_type"
   end
 
   create_table "financial_payable_calculations", force: :cascade do |t|
