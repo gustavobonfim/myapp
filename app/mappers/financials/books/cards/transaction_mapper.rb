@@ -2,7 +2,6 @@ class Financials::Books::Cards::TransactionMapper < BaseMapper
 
   def self.map(model)
     obj = model.attributes
-    med = model.med
 
     obj = obj.merge({ "date" => DateDecorator.abbr_month_date(model.date) })
     obj = obj.merge({ "first_pay" => DateDecorator.abbr_month_date(model.first_pay) })

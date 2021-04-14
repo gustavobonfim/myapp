@@ -4,7 +4,7 @@ class Financials::Books::Payables::Entities::Create
     @payable_params = params.require(:payable).permit(:chart_id, :med_id, :channel_id, :provider_id, :provider_name,
                                                       :due_date, :accrual_date, :amount, :description, :chart_account,
                                                       :chart_name, :method, :channel_name, :bank_line, :recurring, :splited,
-                                                      :split, :installment, :chart_master_name, :chart_group)
+                                                      :split, :installment, :chart_master_name, :chart_group, :kind)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_payable = can_current_user_create_payable?

@@ -23,9 +23,9 @@ class Financials::Books::Cards::Bills::CloseBill
     # return false unless @can_current_user_update_bill
     ActiveRecord::Base.transaction do
       if @valid
-        # @bill.save
+        @bill.save
       
-        ::Financials::Books::Cards::CloseBillTransactionService.new(@bill) if @bill.invoice == "closed"
+        ::Financials::Books::Cards::CloseBillPayableService.new(@bill) if @bill.invoice == "closed"
 
         @data = true
         @status = true

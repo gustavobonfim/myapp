@@ -1,7 +1,8 @@
 class Financials::Books::Cards::Entities::Create
 
   def initialize(params)
-    @card_params = params.require(:card).permit(:name, :pay_day, :closing_day, :med_id, :last_four, :credit_limit)
+    @card_params = params.require(:card).permit(:name, :pay_day, :closing_day, :med_id, :last_four,
+                                                :credit_limit, :channel_name, :provider_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_card = can_current_user_create_card?

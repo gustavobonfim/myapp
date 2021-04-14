@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_08_152133) do
+ActiveRecord::Schema.define(version: 2021_04_14_015546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -378,9 +378,13 @@ ActiveRecord::Schema.define(version: 2021_04_08_152133) do
     t.string "name"
     t.string "token"
     t.decimal "credit_limit", precision: 15, scale: 2, default: "0.0"
+    t.string "channel_name"
+    t.bigint "provider_id"
     t.index ["active"], name: "index_financial_card_entities_on_active"
+    t.index ["channel_name"], name: "index_financial_card_entities_on_channel_name"
     t.index ["med_id"], name: "index_financial_card_entities_on_med_id"
     t.index ["name"], name: "index_financial_card_entities_on_name"
+    t.index ["provider_id"], name: "index_financial_card_entities_on_provider_id"
     t.index ["status"], name: "index_financial_card_entities_on_status"
     t.index ["token"], name: "index_financial_card_entities_on_token", unique: true
   end
@@ -488,6 +492,7 @@ ActiveRecord::Schema.define(version: 2021_04_08_152133) do
     t.integer "installment"
     t.string "token"
     t.string "token_recurring"
+    t.integer "kind"
     t.index ["accrual_date"], name: "index_financial_payable_entities_on_accrual_date"
     t.index ["active"], name: "index_financial_payable_entities_on_active"
     t.index ["channel_id"], name: "index_financial_payable_entities_on_channel_id"
@@ -497,6 +502,7 @@ ActiveRecord::Schema.define(version: 2021_04_08_152133) do
     t.index ["chart_name"], name: "index_financial_payable_entities_on_chart_name"
     t.index ["date_id"], name: "index_financial_payable_entities_on_date_id"
     t.index ["due_date"], name: "index_financial_payable_entities_on_due_date"
+    t.index ["kind"], name: "index_financial_payable_entities_on_kind"
     t.index ["med_id"], name: "index_financial_payable_entities_on_med_id"
     t.index ["method"], name: "index_financial_payable_entities_on_method"
     t.index ["paid"], name: "index_financial_payable_entities_on_paid"
@@ -902,6 +908,7 @@ ActiveRecord::Schema.define(version: 2021_04_08_152133) do
   add_foreign_key "financial_balance_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_balance_entities", "user_company_entities", column: "med_id"
   add_foreign_key "financial_card_bills", "financial_card_entities", column: "card_id"
+  add_foreign_key "financial_card_entities", "financial_payable_providers", column: "provider_id"
   add_foreign_key "financial_card_entities", "user_company_entities", column: "med_id"
   add_foreign_key "financial_card_transactions", "financial_card_bills", column: "bill_id"
   add_foreign_key "financial_card_transactions", "financial_card_entities", column: "card_id"

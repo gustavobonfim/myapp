@@ -19,6 +19,7 @@ class Financial::Book::Payable::Entity < ApplicationRecord
 
   # Enums
   enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
+  enum kind: { statement: 0, balance: 1 }, _prefix: :_
 
   # Callbacks
 
@@ -43,6 +44,7 @@ end
 # t.string "chart_master_name"
 # t.string "chart_group"
 # t.integer "method"
+# t.integer "kind"
 # t.string "channel_name"
 # t.string "bank_line"
 # t.boolean "paid", default: false

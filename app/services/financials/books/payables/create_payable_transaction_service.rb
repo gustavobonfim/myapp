@@ -32,7 +32,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
               "amount" => @payable.amount,
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
-              "kind" => "statement",
+              "kind" => @to.kind,
             }
 
     obj = transaction(attrs)
@@ -40,7 +40,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
       obj.save
       ::Financials::Books::Payables::UpdateCalculationService.new(obj.financial_date)
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
-      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj)
+      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @payable.kind == "statement"
     end
   end
   

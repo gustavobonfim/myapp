@@ -6,7 +6,7 @@ class Financial::Book::Card::Bill < ApplicationRecord
   
   # Relations
   belongs_to :card, class_name: "Financial::Book::Card::Entity", foreign_key: "card_id"
-  has_many :transactions, class_name: "Financial::Book::Card::Transaction", foreign_key: "card_id", dependent: :destroy
+  has_many :transactions, class_name: "Financial::Book::Card::Transaction", foreign_key: "bill_id", dependent: :destroy
 
   # Validations
   validates :token, presence: { message: "Os últimos 4 dígitos não pode ficar em branco. " },
@@ -58,6 +58,7 @@ end
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
 # t.bigint "card_id"
+# t.bigint "bank_id"
 # t.integer "day"
 # t.integer "month"
 # t.integer "year"

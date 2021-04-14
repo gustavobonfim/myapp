@@ -32,7 +32,7 @@ class Financials::Books::Payables::UpdatePaidPayableTransactionService
               "amount" => @payable.amount,
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
-              "kind" => "balance",
+              "kind" => @to.kind,
             }
 
     obj = transaction(attrs)

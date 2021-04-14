@@ -26,6 +26,10 @@ class Financials::Books::Settings::ChannelRepository < Base
     entity.find_by(date_id: date_id)
   end
 
+  def self.find_by_name(name)
+    entity.find_by(name: name)
+  end
+
   def self.read(channel)
     mapper.map(channel)
   end

@@ -16,7 +16,7 @@ class Financials::Books::Cards::TransactionRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true).includes(:med)
+    entity.where(active: true)
   end
 
   def self.all_active_by_bill(bill_id)

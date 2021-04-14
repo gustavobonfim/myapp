@@ -15,6 +15,11 @@ class Financials::Books::Balances::RefreshBalancesService
       obj.save
     end
 
+    transactions = ::Financials::Books::Transactions::EntityRepository.all_active_by_date(@date.id)
+    transactions.each do |obj|
+      ::Financials::Books::Balances::UpdateBalancesService.new(obj)
+    end
+
   end
   
 end
