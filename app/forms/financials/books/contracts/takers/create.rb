@@ -7,7 +7,7 @@ class Financials::Books::Contracts::Takers::Create
     # @can_current_user_create_taker = can_current_user_create_taker?
     # return false unless @can_current_user_create_taker    
     
-    # date = ::Commercial::Config::FindOrCreateDateService.new(Date.current).find_or_create_date
+    @date = ::Financials::Config::FindOrCreateDateService.new(Date.current).find_or_create_date
     @taker_params = @taker_params.merge({ "record_type" => ::Financials::Books::Contracts::TakerRepository::ENUM_KIND_TO_SCHEMA[@taker_params[:id_type]] })
   
     @taker = taker
@@ -23,6 +23,7 @@ class Financials::Books::Contracts::Takers::Create
     ActiveRecord::Base.transaction do
       if @valid 
         @taker.save
+        ::Financials::Books::Contracts::CreateCalculationService.new(@date, @taker.id)
 
         @data = true
         @status = true

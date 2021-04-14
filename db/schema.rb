@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_144338) do
+ActiveRecord::Schema.define(version: 2021_04_14_152600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -432,6 +432,21 @@ ActiveRecord::Schema.define(version: 2021_04_14_144338) do
     t.index ["open"], name: "index_financial_config_dates_on_open"
     t.index ["token"], name: "index_financial_config_dates_on_token", unique: true
     t.index ["year"], name: "index_financial_config_dates_on_year"
+  end
+
+  create_table "financial_contract_calculations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "taker_id"
+    t.decimal "total_invoice", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_refund", precision: 15, scale: 2, default: "0.0"
+    t.string "token"
+    t.index ["active"], name: "index_financial_contract_calculations_on_active"
+    t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
+    t.index ["taker_id"], name: "index_financial_contract_calculations_on_taker_id"
+    t.index ["token"], name: "index_financial_contract_calculations_on_token", unique: true
   end
 
   create_table "financial_contract_takers", force: :cascade do |t|
@@ -931,6 +946,8 @@ ActiveRecord::Schema.define(version: 2021_04_14_144338) do
   add_foreign_key "financial_card_transactions", "financial_card_bills", column: "bill_id"
   add_foreign_key "financial_card_transactions", "financial_card_entities", column: "card_id"
   add_foreign_key "financial_card_transactions", "financial_payable_providers", column: "provider_id"
+  add_foreign_key "financial_contract_calculations", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_contract_calculations", "financial_contract_takers", column: "taker_id"
   add_foreign_key "financial_payable_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_payable_calculations", "user_company_entities", column: "med_id"
   add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
