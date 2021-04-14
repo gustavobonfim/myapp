@@ -18,6 +18,18 @@ class Financial::Book::Contract::Entity < ApplicationRecord
   enum kind: { setup: 0, recurring: 1 }, _prefix: :_
   enum plan: { monthly: 0, yearly: 1 }, _prefix: :_
   
+  #Callbacks
+  before_validation :set_name
+
+  def set_name
+    product_name_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_PRODUCT_NAME[self.product_name]
+    product_service_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_PRODUCT_SERVICE[self.product_service]
+    product_kind_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_PRODUCT_KIND[self.product_kind]
+    kind_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_KIND[self.kind]
+    plan_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_PLAN[self.plan]
+
+    self.name = "Contrato #{kind_pretty} #{plan_pretty} #{product_service_pretty} #{product_name_pretty} #{product_kind_pretty}"
+  end
 
 end
 

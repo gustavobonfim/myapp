@@ -17,12 +17,15 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
       t.decimal :total_amount, precision: 15, scale: 2, default: "0.0"
       t.boolean :prepaid, default: false
       t.integer :due_day
+      t.integer :start_month
+      t.integer :start_year
       t.date :due_at
       t.date :started_at
       t.date :finished_at
       t.string :finished_description
       t.string :purchase_token
       t.string :token
+      t.string :name
     end
 
     # add_foreign_key :financial_contract_entities, :financial_purchase_entities, column: :purchase_id
