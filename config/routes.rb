@@ -40,6 +40,10 @@ Rails.application.routes.draw do
       namespace :financials do
         namespace :books do
           namespace :contracts do
+            post "entities/list", to: "entities#list"
+            post "entities/create", to: "entities#create"
+            put "entities/update", to: "entities#update"
+
             post "takers/create", to: "takers#create"
             put "takers/update", to: "takers#update"
             post "takers/list", to: "takers#list"

@@ -3,7 +3,7 @@ class Financials::Books::Contracts::TakerMapper < BaseMapper
   def self.map(model)    
     obj = model.attributes
 
-    obj = obj.merge({ "id_type_pretty" => Financials::Books::Payables::ProviderRepository::ENUM_TYPE[model.id_type] })
+    obj = obj.merge({ "id_type_pretty" => Financials::Books::Contracts::TakerRepository::ENUM_TYPE[model.id_type] })
 
     if model.id_type == "individual"
       obj = obj.merge({ "id_number_pretty" => ::AccountDecorator.cpf_pretty(model.id_number) })

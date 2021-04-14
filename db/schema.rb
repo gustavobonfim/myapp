@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_152600) do
+ActiveRecord::Schema.define(version: 2021_04_14_172343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -447,6 +447,42 @@ ActiveRecord::Schema.define(version: 2021_04_14_152600) do
     t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
     t.index ["taker_id"], name: "index_financial_contract_calculations_on_taker_id"
     t.index ["token"], name: "index_financial_contract_calculations_on_token", unique: true
+  end
+
+  create_table "financial_contract_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "taker_id"
+    t.bigint "client_id"
+    t.integer "product_name"
+    t.integer "product_service"
+    t.integer "product_kind"
+    t.integer "kind"
+    t.integer "plan"
+    t.integer "status"
+    t.decimal "monthly", precision: 15, scale: 2, default: "0.0"
+    t.decimal "yearly", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.boolean "prepaid", default: false
+    t.integer "due_day"
+    t.date "due_at"
+    t.date "started_at"
+    t.date "finished_at"
+    t.string "finished_description"
+    t.string "purchase_token"
+    t.string "token"
+    t.index ["active"], name: "index_financial_contract_entities_on_active"
+    t.index ["client_id"], name: "index_financial_contract_entities_on_client_id"
+    t.index ["kind"], name: "index_financial_contract_entities_on_kind"
+    t.index ["plan"], name: "index_financial_contract_entities_on_plan"
+    t.index ["product_kind"], name: "index_financial_contract_entities_on_product_kind"
+    t.index ["product_name"], name: "index_financial_contract_entities_on_product_name"
+    t.index ["product_service"], name: "index_financial_contract_entities_on_product_service"
+    t.index ["purchase_token"], name: "index_financial_contract_entities_on_purchase_token"
+    t.index ["status"], name: "index_financial_contract_entities_on_status"
+    t.index ["taker_id"], name: "index_financial_contract_entities_on_taker_id"
+    t.index ["token"], name: "index_financial_contract_entities_on_token", unique: true
   end
 
   create_table "financial_contract_takers", force: :cascade do |t|
@@ -948,6 +984,8 @@ ActiveRecord::Schema.define(version: 2021_04_14_152600) do
   add_foreign_key "financial_card_transactions", "financial_payable_providers", column: "provider_id"
   add_foreign_key "financial_contract_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_contract_calculations", "financial_contract_takers", column: "taker_id"
+  add_foreign_key "financial_contract_entities", "financial_contract_takers", column: "client_id"
+  add_foreign_key "financial_contract_entities", "financial_contract_takers", column: "taker_id"
   add_foreign_key "financial_payable_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_payable_calculations", "user_company_entities", column: "med_id"
   add_foreign_key "financial_payable_entities", "financial_config_dates", column: "date_id"
