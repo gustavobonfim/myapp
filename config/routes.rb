@@ -50,7 +50,19 @@ Rails.application.routes.draw do
             
             post "calculations/read", to: "calculations#read"
             post "calculations/list", to: "calculations#list"
+          end
 
+          namespace :receivables do
+            post "entities/list", to: "entities#list"
+            post "entities/create", to: "entities#create"
+            put "entities/update", to: "entities#update"
+
+            post "takers/create", to: "takers#create"
+            put "takers/update", to: "takers#update"
+            post "takers/list", to: "takers#list"
+            
+            post "calculations/read", to: "calculations#read"
+            post "calculations/list", to: "calculations#list"
           end
 
 

@@ -73,6 +73,13 @@ class Financials::Books::Receivables::EntityRepository < Base
     token
   end
 
+  ENUM_METHOD = {
+                  "bank_split" => "Boleto Bancário",
+                  "credit_card" => "Cartão de Crédito",
+                  "transfer" => "Transferência",
+                  "pix" => "PIX",
+                }
+
   ENUM_KIND = {
                 "income" => "Receita",
                 "refund" => "Reembolso",
