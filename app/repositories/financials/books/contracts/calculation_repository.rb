@@ -23,6 +23,10 @@ class Financials::Books::Contracts::CalculationRepository < Base
     entity.find_by(date_id: date_id)
   end
 
+  def self.find_by_date_and_taker(date_id, taker_id)
+    entity.where(date_id: date_id, taker_id: taker_id).first
+  end
+
   def self.read(payable)
     mapper.map(payable)
   end

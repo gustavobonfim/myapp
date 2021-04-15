@@ -1,4 +1,11 @@
-class Financials::Books::Payables::EntityRepository < Base
+class Financials::Books::Payables::CalculationRepository < Base
+
+  def self.build(attrs)
+    obj = entity.new
+    obj.attributes = attrs
+    
+    return obj
+  end
 
   def self.all_active
     entity.where(active: true)
@@ -28,11 +35,11 @@ class Financials::Books::Payables::EntityRepository < Base
   private
 
   def self.entity
-    "Financial::Book::Payable::Entity".constantize
+    "Financial::Book::Payable::Calculation".constantize
   end
 
   def self.mapper
-    "Financials::Books::Payables::EntityMapper".constantize
+    "Financials::Books::Payables::CalculationMapper".constantize
   end
 
 end

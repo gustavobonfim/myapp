@@ -1,4 +1,4 @@
-class Financials::Books::Payables::CreateCalculationService
+class Financials::Books::Receivables::CreateCalculationService
 
   def initialize(date, med_id)
     @date = date
@@ -33,7 +33,7 @@ class Financials::Books::Payables::CreateCalculationService
 
 
   def calculation
-    ::Financials::Books::Payables::CalculationRepository.build(@attrs)
+    ::Financials::Books::Receivables::CalculationRepository.build(@attrs)
   end
 
   def meds

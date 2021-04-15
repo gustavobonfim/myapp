@@ -29,6 +29,7 @@ class CreateFinancialReceivableCalculations < ActiveRecord::Migration[5.2]
       t.decimal :total_received_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_income_received_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_refund_received_amount, default: 0, precision: 15, scale: 2
+      t.string :token
     end
 
     add_foreign_key :financial_receivable_calculations, :financial_config_dates, column: :date_id
@@ -36,5 +37,6 @@ class CreateFinancialReceivableCalculations < ActiveRecord::Migration[5.2]
     add_index :financial_receivable_calculations, :active
     add_index :financial_receivable_calculations, :date_id
     add_index :financial_receivable_calculations, :med_id
+    add_index :financial_receivable_calculations, :token, unique: true
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_000005) do
+ActiveRecord::Schema.define(version: 2021_04_15_030858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -539,9 +539,11 @@ ActiveRecord::Schema.define(version: 2021_04_15_000005) do
     t.decimal "total_administrative_expenses", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_paid_amount", precision: 15, scale: 2, default: "0.0"
+    t.string "token"
     t.index ["active"], name: "index_financial_payable_calculations_on_active"
     t.index ["date_id"], name: "index_financial_payable_calculations_on_date_id"
     t.index ["med_id"], name: "index_financial_payable_calculations_on_med_id"
+    t.index ["token"], name: "index_financial_payable_calculations_on_token", unique: true
   end
 
   create_table "financial_payable_entities", force: :cascade do |t|
@@ -639,9 +641,11 @@ ActiveRecord::Schema.define(version: 2021_04_15_000005) do
     t.decimal "total_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_income_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_refund_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.string "token"
     t.index ["active"], name: "index_financial_receivable_calculations_on_active"
     t.index ["date_id"], name: "index_financial_receivable_calculations_on_date_id"
     t.index ["med_id"], name: "index_financial_receivable_calculations_on_med_id"
+    t.index ["token"], name: "index_financial_receivable_calculations_on_token", unique: true
   end
 
   create_table "financial_receivable_conciliations", force: :cascade do |t|

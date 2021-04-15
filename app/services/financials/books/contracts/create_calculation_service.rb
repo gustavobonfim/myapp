@@ -40,6 +40,4 @@ class Financials::Books::Contracts::CreateCalculationService
     ::Financials::Books::Contracts::TakerRepository.all_active
   end
   
-  
-  
 end

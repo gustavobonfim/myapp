@@ -9,7 +9,15 @@ class Financial::Book::Payable::Calculation < ApplicationRecord
   # Validations
 
   #Callbacks
-  
+  before_validation :set_token
+
+  def set_token
+
+    date_code = self.date_id.to_s(36).rjust(5,"0").upcase
+    med_code = self.med_id.to_s(36).rjust(5,"0").upcase
+
+    self.token = "#{date_code}#{med_code}"
+  end
 
 end
 
@@ -40,3 +48,4 @@ end
 # t.decimal "total_administrative_expenses", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_paid_amount", precision: 15, scale: 2, default: "0.0"
+# t.string "token"

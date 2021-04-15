@@ -15,6 +15,7 @@ class Financials::Config::FindOrCreateDateService
       ::Financials::Books::Balances::CreateBalancesService.new(financial_date)
       ::Financials::Books::Payables::CreateCalculationService.new(financial_date)
       ::Financials::Books::Contracts::CreateCalculationService.new(financial_date)
+      ::Financials::Books::Receivables::CreateCalculationService.new(financial_date)
     end
     
     return financial_date
