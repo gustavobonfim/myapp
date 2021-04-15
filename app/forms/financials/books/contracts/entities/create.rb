@@ -2,7 +2,7 @@ class Financials::Books::Contracts::Entities::Create
 
   def initialize(params)
     @contract_params = params.require(:contract).permit(:taker_id, :client_id, :product_name, :product_service, :product_kind,
-                                                        :kind, :plan, :status, :monthly, :yearly, :amount, :prepaid,
+                                                        :kind, :plan, :status, :monthly, :yearly, :amount, :prepaid, :method,
                                                         :due_day, :started_at, :start_month, :start_year, :channel_id, :med_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
@@ -24,7 +24,7 @@ class Financials::Books::Contracts::Entities::Create
     # return false unless @can_current_user_create_contract
     ActiveRecord::Base.transaction do
       if @valid 
-        # @contract.save
+        @contract.save
         ::Financials::Books::Contracts::CreateContractReceivableService.new(@contract, @date)
 
         @data = true

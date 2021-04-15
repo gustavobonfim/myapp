@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_165654) do
+ActiveRecord::Schema.define(version: 2021_04_15_180608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -484,11 +484,13 @@ ActiveRecord::Schema.define(version: 2021_04_15_165654) do
     t.string "purchase_token"
     t.string "token"
     t.string "name"
+    t.integer "method"
     t.index ["active"], name: "index_financial_contract_entities_on_active"
     t.index ["channel_id"], name: "index_financial_contract_entities_on_channel_id"
     t.index ["client_id"], name: "index_financial_contract_entities_on_client_id"
     t.index ["kind"], name: "index_financial_contract_entities_on_kind"
     t.index ["med_id"], name: "index_financial_contract_entities_on_med_id"
+    t.index ["method"], name: "index_financial_contract_entities_on_method"
     t.index ["plan"], name: "index_financial_contract_entities_on_plan"
     t.index ["product_kind"], name: "index_financial_contract_entities_on_product_kind"
     t.index ["product_name"], name: "index_financial_contract_entities_on_product_name"
@@ -692,6 +694,7 @@ ActiveRecord::Schema.define(version: 2021_04_15_165654) do
     t.boolean "received", default: false
     t.boolean "recurring", default: false
     t.string "token"
+    t.integer "method"
     t.index ["active"], name: "index_financial_receivable_entities_on_active"
     t.index ["channel_id"], name: "index_financial_receivable_entities_on_channel_id"
     t.index ["chart_group"], name: "index_financial_receivable_entities_on_chart_group"
@@ -703,6 +706,7 @@ ActiveRecord::Schema.define(version: 2021_04_15_165654) do
     t.index ["due_date"], name: "index_financial_receivable_entities_on_due_date"
     t.index ["kind"], name: "index_financial_receivable_entities_on_kind"
     t.index ["med_id"], name: "index_financial_receivable_entities_on_med_id"
+    t.index ["method"], name: "index_financial_receivable_entities_on_method"
     t.index ["received"], name: "index_financial_receivable_entities_on_received"
     t.index ["received_date"], name: "index_financial_receivable_entities_on_received_date"
     t.index ["recurring"], name: "index_financial_receivable_entities_on_recurring"

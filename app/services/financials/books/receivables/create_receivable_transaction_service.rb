@@ -7,15 +7,6 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
   end
   
   def create_receivable_transaction
-
-
-
-
-    debugger
-
-
-
-
     set_from_and_to_chart_account
     set_from_and_to_amount
 
@@ -23,7 +14,7 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
               "date_id" => @receivable.date_id,
               "med_id" => @receivable.med_id,
               "channel_id" => @receivable.channel_id,
-              "date" => @receivable.accrual_date,
+              "date" => @receivable.due_date,
               "description" => @receivable.description,
               "method" => @receivable.method,
               "channel_name" => @receivable.channel_name,
@@ -41,15 +32,14 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
               "amount" => @receivable.amount,
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
-              "kind" => @to.kind,
+              "kind" => @from.kind,
             }
 
     obj = transaction(attrs)
     if obj.valid?
-      # obj.save
-      # ::Financials::Books::Receivables::UpdateCalculationService.new(@receivable.med, @receivable.date)
-      # ::Financials::Books::Balances::UpdateBalancesService.new(obj)
-      # ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @receivable.kind == "statement"
+      obj.save
+      ::Financials::Books::Balances::UpdateBalancesService.new(obj)
+      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @receivable.kind == "income"
     end
   end
   
@@ -58,9 +48,10 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
   end
 
   def set_from_and_to_chart_account
-    @to = @receivable.chart
-    from_name = ::Financials::Books::Settings::ChartAccountRepository::ENUM_MASTER_NAME.select{|key,value| key == @to.master_name}.values.first
-    @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_name(from_name)
+    @from = @receivable.chart
+
+    to_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == @from.group}.values.first}"
+    @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name)
   end
 
   def set_from_and_to_amount

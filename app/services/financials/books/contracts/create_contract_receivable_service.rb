@@ -26,17 +26,16 @@ class Financials::Books::Contracts::CreateContractReceivableService
               "chart_master_name" => @chart.master_name,
               "chart_group" => @chart.group,
               "kind" => "income",
+              "method" => @contract.method,
               "channel_name" => @contract.channel_name
             }
 
     obj = receivable(attrs)
-    ::Financials::Books::Contracts::UpdateCalculationService.new(@contract, @date)
-    ::Financials::Books::Receivables::UpdateCalculationService.new(@contract.med, @date)
-    ::Financials::Books::Receivables::CreateReceivableTransactionService.new(obj)
     if obj.valid?
-      # obj.save
-      # ::Financials::Books::Balances::UpdateBalancesService.new(obj)
-      # ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @payable.kind == "statement"
+      obj.save
+      ::Financials::Books::Contracts::UpdateCalculationService.new(@contract, @date)
+      ::Financials::Books::Receivables::UpdateCalculationService.new(@contract.med, @date)
+      ::Financials::Books::Receivables::CreateReceivableTransactionService.new(obj)
     end
   end
   

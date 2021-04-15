@@ -19,6 +19,7 @@ class Financial::Book::Contract::Entity < ApplicationRecord
   enum status: { open: 0, churned: 1, finished: 4 }, _prefix: :_
   enum kind: { setup: 0, recurring: 1 }, _prefix: :_
   enum plan: { monthly: 0, yearly: 1 }, _prefix: :_
+  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
   
   #Callbacks
   before_validation :set_name
@@ -52,6 +53,7 @@ end
 # t.integer "kind"
 # t.integer "plan"
 # t.integer "status"
+# t.integer "method"
 # t.decimal "monthly", precision: 15, scale: 2, default: "0.0"
 # t.decimal "yearly", precision: 15, scale: 2, default: "0.0"
 # t.decimal "amount", precision: 15, scale: 2, default: "0.0"

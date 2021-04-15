@@ -17,7 +17,7 @@ class Financial::Book::Receivable::Entity < ApplicationRecord
   validates :kind, presence: {message: "O Tipo de recebimento não pode ficar em branco. "}
 
   # Enums
-  # enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
+  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
   enum kind: { income: 0, refund: 1, discount: 2 }, _prefix: :_
 
   # Callbacks
@@ -44,6 +44,7 @@ end
 # t.string "chart_master_name"
 # t.string "chart_group"
 # t.integer "kind"
+# t.integer "method"
 # t.string "channel_name"
 # t.string "bank_line"
 # t.boolean "received", default: false
