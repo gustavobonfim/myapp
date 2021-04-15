@@ -5,7 +5,9 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true, null: false
       # t.bigint :purchase_id 
       t.bigint :taker_id 
-      t.bigint :client_id 
+      t.bigint :client_id
+      t.bigint :channel_id
+      t.bigint :med_id
       t.integer :product_name
       t.integer :product_service
       t.integer :product_kind
@@ -14,7 +16,7 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
       t.integer :status
       t.decimal :monthly, precision: 15, scale: 2, default: "0.0"
       t.decimal :yearly, precision: 15, scale: 2, default: "0.0"
-      t.decimal :total_amount, precision: 15, scale: 2, default: "0.0"
+      t.decimal :amount, precision: 15, scale: 2, default: "0.0"
       t.boolean :prepaid, default: false
       t.boolean :same_value, default: false
       t.integer :due_day
@@ -23,6 +25,7 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
       t.date :due_at
       t.date :started_at
       t.date :finished_at
+      t.string :channel_name
       t.string :finished_description
       t.string :purchase_token
       t.string :token
@@ -32,10 +35,14 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
     # add_foreign_key :financial_contract_entities, :financial_purchase_entities, column: :purchase_id
     add_foreign_key :financial_contract_entities, :financial_contract_takers, column: :taker_id
     add_foreign_key :financial_contract_entities, :financial_contract_takers, column: :client_id
+    add_foreign_key :financial_contract_entities, :financial_setting_channels, column: :channel_id
+    add_foreign_key :financial_contract_entities, :user_company_entities, column: :med_id
     add_index :financial_contract_entities, :active
     # add_index :financial_contract_entities, :purchase_id
     add_index :financial_contract_entities, :taker_id
     add_index :financial_contract_entities, :client_id
+    add_index :financial_contract_entities, :channel_id
+    add_index :financial_contract_entities, :med_id
     add_index :financial_contract_entities, :product_name
     add_index :financial_contract_entities, :product_service
     add_index :financial_contract_entities, :product_kind

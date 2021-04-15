@@ -50,13 +50,13 @@ class Financials::Books::Contracts::EntityRepository < Base
                   "recurring" => "Recorrente"
                 }
 
-  ENUM_PLAN = {
+  ENUM_STATUS = {
                   "open" => "Aberto",
                   "churned" => "Churn",
                   "finished" => "Finalizado"
                 }
 
-  ENUM_STATUS = {
+  ENUM_PLAN = {
                   "monthly" => "Mensal",
                   "yearly" => "Anual"
                 }

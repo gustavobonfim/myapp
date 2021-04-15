@@ -5,6 +5,8 @@ class Financial::Book::Contract::Entity < ApplicationRecord
   # Relations
   belongs_to :taker, class_name: "Financial::Book::Contract::Taker", foreign_key: "taker_id"
   belongs_to :client, class_name: "Financial::Book::Contract::Taker", foreign_key: "client_id"
+  belongs_to :channel, class_name: "Financial::Book::Setting::Channel", foreign_key: "channel_id"
+  belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
   # belongs_to :purchase, class_name: "Financial::Product::Purchase::Entity", foreign_key: "purchase_id"
 
   # Validations
@@ -28,7 +30,9 @@ class Financial::Book::Contract::Entity < ApplicationRecord
     kind_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_KIND[self.kind]
     plan_pretty = ::Financials::Books::Contracts::EntityRepository::ENUM_PLAN[self.plan]
 
-    self.name = "Contrato #{kind_pretty} #{plan_pretty} #{product_service_pretty} #{product_name_pretty} #{product_kind_pretty}"
+    self.name = "Contrato #{kind_pretty} #{plan_pretty} #{product_name_pretty} #{product_kind_pretty}"
+    # self.name = "Contrato #{Recorrente} #{Mensal} #{PJ Médica} #{Recebimento}"
+    # self.name = "Contrato #{kind_pretty} #{plan_pretty} #{product_service_pretty} #{product_name_pretty} #{product_kind_pretty}"
   end
 
 end
@@ -40,6 +44,8 @@ end
 # t.bigint "purchase_id"
 # t.bigint "taker_id"
 # t.bigint "client_id"
+# t.bigint "channel_id"
+# t.bigint "med_id"
 # t.integer "product_name"
 # t.integer "product_service"
 # t.integer "product_kind"
@@ -48,7 +54,7 @@ end
 # t.integer "status"
 # t.decimal "monthly", precision: 15, scale: 2, default: "0.0"
 # t.decimal "yearly", precision: 15, scale: 2, default: "0.0"
-# t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "amount", precision: 15, scale: 2, default: "0.0"
 # t.boolean "prepaid", default: false
 # t.integer "due_day"
 # t.date "due_at"

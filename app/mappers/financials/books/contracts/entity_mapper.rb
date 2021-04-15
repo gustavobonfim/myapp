@@ -9,6 +9,7 @@ class Financials::Books::Contracts::EntityMapper < BaseMapper
     obj = obj.merge({ "kind_pretty" => ::Financials::Books::Contracts::EntityRepository::ENUM_KIND[model.kind] })
     obj = obj.merge({ "plan_pretty" => ::Financials::Books::Contracts::EntityRepository::ENUM_PLAN[model.plan] })
     obj = obj.merge({ "status_pretty" => ::Financials::Books::Contracts::EntityRepository::ENUM_STATUS[model.status] })
+    obj = obj.merge({ "start_month_pretty" => ::DateDecorator::MONTH_PRETTY_SHORT[model.start_month.to_s] })
 
     return obj
   end

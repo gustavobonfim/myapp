@@ -48,7 +48,7 @@ class Commercial::Sales::Opportunities::ProductRepository < Base
   ENUM_NAME = {
                 "medclinic" => "PJ Médica",
                 "medemployee" => "Funcionário",
-                "medreceivement" => "Gestão de Recebimento",
+                "medreceivement" => "Gestão de Recebimentos",
                 "medseg" => "Seguros",
                 "medfin" => "",
                 "medreturn" => "Planner",

@@ -17,6 +17,7 @@ class CreateFinancialReceivableInvoices < ActiveRecord::Migration[5.2]
       t.boolean :paid, default: false
       t.date :paid_at
       t.integer :status
+      t.integer :method
       t.integer :total_amount_cents, default: 0
       t.decimal :total_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_invoice_amount, default: 0, precision: 15, scale: 2
@@ -34,6 +35,7 @@ class CreateFinancialReceivableInvoices < ActiveRecord::Migration[5.2]
     add_index :financial_receivable_invoices, :iugu_secure_id
     add_index :financial_receivable_invoices, :subscription_id
     add_index :financial_receivable_invoices, :status
+    add_index :financial_receivable_invoices, :method
     add_index :financial_receivable_invoices, :paid
     add_index :financial_receivable_invoices, :token, unique: true
   end

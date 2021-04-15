@@ -10,17 +10,16 @@ class CreateFinancialReceivableEntities < ActiveRecord::Migration[5.2]
       t.bigint :contract_id
       t.string :contract_token
       t.datetime :due_date
-      t.datetime :accrual_date
+      t.datetime :received_date
+      t.integer :received_span
       t.decimal :amount, default: 0, precision: 15, scale: 2
       t.string :description
       t.string :chart_account
       t.string :chart_name
       t.string :chart_master_name
       t.string :chart_group
-      t.integer :method
       t.integer :kind
       t.string :channel_name
-      t.string :bank_line
       t.boolean :received, default: false
       t.boolean :recurring, default: false
       t.string :token
@@ -37,12 +36,11 @@ class CreateFinancialReceivableEntities < ActiveRecord::Migration[5.2]
     add_index :financial_receivable_entities, :chart_id
     add_index :financial_receivable_entities, :contract_id
     add_index :financial_receivable_entities, :channel_id
-    add_index :financial_receivable_entities, :method
     add_index :financial_receivable_entities, :kind
     add_index :financial_receivable_entities, :received
     add_index :financial_receivable_entities, :recurring
     add_index :financial_receivable_entities, :due_date
-    add_index :financial_receivable_entities, :accrual_date
+    add_index :financial_receivable_entities, :received_date
     add_index :financial_receivable_entities, :chart_name
     add_index :financial_receivable_entities, :chart_master_name
     add_index :financial_receivable_entities, :chart_group

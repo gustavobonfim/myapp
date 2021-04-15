@@ -2,14 +2,14 @@ class Financials::Books::Contracts::Entities::Create
 
   def initialize(params)
     @contract_params = params.require(:contract).permit(:taker_id, :client_id, :product_name, :product_service, :product_kind,
-                                                        :kind, :plan, :status, :monthly, :yearly, :total_amount, :prepaid,
-                                                        :due_day, :started_at, :start_month, :start_year)
+                                                        :kind, :plan, :status, :monthly, :yearly, :amount, :prepaid,
+                                                        :due_day, :started_at, :start_month, :start_year, :channel_id, :med_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_contract = can_current_user_create_contract?
     # return false unless @can_current_user_create_contract    
     
-    # @date = ::Financials::Config::FindOrCreateDateService.new(Date.current).find_or_create_date
+    @date = ::Financials::Config::FindOrCreateDateService.new(@contract_params[:started_at]).find_or_create_date
     # @contract_params = @contract_params.merge({ "record_type" => ::Financials::Books::Contracts::EntityRepository::ENUM_KIND_TO_SCHEMA[@contract_params[:id_type]] })
   
     @contract = contract
@@ -25,7 +25,7 @@ class Financials::Books::Contracts::Entities::Create
     ActiveRecord::Base.transaction do
       if @valid 
         # @contract.save
-        ::Financials::Books::Contracts::CreateCalculationService.new(@date, @contract.id)
+        ::Financials::Books::Receivables::CreateContractReceivableService.new(@contract, @date)
 
         @data = true
         @status = true

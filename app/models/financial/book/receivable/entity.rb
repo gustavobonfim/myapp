@@ -1,4 +1,4 @@
-class Financial::Book::Payable::Entity < ApplicationRecord
+class Financial::Book::Receivable::Entity < ApplicationRecord
 
   self.table_name = "financial_receivable_entities"
 
@@ -14,10 +14,10 @@ class Financial::Book::Payable::Entity < ApplicationRecord
   belongs_to :contract, class_name: "Financial::Book::Contract::Entity", foreign_key: "contract_id"
   
   # Validations
-  validates :method, presence: {message: "O método de pagamento não pode ficar em branco. "}
+  validates :kind, presence: {message: "O Tipo de recebimento não pode ficar em branco. "}
 
   # Enums
-  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
+  # enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
   enum kind: { income: 0, refund: 1, discount: 2 }, _prefix: :_
 
   # Callbacks
@@ -35,14 +35,14 @@ end
 # t.bigint "contract_id"
 # t.string "contract_token"
 # t.datetime "due_date"
-# t.datetime "accrual_date"
+# t.datetime "received_date"
+# t.integer "received_span"
 # t.decimal "amount", precision: 15, scale: 2, default: "0.0"
 # t.string "description"
 # t.string "chart_account"
 # t.string "chart_name"
 # t.string "chart_master_name"
 # t.string "chart_group"
-# t.integer "method"
 # t.integer "kind"
 # t.string "channel_name"
 # t.string "bank_line"

@@ -5,7 +5,7 @@ class CreateFinancialReceivableCalculations < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true, null: false
       t.bigint :date_id
       t.bigint :med_id
-      t.decimal :medclinics, default: 0, precision: 15, scale: 2
+      t.decimal :medclinic, default: 0, precision: 15, scale: 2
       t.decimal :medbooking, default: 0, precision: 15, scale: 2
       t.decimal :medfiling, default: 0, precision: 15, scale: 2
       t.decimal :medpayroll, default: 0, precision: 15, scale: 2
@@ -13,7 +13,7 @@ class CreateFinancialReceivableCalculations < ActiveRecord::Migration[5.2]
       t.decimal :medbiling, default: 0, precision: 15, scale: 2
       t.decimal :medinvestment, default: 0, precision: 15, scale: 2
       t.decimal :medprotection, default: 0, precision: 15, scale: 2
-      t.decimal :medmiscellaneous, default: 0, precision: 15, scale: 2
+      t.decimal :medconsulting, default: 0, precision: 15, scale: 2
       t.decimal :interests_revenues, default: 0, precision: 15, scale: 2
       t.decimal :exchange_variation_revenues, default: 0, precision: 15, scale: 2
       t.decimal :miscellaneous_revenues, default: 0, precision: 15, scale: 2

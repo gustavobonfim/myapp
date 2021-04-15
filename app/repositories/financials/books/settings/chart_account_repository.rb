@@ -35,6 +35,10 @@ class Financials::Books::Settings::ChartAccountRepository < Base
     entity.find_by(name: name)
   end
 
+  def self.find_by_chart_name(chart_name)
+    entity.find_by(chart_name: chart_name)
+  end
+
   def self.find_by_master_name(master_name)
     entity.find_by(master_name: master_name)
   end
@@ -97,15 +101,15 @@ class Financials::Books::Settings::ChartAccountRepository < Base
                         "profit_reserves"=>"Reserva de Lucros",
                         "profit_and_loss"=>"Lucro/Prejuízo",
                         "dividend_distribution"=>"Distribuição de Dividendos",
-                        "medclinics"=>"PJ Médica",
+                        "medclinic"=>"PJ Médica",
                         "medbooking"=>"Livro-Caixa",
                         "medfiling"=>"Imposto de Renda",
-                        "medpayroll"=>"Funcionários",
-                        "medreceivement"=>"Gestão de Recebimento",
+                        "medpayroll"=>"Folha de Pagamento",
+                        "medreceivement"=>"Gestão de Recebimentos",
                         "medbiling"=>"Faturamento",
                         "medinvestment"=>"Investimento",
                         "medprotection"=>"Previdência e Proteção",
-                        "medmiscellaneous"=>"Consultorias e Avulsos",
+                        "medconsulting"=>"Consultorias e Avulsos",
                         "interests_revenues"=>"Juros",
                         "exchange_variation_revenues"=>"Receita Variação Cambial",
                         "miscellaneous_revenues"=>"Outros Receitas Financeiras",
@@ -252,7 +256,7 @@ class Financials::Books::Settings::ChartAccountRepository < Base
                       "profit_reserves"=>"02",
                       "profit_and_loss"=>"01",
                       "dividend_distribution"=>"02",
-                      "medclinics"=>"01",
+                      "medclinic"=>"01",
                       "medbooking"=>"02",
                       "medfiling"=>"03",
                       "medpayroll"=>"04",
@@ -260,7 +264,7 @@ class Financials::Books::Settings::ChartAccountRepository < Base
                       "medbiling"=>"02",
                       "medinvestment"=>"01",
                       "medprotection"=>"01",
-                      "medmiscellaneous"=>"01",
+                      "medconsulting"=>"01",
                       "interests_revenues"=>"01",
                       "exchange_variation_revenues"=>"02",
                       "miscellaneous_revenues"=>"03",
