@@ -1,24 +1,24 @@
-class Financials::Books::Payables::CreatePayableTransactionService
+class Financials::Books::Receivables::CreateReceivableTransactionService
 
-  def initialize(payable)
-    @payable = payable
+  def initialize(receivable)
+    @receivable = receivable
 
-    create_payable_transaction
+    create_receivable_transaction
   end
   
-  def create_payable_transaction
+  def create_receivable_transaction
     set_from_and_to_chart_account
     set_from_and_to_amount
 
     attrs = {
-              "date_id" => @payable.date_id,
-              "med_id" => @payable.med_id,
-              "channel_id" => @payable.channel_id,
-              "date" => @payable.accrual_date,
-              "description" => @payable.description,
-              "method" => @payable.method,
-              "channel_name" => @payable.channel_name,
-              "token_tree" => @payable.token,
+              "date_id" => @receivable.date_id,
+              "med_id" => @receivable.med_id,
+              "channel_id" => @receivable.channel_id,
+              "date" => @receivable.accrual_date,
+              "description" => @receivable.description,
+              "method" => @receivable.method,
+              "channel_name" => @receivable.channel_name,
+              "token_tree" => @receivable.token,
               "from_id" => @from.id,
               "from_master_name" => @from.master_name,
               "from_group" => @from.group,
@@ -29,7 +29,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
               "to_group" => @to.group,
               "to_master_group" => @to.master_group,
               "to_master" => @to.master,
-              "amount" => @payable.amount,
+              "amount" => @receivable.amount,
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
               "kind" => @to.kind,
@@ -37,10 +37,10 @@ class Financials::Books::Payables::CreatePayableTransactionService
 
     obj = transaction(attrs)
     if obj.valid?
-      obj.save
-      ::Financials::Books::Payables::UpdateCalculationService.new(@payable.med, @payable.date)
-      ::Financials::Books::Balances::UpdateBalancesService.new(obj)
-      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @payable.kind == "statement"
+      # obj.save
+      # ::Financials::Books::Receivables::UpdateCalculationService.new(@receivable.med, @receivable.date)
+      # ::Financials::Books::Balances::UpdateBalancesService.new(obj)
+      # ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @receivable.kind == "statement"
     end
   end
   
@@ -49,22 +49,22 @@ class Financials::Books::Payables::CreatePayableTransactionService
   end
 
   def set_from_and_to_chart_account
-    @to = @payable.chart
+    @to = @receivable.chart
     from_name = ::Financials::Books::Settings::ChartAccountRepository::ENUM_MASTER_NAME.select{|key,value| key == @to.master_name}.values.first
     @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_name(from_name)
   end
 
   def set_from_and_to_amount
     if @from.master == "liability" || @from.master == "revenues"
-      @from_amount = @payable.amount
+      @from_amount = @receivable.amount
     else
-      @from_amount = - @payable.amount
+      @from_amount = - @receivable.amount
     end
 
     if @to.master == "asset" || @to.master == "expenses"
-      @to_amount = @payable.amount
+      @to_amount = @receivable.amount
     else
-      @to_amount = - @payable.amount
+      @to_amount = - @receivable.amount
     end  
   end
   

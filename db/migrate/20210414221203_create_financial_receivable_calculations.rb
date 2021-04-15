@@ -26,6 +26,7 @@ class CreateFinancialReceivableCalculations < ActiveRecord::Migration[5.2]
       t.decimal :total_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_income_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_refund_amount, default: 0, precision: 15, scale: 2
+      t.decimal :total_discount_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_received_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_income_received_amount, default: 0, precision: 15, scale: 2
       t.decimal :total_refund_received_amount, default: 0, precision: 15, scale: 2

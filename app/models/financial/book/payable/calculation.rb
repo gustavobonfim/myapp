@@ -4,7 +4,7 @@ class Financial::Book::Payable::Calculation < ApplicationRecord
   
   # Relations
   belongs_to :date, class_name: "Financial::Config::Date", foreign_key: "date_id"
-  belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id", optional: true
+  belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
 
   # Validations
 

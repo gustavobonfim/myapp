@@ -1,8 +1,9 @@
 class Financials::Books::Payables::UpdateCalculationService
   
-  def initialize(date)
+  def initialize(med, date)
+    @med = med
     @date = date
-    @calculation = @date.payable_calculation
+    @calculation = calculation
     @payables = payables
 
     update_calculation
@@ -13,7 +14,7 @@ class Financials::Books::Payables::UpdateCalculationService
   end
 
   def calculation
-    Financials::Books::Payables::CalculationRepository.find_by_date(@date.id)
+    Financials::Books::Payables::CalculationRepository.find_by_date_and_med(@date.id, @med.id)
   end
 
   def update_calculation

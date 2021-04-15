@@ -13,9 +13,9 @@ class Financials::Config::FindOrCreateDateService
       financial_date.save
       # ::Financials::Products::Purchases::CreateCalculationService.new(financial_date)
       ::Financials::Books::Balances::CreateBalancesService.new(financial_date)
-      ::Financials::Books::Payables::CreateCalculationService.new(financial_date)
-      ::Financials::Books::Contracts::CreateCalculationService.new(financial_date)
-      ::Financials::Books::Receivables::CreateCalculationService.new(financial_date)
+      ::Financials::Books::Payables::CreateCalculationService.new(financial_date, nil)
+      ::Financials::Books::Contracts::CreateCalculationService.new(financial_date, nil)
+      ::Financials::Books::Receivables::CreateCalculationService.new(financial_date, nil)
     end
     
     return financial_date

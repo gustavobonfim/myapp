@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::CreateContractReceivableService
+class Financials::Books::Contracts::CreateContractReceivableService
 
   def initialize(contract, date)
     @contract = contract
@@ -30,10 +30,11 @@ class Financials::Books::Receivables::CreateContractReceivableService
             }
 
     obj = receivable(attrs)
+    ::Financials::Books::Contracts::UpdateCalculationService.new(@contract, @date)
+    ::Financials::Books::Receivables::UpdateCalculationService.new(@contract.med, @date)
+    ::Financials::Books::Receivables::CreateReceivableTransactionService.new(obj)
     if obj.valid?
       # obj.save
-      ::Financials::Books::Contracts::UpdateCalculationService.new(@contract, @date)
-      # ::Financials::Books::Receivables::UpdateCalculationService.new(obj.financial_date)
       # ::Financials::Books::Balances::UpdateBalancesService.new(obj)
       # ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @payable.kind == "statement"
     end

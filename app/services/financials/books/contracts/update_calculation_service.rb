@@ -18,13 +18,12 @@ class Financials::Books::Contracts::UpdateCalculationService
   end
 
   def update_calculation
-    @calculation.total_invoice_amount = @receivables.select{|r| r.kind == "invoice"}.map{|p| p.amount}.sum
+    @calculation.total_income_amount = @receivables.select{|r| r.kind == "income"}.map{|p| p.amount}.sum
     @calculation.total_refund_amount = @receivables.select{|r| r.kind == "refund"}.map{|p| p.amount}.sum
     @calculation.total_discount_amount = @receivables.select{|r| r.kind == "discount"}.map{|p| p.amount}.sum
 
-
-    debugger
-
+    @calculation.total_invoice_amount = @calculation.total_income_amount - @calculation.total_discount_amount
+    @calculation.total_amount = @calculation.total_income_amount + @calculation.total_refund_amount - @calculation.total_discount_amount
     
     @calculation.save
   end

@@ -1,4 +1,4 @@
-class Financials::Books::Payables::CalculationRepository < Base
+class Financials::Books::Receivables::CalculationRepository < Base
 
   def self.build(attrs)
     obj = entity.new
@@ -27,23 +27,23 @@ class Financials::Books::Payables::CalculationRepository < Base
     entity.where(date_id: date_id, med_id: med_id).first
   end
 
-  def self.read(payable)
-    mapper.map(payable)
+  def self.read(receivable)
+    mapper.map(receivable)
   end
   
-  def self.list(payables)
-    mapper.map_all(payables)
+  def self.list(receivables)
+    mapper.map_all(receivables)
   end 
   
 
   private
 
   def self.entity
-    "Financial::Book::Payable::Calculation".constantize
+    "Financial::Book::Receivable::Calculation".constantize
   end
 
   def self.mapper
-    "Financials::Books::Payables::CalculationMapper".constantize
+    "Financials::Books::Receivables::CalculationMapper".constantize
   end
 
 end
