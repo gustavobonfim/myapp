@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_172343) do
+ActiveRecord::Schema.define(version: 2021_04_15_000005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -440,8 +440,9 @@ ActiveRecord::Schema.define(version: 2021_04_14_172343) do
     t.boolean "active", default: true, null: false
     t.bigint "date_id"
     t.bigint "taker_id"
-    t.decimal "total_invoice", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_refund", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_invoice_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_refund_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_discount_amount", precision: 15, scale: 2, default: "0.0"
     t.string "token"
     t.index ["active"], name: "index_financial_contract_calculations_on_active"
     t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
@@ -465,6 +466,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_172343) do
     t.decimal "yearly", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
     t.boolean "prepaid", default: false
+    t.boolean "same_value", default: false
     t.integer "due_day"
     t.integer "start_month"
     t.integer "start_year"
@@ -483,6 +485,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_172343) do
     t.index ["product_name"], name: "index_financial_contract_entities_on_product_name"
     t.index ["product_service"], name: "index_financial_contract_entities_on_product_service"
     t.index ["purchase_token"], name: "index_financial_contract_entities_on_purchase_token"
+    t.index ["same_value"], name: "index_financial_contract_entities_on_same_value"
     t.index ["status"], name: "index_financial_contract_entities_on_status"
     t.index ["taker_id"], name: "index_financial_contract_entities_on_taker_id"
     t.index ["token"], name: "index_financial_contract_entities_on_token", unique: true
@@ -599,6 +602,148 @@ ActiveRecord::Schema.define(version: 2021_04_14_172343) do
     t.index ["id_type"], name: "index_financial_payable_providers_on_id_type"
     t.index ["record_id"], name: "index_financial_payable_providers_on_record_id"
     t.index ["record_type"], name: "index_financial_payable_providers_on_record_type"
+  end
+
+  create_table "financial_receivable_calculations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "med_id"
+    t.decimal "medclinics", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medbooking", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medfiling", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medpayroll", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medreceivement", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medbiling", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medinvestment", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medprotection", precision: 15, scale: 2, default: "0.0"
+    t.decimal "medmiscellaneous", precision: 15, scale: 2, default: "0.0"
+    t.decimal "interests_revenues", precision: 15, scale: 2, default: "0.0"
+    t.decimal "exchange_variation_revenues", precision: 15, scale: 2, default: "0.0"
+    t.decimal "miscellaneous_revenues", precision: 15, scale: 2, default: "0.0"
+    t.decimal "accounting", precision: 15, scale: 2, default: "0.0"
+    t.decimal "biling", precision: 15, scale: 2, default: "0.0"
+    t.decimal "investment", precision: 15, scale: 2, default: "0.0"
+    t.decimal "protection", precision: 15, scale: 2, default: "0.0"
+    t.decimal "miscellaneous", precision: 15, scale: 2, default: "0.0"
+    t.decimal "financial_revenues", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_income_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_refund_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_income_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_refund_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_financial_receivable_calculations_on_active"
+    t.index ["date_id"], name: "index_financial_receivable_calculations_on_date_id"
+    t.index ["med_id"], name: "index_financial_receivable_calculations_on_med_id"
+  end
+
+  create_table "financial_receivable_conciliations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "invoice_id"
+    t.bigint "receivable_id"
+    t.string "status"
+    t.string "token"
+    t.index ["active"], name: "index_financial_receivable_conciliations_on_active"
+    t.index ["invoice_id"], name: "index_financial_receivable_conciliations_on_invoice_id"
+    t.index ["receivable_id"], name: "index_financial_receivable_conciliations_on_receivable_id"
+    t.index ["status"], name: "index_financial_receivable_conciliations_on_status"
+    t.index ["token"], name: "index_financial_receivable_conciliations_on_token", unique: true
+  end
+
+  create_table "financial_receivable_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "chart_id"
+    t.bigint "med_id"
+    t.bigint "channel_id"
+    t.bigint "contract_id"
+    t.string "contract_token"
+    t.datetime "due_date"
+    t.datetime "accrual_date"
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.string "description"
+    t.string "chart_account"
+    t.string "chart_name"
+    t.string "chart_master_name"
+    t.string "chart_group"
+    t.integer "method"
+    t.integer "kind"
+    t.string "channel_name"
+    t.string "bank_line"
+    t.boolean "received", default: false
+    t.boolean "recurring", default: false
+    t.string "token"
+    t.index ["accrual_date"], name: "index_financial_receivable_entities_on_accrual_date"
+    t.index ["active"], name: "index_financial_receivable_entities_on_active"
+    t.index ["channel_id"], name: "index_financial_receivable_entities_on_channel_id"
+    t.index ["chart_group"], name: "index_financial_receivable_entities_on_chart_group"
+    t.index ["chart_id"], name: "index_financial_receivable_entities_on_chart_id"
+    t.index ["chart_master_name"], name: "index_financial_receivable_entities_on_chart_master_name"
+    t.index ["chart_name"], name: "index_financial_receivable_entities_on_chart_name"
+    t.index ["contract_id"], name: "index_financial_receivable_entities_on_contract_id"
+    t.index ["date_id"], name: "index_financial_receivable_entities_on_date_id"
+    t.index ["due_date"], name: "index_financial_receivable_entities_on_due_date"
+    t.index ["kind"], name: "index_financial_receivable_entities_on_kind"
+    t.index ["med_id"], name: "index_financial_receivable_entities_on_med_id"
+    t.index ["method"], name: "index_financial_receivable_entities_on_method"
+    t.index ["received"], name: "index_financial_receivable_entities_on_received"
+    t.index ["recurring"], name: "index_financial_receivable_entities_on_recurring"
+    t.index ["token"], name: "index_financial_receivable_entities_on_token", unique: true
+  end
+
+  create_table "financial_receivable_invoice_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "invoice_id"
+    t.string "description"
+    t.integer "price_cents"
+    t.integer "quantity"
+    t.integer "kind"
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_financial_receivable_invoice_items_on_active"
+    t.index ["invoice_id"], name: "index_financial_receivable_invoice_items_on_invoice_id"
+    t.index ["kind"], name: "index_financial_receivable_invoice_items_on_kind"
+  end
+
+  create_table "financial_receivable_invoices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "contract_id"
+    t.date "due_date"
+    t.string "iugu_invoice_id"
+    t.string "iugu_secure_id"
+    t.string "iugu_invoice_url"
+    t.string "subscription_id"
+    t.string "bank_line"
+    t.boolean "fines", default: false
+    t.boolean "per_day_interest", default: false
+    t.boolean "ignore_due_email", default: false
+    t.boolean "early_payment_discount", default: false
+    t.boolean "paid", default: false
+    t.date "paid_at"
+    t.integer "status"
+    t.integer "total_amount_cents", default: 0
+    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_invoice_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_refund_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_discount_amount", precision: 15, scale: 2, default: "0.0"
+    t.string "token"
+    t.index ["active"], name: "index_financial_receivable_invoices_on_active"
+    t.index ["contract_id"], name: "index_financial_receivable_invoices_on_contract_id"
+    t.index ["iugu_invoice_id"], name: "index_financial_receivable_invoices_on_iugu_invoice_id"
+    t.index ["iugu_secure_id"], name: "index_financial_receivable_invoices_on_iugu_secure_id"
+    t.index ["paid"], name: "index_financial_receivable_invoices_on_paid"
+    t.index ["status"], name: "index_financial_receivable_invoices_on_status"
+    t.index ["subscription_id"], name: "index_financial_receivable_invoices_on_subscription_id"
+    t.index ["token"], name: "index_financial_receivable_invoices_on_token", unique: true
   end
 
   create_table "financial_setting_channels", force: :cascade do |t|
@@ -996,6 +1141,17 @@ ActiveRecord::Schema.define(version: 2021_04_14_172343) do
   add_foreign_key "financial_payable_entities", "financial_setting_channels", column: "channel_id"
   add_foreign_key "financial_payable_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_payable_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_receivable_calculations", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_receivable_calculations", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_receivable_conciliations", "financial_receivable_entities", column: "receivable_id"
+  add_foreign_key "financial_receivable_conciliations", "financial_receivable_invoices", column: "invoice_id"
+  add_foreign_key "financial_receivable_entities", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_receivable_entities", "financial_contract_entities", column: "contract_id"
+  add_foreign_key "financial_receivable_entities", "financial_setting_channels", column: "channel_id"
+  add_foreign_key "financial_receivable_entities", "financial_setting_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_receivable_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_receivable_invoice_items", "financial_receivable_invoices", column: "invoice_id"
+  add_foreign_key "financial_receivable_invoices", "financial_contract_entities", column: "contract_id"
   add_foreign_key "financial_setting_channels", "financial_card_entities", column: "card_id"
   add_foreign_key "financial_setting_channels", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_setting_channels", "user_company_entities", column: "med_id"

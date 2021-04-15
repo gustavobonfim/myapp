@@ -24,7 +24,7 @@ class Financials::Books::Contracts::Entities::Create
     # return false unless @can_current_user_create_contract
     ActiveRecord::Base.transaction do
       if @valid 
-        @contract.save
+        # @contract.save
         ::Financials::Books::Contracts::CreateCalculationService.new(@date, @contract.id)
 
         @data = true

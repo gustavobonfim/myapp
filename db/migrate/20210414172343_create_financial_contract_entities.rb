@@ -16,6 +16,7 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
       t.decimal :yearly, precision: 15, scale: 2, default: "0.0"
       t.decimal :total_amount, precision: 15, scale: 2, default: "0.0"
       t.boolean :prepaid, default: false
+      t.boolean :same_value, default: false
       t.integer :due_day
       t.integer :start_month
       t.integer :start_year
@@ -41,6 +42,7 @@ class CreateFinancialContractEntities < ActiveRecord::Migration[5.2]
     add_index :financial_contract_entities, :kind
     add_index :financial_contract_entities, :plan
     add_index :financial_contract_entities, :status
+    add_index :financial_contract_entities, :same_value
     add_index :financial_contract_entities, :purchase_token
     add_index :financial_contract_entities, :token, unique: true
     
