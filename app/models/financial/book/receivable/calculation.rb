@@ -7,6 +7,8 @@ class Financial::Book::Receivable::Calculation < ApplicationRecord
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id", optional: true
 
   # Validations
+  validates :token, presence: {message: "Token do Indicador de Contas a Receber não pode ficar em branco. "},
+                    uniqueness: { case_sensitive: false, message: "Já existe um Indicador de Contas a Receber com este token. "  }
 
   #Callbacks
   before_validation :set_token

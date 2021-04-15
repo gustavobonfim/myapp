@@ -7,6 +7,8 @@ class Financial::Book::Payable::Calculation < ApplicationRecord
   belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
 
   # Validations
+  validates :token, presence: {message: "Token do Indicador de Contas a Pagar não pode ficar em branco. "},
+                    uniqueness: { case_sensitive: false, message: "Já existe um Indicador de Contas a Pagar com este token. "  }
 
   #Callbacks
   before_validation :set_token

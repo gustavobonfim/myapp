@@ -44,7 +44,6 @@ end
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
-# t.bigint "purchase_id"
 # t.bigint "taker_id"
 # t.bigint "client_id"
 # t.bigint "channel_id"
@@ -55,15 +54,20 @@ end
 # t.integer "kind"
 # t.integer "plan"
 # t.integer "status"
-# t.integer "method"
 # t.decimal "monthly", precision: 15, scale: 2, default: "0.0"
 # t.decimal "yearly", precision: 15, scale: 2, default: "0.0"
 # t.decimal "amount", precision: 15, scale: 2, default: "0.0"
 # t.boolean "prepaid", default: false
+# t.boolean "same_value", default: false
 # t.integer "due_day"
+# t.integer "start_month"
+# t.integer "start_year"
 # t.date "due_at"
 # t.date "started_at"
 # t.date "finished_at"
+# t.string "channel_name"
 # t.string "finished_description"
 # t.string "purchase_token"
 # t.string "token"
+# t.string "name"
+# t.integer "method"
