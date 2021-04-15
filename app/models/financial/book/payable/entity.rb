@@ -16,6 +16,8 @@ class Financial::Book::Payable::Entity < ApplicationRecord
   
   # Validations
   validates :method, presence: {message: "O método de pagamento não pode ficar em branco. "}
+  validates :token, presence: {message: "Token da Conta não pode ficar em branco. "},
+                    uniqueness: { case_sensitive: false, message: "Já existe uma Conta com este token. "  }
 
   # Enums
   enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_

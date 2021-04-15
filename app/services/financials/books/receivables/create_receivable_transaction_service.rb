@@ -18,7 +18,7 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
               "description" => @receivable.description,
               "method" => @receivable.method,
               "channel_name" => @receivable.channel_name,
-              "token_tree" => @receivable.token,
+              "token_tree" => "r:#{@receivable.token}",
               "from_id" => @from.id,
               "from_master_name" => @from.master_name,
               "from_group" => @from.group,

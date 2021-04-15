@@ -11,6 +11,8 @@ class Financial::Book::Contract::Entity < ApplicationRecord
 
   # Validations
   validates :started_at, presence: { message: "Falta definir a Data de Início. " }
+  validates :token, presence: {message: "Token do Contrato não pode ficar em branco. "},
+                    uniqueness: { case_sensitive: false, message: "Já existe um Contrato com este token. "  }
 
   # Enums
   enum product_name: { medclinic: 0, medpf: 1, medfat: 2, medseg: 3, medfin: 4, medreturn: 5, medbooking: 6, medfiling: 7, medreceivement: 8, medpayroll: 9, medconsulting: 10 }, _prefix: :_

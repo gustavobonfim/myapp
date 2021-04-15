@@ -18,7 +18,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
               "description" => @payable.description,
               "method" => @payable.method,
               "channel_name" => @payable.channel_name,
-              "token_tree" => @payable.token,
+              "token_tree" => "p:#{@payable.token}",
               "from_id" => @from.id,
               "from_master_name" => @from.master_name,
               "from_group" => @from.group,

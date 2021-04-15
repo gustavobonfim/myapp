@@ -15,6 +15,8 @@ class Financial::Book::Receivable::Entity < ApplicationRecord
   
   # Validations
   validates :kind, presence: {message: "O Tipo de recebimento não pode ficar em branco. "}
+  validates :token, presence: {message: "Token do Recebível não pode ficar em branco. "},
+                    uniqueness: { case_sensitive: false, message: "Já existe um Recebível com este token. "  }
 
   # Enums
   enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_

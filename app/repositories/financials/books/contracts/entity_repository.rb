@@ -3,6 +3,7 @@ class Financials::Books::Contracts::EntityRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
+    obj.token = set_token("token").upcase
     
     return obj
   end
@@ -43,6 +44,12 @@ class Financials::Books::Contracts::EntityRepository < Base
 
   def self.mapper
     "Financials::Books::Contracts::EntityMapper".constantize
+  end
+
+  def self.set_token(field)
+    token = Base.generate_token
+    set_token if valid_field(field, token)
+    token
   end
 
   ENUM_KIND = {
