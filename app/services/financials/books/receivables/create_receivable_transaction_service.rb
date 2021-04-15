@@ -7,6 +7,15 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
   end
   
   def create_receivable_transaction
+
+
+
+
+    debugger
+
+
+
+
     set_from_and_to_chart_account
     set_from_and_to_amount
 

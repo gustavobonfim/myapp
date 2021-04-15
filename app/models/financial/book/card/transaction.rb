@@ -8,6 +8,7 @@ class Financial::Book::Card::Transaction < ApplicationRecord
   belongs_to :card, class_name: "Financial::Book::Card::Entity", foreign_key: "card_id"
   belongs_to :bill, class_name: "Financial::Book::Card::Bill", foreign_key: "bill_id"
   belongs_to :provider, class_name: "Financial::Book::Payable::Provider", foreign_key: "provider_id"
+  belongs_to :chart, class_name: "Financial::Book::Setting::ChartAccount", foreign_key: "chart_id"
 
   # Validations
   validates :token, presence: { message: "Os últimos 4 dígitos não pode ficar em branco. " },
@@ -29,6 +30,7 @@ end
 # t.bigint "card_id"
 # t.bigint "bill_id"
 # t.bigint "provider_id"
+# t.bigint "chart_id"
 # t.date "date"
 # t.date "first_pay"
 # t.date "last_pay"

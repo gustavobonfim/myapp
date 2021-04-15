@@ -22,6 +22,8 @@ class Financials::Books::Settings::ChartAccounts::Update
       if @valid
         @chart_account.save
 
+        ::Financials::Books::ChartAccounts::UpdateAllDependentsService.new(@chart_account)
+
         @data = true
         @status = true
         @process = true
@@ -93,7 +95,7 @@ class Financials::Books::Settings::ChartAccounts::Update
 
   def prepare_code
     
-    if @chart_account_params["code"].to_i < 10
+    if @chart_account_params["code"] && @chart_account_params["code"].to_i < 10
       @chart_account_params = @chart_account_params.merge({ "code" => "0#{@chart_account_params["code"]}" })      
     end
     

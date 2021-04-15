@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_030858) do
+ActiveRecord::Schema.define(version: 2021_04_15_165654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -410,9 +410,11 @@ ActiveRecord::Schema.define(version: 2021_04_15_030858) do
     t.string "chart_name"
     t.string "token"
     t.string "token_tree"
+    t.bigint "chart_id"
     t.index ["active"], name: "index_financial_card_transactions_on_active"
     t.index ["bill_id"], name: "index_financial_card_transactions_on_bill_id"
     t.index ["card_id"], name: "index_financial_card_transactions_on_card_id"
+    t.index ["chart_id"], name: "index_financial_card_transactions_on_chart_id"
     t.index ["chart_name"], name: "index_financial_card_transactions_on_chart_name"
     t.index ["provider_id"], name: "index_financial_card_transactions_on_provider_id"
     t.index ["token"], name: "index_financial_card_transactions_on_token", unique: true
@@ -1142,6 +1144,7 @@ ActiveRecord::Schema.define(version: 2021_04_15_030858) do
   add_foreign_key "financial_card_transactions", "financial_card_bills", column: "bill_id"
   add_foreign_key "financial_card_transactions", "financial_card_entities", column: "card_id"
   add_foreign_key "financial_card_transactions", "financial_payable_providers", column: "provider_id"
+  add_foreign_key "financial_card_transactions", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_contract_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_contract_calculations", "financial_contract_takers", column: "taker_id"
   add_foreign_key "financial_contract_entities", "financial_contract_takers", column: "client_id"
