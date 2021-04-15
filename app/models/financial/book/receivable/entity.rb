@@ -19,10 +19,19 @@ class Financial::Book::Receivable::Entity < ApplicationRecord
                     uniqueness: { case_sensitive: false, message: "Já existe um Recebível com este token. "  }
 
   # Enums
-  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
-  enum kind: { income: 0, refund: 1, discount: 2 }, _prefix: :_
+  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3, invoice: 4 }, _prefix: :_
+  enum kind: { income: 0, refund: 1, discount: 2, reversal: 3 }, _prefix: :_
 
   # Callbacks
+  before_validation :set_token
+
+  def set_token
+    contract_code = self.contract_token
+    date_code = self.date_id.to_s(36).rjust(4,"0").upcase if self.date_id
+    kind_code = self.defined_enums["kind"][self.kind].to_s.rjust(2,"0")
+
+    self.token = "#{contract_code}-#{date_code}-#{kind_code}"
+  end
 
 end
 

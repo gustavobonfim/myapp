@@ -5,6 +5,7 @@ class Financials::Books::Receivables::EntityMapper < BaseMapper
     med = model.med
 
     obj = obj.merge({ "method_pretty" => Financials::Books::Receivables::EntityRepository::ENUM_METHOD[model.method] })
+    obj = obj.merge({ "kind_pretty" => Financials::Books::Receivables::EntityRepository::ENUM_KIND[model.kind] })
     obj = obj.merge({ "due_date_pretty" => DateDecorator.abbr_month_date(model.due_date) })
     obj = obj.merge({ "received_date_pretty" => DateDecorator.abbr_month_date(model.received_date) }) if model.received_date
     obj = obj.merge({ "received_span" => model.received_date ? (model.received_date - model.due_date).to_i : 0 })

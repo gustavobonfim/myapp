@@ -81,7 +81,7 @@ class Financials::Books::Receivables::EntityRepository < Base
                 }
 
   ENUM_KIND = {
-                "income" => "Receita",
+                "income" => "Mensalidade",
                 "refund" => "Reembolso",
                 "discount" => "Desconto",
               }

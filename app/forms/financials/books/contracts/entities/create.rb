@@ -25,7 +25,7 @@ class Financials::Books::Contracts::Entities::Create
     ActiveRecord::Base.transaction do
       if @valid 
         @contract.save
-        # ::Financials::Books::Contracts::CreateContractReceivableService.new(@contract, @date)
+        ::Financials::Books::Contracts::CreateContractReceivableService.new(@contract, @date).create_contract_receivable
 
         @data = true
         @status = true
