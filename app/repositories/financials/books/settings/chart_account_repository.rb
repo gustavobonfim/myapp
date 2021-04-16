@@ -107,7 +107,7 @@ class Financials::Books::Settings::ChartAccountRepository < Base
                         "medpayroll"=>"Folha de Pagamento",
                         "medreceivement"=>"Gestão de Recebimentos",
                         "medbiling"=>"Faturamento",
-                        "medinvestment"=>"Investimento",
+                        "medinvestment"=>"Acumulação",
                         "medprotection"=>"Previdência e Proteção",
                         "medconsulting"=>"Consultorias e Avulsos",
                         "interests_revenues"=>"Juros",

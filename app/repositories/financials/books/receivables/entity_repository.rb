@@ -3,7 +3,7 @@ class Financials::Books::Receivables::EntityRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
-    obj.token = set_token("token").upcase
+    # obj.token = set_token("token").upcase
     
     return obj
   end
@@ -84,6 +84,7 @@ class Financials::Books::Receivables::EntityRepository < Base
                 "income" => "Mensalidade",
                 "refund" => "Reembolso",
                 "discount" => "Desconto",
+                "reversal" => "Estorno",
               }
 
 end

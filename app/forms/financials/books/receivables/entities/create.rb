@@ -1,21 +1,30 @@
 class Financials::Books::Receivables::Entities::Create
 
   def initialize(params)
-    @receivable_params = params.require(:receivable).permit(:id)
+    @receivable_params = params.require(:receivable).permit(:date_id, :contract_id, :contract_token, :due_date, :amount, :description, :kind)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_receivable = can_current_user_create_receivable?
-    # return false unless @can_current_user_create_receivable    
-    
-    date = ::Financials::Config::FindOrCreateDateService.new(@receivable_params[:due_date]).find_or_create_date
-    @receivable_params = @receivable_params.merge({ "date_id" => date.id })
+    # return false unless @can_current_user_create_receivable
   
     @receivable = receivable
+
+
+
+
+
+    debugger
+
+
+
+
+
+
     @valid = @receivable.valid?
   end
 
   def receivable
-    ::Financials::Books::Receivables::EntityRepository.build(@receivable_params)
+    ::Financials::Books::Receivables::PrepareReceivableService.new(@receivable_params).prepare_receivable
   end
 
   # def date
@@ -26,7 +35,7 @@ class Financials::Books::Receivables::Entities::Create
     # return false unless @can_current_user_create_receivable
     ActiveRecord::Base.transaction do
       if @valid
-        @receivable.save
+        # @receivable.save
 
         @data = true
         @status = true

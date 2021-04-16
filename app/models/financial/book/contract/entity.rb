@@ -18,10 +18,10 @@ class Financial::Book::Contract::Entity < ApplicationRecord
   enum product_name: { medclinic: 0, medpf: 1, medfat: 2, medseg: 3, medfin: 4, medreturn: 5, medbooking: 6, medfiling: 7, medreceivement: 8, medpayroll: 9, medconsulting: 10 }, _prefix: :_
   enum product_service: { opening: 0, migration: 1, amendment: 2, regularization: 3, pos_opening: 4, separate: 5 }, _prefix: :_
   enum product_kind: { receivement: 0, practice: 1, none: 2 }, _prefix: :_
-  enum status: { open: 0, churned: 1, finished: 4 }, _prefix: :_
+  enum status: { open: 0, frozen: 1, churned: 2, finished: 3 }, _prefix: :_
   enum kind: { setup: 0, recurring: 1 }, _prefix: :_
   enum plan: { monthly: 0, yearly: 1 }, _prefix: :_
-  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
+  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3, invoice: 4 }, _prefix: :_
   
   #Callbacks
   before_validation :set_name

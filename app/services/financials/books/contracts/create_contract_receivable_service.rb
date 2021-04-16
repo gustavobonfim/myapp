@@ -46,7 +46,7 @@ class Financials::Books::Contracts::CreateContractReceivableService
   end
 
   def set_chart_account
-    chart_name = ::Financials::Books::GetChartName::TRANSLATE[@contract.product_name][@contract.kind][@contract.product_kind]
+    chart_name = ::Financials::Books::Receivables::GetIncomeChartName::TRANSLATE[@contract.product_name][@contract.kind][@contract.product_kind]
     @chart = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(chart_name)
   end
   

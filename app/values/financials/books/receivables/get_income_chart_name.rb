@@ -1,4 +1,4 @@
-class Financials::Books::GetChartName
+class Financials::Books::Receivables::GetIncomeChartName
 
   #[:product_name][:kind][:product_kind]
 
