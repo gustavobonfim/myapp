@@ -29,6 +29,11 @@ end
 # t.boolean "active", default: true, null: false
 # t.bigint "date_id"
 # t.bigint "taker_id"
-# t.decimal "total_invoice", precision: 15, scale: 2, default: "0.0"
-# t.decimal "total_refund", precision: 15, scale: 2, default: "0.0"
+# t.decimal "final_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_income_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_refund_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_discount_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_invoice_amount", precision: 15, scale: 2, default: "0.0"
 # t.string "token"
+# t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"

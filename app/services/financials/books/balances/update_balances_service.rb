@@ -26,7 +26,6 @@ class Financials::Books::Balances::UpdateBalancesService
   end
 
   def update_to_balance
-
     to_balance = balance(@obj.to_id)
     from_balance_transactions = from_transactions(@obj.to_id)
     to_balance_transactions = to_transactions(@obj.to_id)

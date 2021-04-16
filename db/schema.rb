@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_16_021328) do
+ActiveRecord::Schema.define(version: 2021_04_16_030306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -442,12 +442,14 @@ ActiveRecord::Schema.define(version: 2021_04_16_021328) do
     t.boolean "active", default: true, null: false
     t.bigint "date_id"
     t.bigint "taker_id"
-    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "final_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_income_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_refund_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_discount_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_invoice_amount", precision: 15, scale: 2, default: "0.0"
     t.string "token"
+    t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_contract_calculations_on_active"
     t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
     t.index ["taker_id"], name: "index_financial_contract_calculations_on_taker_id"
@@ -664,7 +666,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_021328) do
     t.decimal "protection", precision: 15, scale: 2, default: "0.0"
     t.decimal "miscellaneous", precision: 15, scale: 2, default: "0.0"
     t.decimal "financial_revenues", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "final_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_income_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_refund_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_discount_amount", precision: 15, scale: 2, default: "0.0"
@@ -672,6 +674,9 @@ ActiveRecord::Schema.define(version: 2021_04_16_021328) do
     t.decimal "total_income_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_refund_received_amount", precision: 15, scale: 2, default: "0.0"
     t.string "token"
+    t.decimal "total_invoice_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_receivable_calculations_on_active"
     t.index ["date_id"], name: "index_financial_receivable_calculations_on_date_id"
     t.index ["med_id"], name: "index_financial_receivable_calculations_on_med_id"
