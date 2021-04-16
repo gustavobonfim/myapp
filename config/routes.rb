@@ -55,13 +55,11 @@ Rails.application.routes.draw do
           namespace :receivables do
             post "entities/list", to: "entities#list"
             post "entities/create", to: "entities#create"
-            post "entities/create_single", to: "entities#create_single"
-            post "entities/create_multiple", to: "entities#create_multiple"
             put "entities/update", to: "entities#update"
 
-            post "takers/create", to: "takers#create"
-            put "takers/update", to: "takers#update"
-            post "takers/list", to: "takers#list"
+            post "adjustments/create", to: "adjustments#create"
+            put "adjustments/update", to: "adjustments#update"
+            post "adjustments/list", to: "adjustments#list"
             
             post "calculations/read", to: "calculations#read"
             post "calculations/list", to: "calculations#list"

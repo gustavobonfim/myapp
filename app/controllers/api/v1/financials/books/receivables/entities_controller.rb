@@ -5,16 +5,6 @@ class API::V1::Financials::Books::Receivables::EntitiesController < ApplicationC
     render :json => {:save => receivable.save, :data => receivable.data, :status => receivable.status, :type => receivable.type, :message => receivable.message}.as_json
   end
 
-  def create_single
-    receivable = ::Financials::Books::Receivables::Entities::CreateSingle.new(params)
-    render :json => {:save => receivable.save, :data => receivable.data, :status => receivable.status, :type => receivable.type, :message => receivable.message}.as_json
-  end
-
-  def create_multiple
-    receivable = ::Financials::Books::Receivables::Entities::CreateMultiple.new(params)
-    render :json => {:save => receivable.save, :data => receivable.data, :status => receivable.status, :type => receivable.type, :message => receivable.message}.as_json
-  end
-
   def update
     receivable = ::Financials::Books::Receivables::Entities::Update.new(params)
     render :json => {:save => receivable.save, :data => receivable.data, :status => receivable.status, :type => receivable.type, :message => receivable.message}.as_json

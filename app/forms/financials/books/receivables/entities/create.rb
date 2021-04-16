@@ -1,41 +1,34 @@
 class Financials::Books::Receivables::Entities::Create
 
   def initialize(params)
-    @receivable_params = params.require(:receivable).permit(:date_id, :contract_id, :contract_token, :due_date, :amount, :description, :kind)
+    @receivable_params = params.require(:receivable).permit(:contract_id, :date_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_receivable = can_current_user_create_receivable?
-    # return false unless @can_current_user_create_receivable
+    # return false unless @can_current_user_create_receivable    
+    
+    # date = ::Financials::Config::FindOrCreateDateService.new(@receivable_params[:due_date]).find_or_create_date
+    # @receivable_params = @receivable_params.merge({ "date_id" => date.id })
   
-    @receivable = receivable
-
-
-
-
-
-    debugger
-
-
-
-
-
-
-    @valid = @receivable.valid?
+    @contract = contract
+    @date = date
+    @valid = @contract.valid?
   end
 
-  def receivable
-    ::Financials::Books::Receivables::PrepareReceivableService.new(@receivable_params).prepare_receivable
+  def contract
+    ::Financials::Books::Contracts::EntityRepository.find_by_id(@receivable_params[:contract_id])
   end
 
-  # def date
-  #   ::Commercial::Config::DateRepository.find_or_initialize(Date.current)
-  # end
+  def date
+    ::Financials::Config::DateRepository.find_by_id(@receivable_params[:date_id])
+  end
   
   def save
     # return false unless @can_current_user_create_receivable
     ActiveRecord::Base.transaction do
-      if @valid
-        # @receivable.save
+      @receivable = ::Financials::Books::Contracts::CreateContractReceivableService.new(@contract, @date).create_contract_receivable
+
+      if @receivable.id
 
         @data = true
         @status = true
@@ -58,6 +51,16 @@ class Financials::Books::Receivables::Entities::Create
   def data
     # return cln = [] unless @can_current_user_create_receivable
     if @data
+
+
+
+
+      debugger
+
+
+
+
+
       cln = ::Financials::Books::Receivables::EntityRepository.read(@receivable)
     else
       cln = []

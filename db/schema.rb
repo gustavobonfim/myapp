@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_180608) do
+ActiveRecord::Schema.define(version: 2021_04_16_021328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -617,6 +617,29 @@ ActiveRecord::Schema.define(version: 2021_04_15_180608) do
     t.index ["record_type"], name: "index_financial_payable_providers_on_record_type"
   end
 
+  create_table "financial_receivable_adjustments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "date_id"
+    t.bigint "med_id"
+    t.bigint "contract_id"
+    t.string "contract_token"
+    t.datetime "due_date"
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.string "description"
+    t.integer "kind"
+    t.string "token"
+    t.index ["active"], name: "index_financial_receivable_adjustments_on_active"
+    t.index ["contract_id"], name: "index_financial_receivable_adjustments_on_contract_id"
+    t.index ["contract_token"], name: "index_financial_receivable_adjustments_on_contract_token"
+    t.index ["date_id"], name: "index_financial_receivable_adjustments_on_date_id"
+    t.index ["due_date"], name: "index_financial_receivable_adjustments_on_due_date"
+    t.index ["kind"], name: "index_financial_receivable_adjustments_on_kind"
+    t.index ["med_id"], name: "index_financial_receivable_adjustments_on_med_id"
+    t.index ["token"], name: "index_financial_receivable_adjustments_on_token", unique: true
+  end
+
   create_table "financial_receivable_calculations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -1162,6 +1185,9 @@ ActiveRecord::Schema.define(version: 2021_04_15_180608) do
   add_foreign_key "financial_payable_entities", "financial_setting_channels", column: "channel_id"
   add_foreign_key "financial_payable_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_payable_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_receivable_adjustments", "financial_config_dates", column: "date_id"
+  add_foreign_key "financial_receivable_adjustments", "financial_contract_entities", column: "contract_id"
+  add_foreign_key "financial_receivable_adjustments", "user_company_entities", column: "med_id"
   add_foreign_key "financial_receivable_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_receivable_calculations", "user_company_entities", column: "med_id"
   add_foreign_key "financial_receivable_conciliations", "financial_receivable_entities", column: "receivable_id"
