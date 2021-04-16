@@ -54,8 +54,10 @@ class Financials::Books::Receivables::CreateAdjustmentTransactionService
       @from = @contract.channel.chart
       to_chart_name = "Estornos a Fazer | Clientes"
       @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name)
-    else
-      
+    elsif @adjustment.kind == "refund"
+      from_chart_name = "Créditos Diversos | Clientes"
+      @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(from_chart_name)
+      @to = @contract.channel.chart
     end
     
   end

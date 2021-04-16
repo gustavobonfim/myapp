@@ -24,8 +24,8 @@ class Financials::Books::Contracts::UpdateCalculationService
 
   def update_calculation
     @calculation.total_income_amount = @receivables.select{|r| r.kind == "income"}.map{|p| p.amount}.sum
-    @calculation.total_refund_amount = @receivables.select{|r| r.kind == "refund"}.map{|p| p.amount}.sum
-
+    
+    @calculation.total_refund_amount = @adjustments.select{|r| r.kind == "refund"}.map{|p| p.amount}.sum
     @calculation.total_discount_amount = @adjustments.select{|r| r.kind == "discount"}.map{|p| p.amount}.sum
     @calculation.total_reversal_amount = @adjustments.select{|r| r.kind == "reversal"}.map{|p| p.amount}.sum
     @calculation.total_error_amount = @adjustments.select{|r| r.kind == "error"}.map{|p| p.amount}.sum

@@ -44,8 +44,8 @@ class Financials::Books::Receivables::UpdateCalculationService
     @calculation.miscellaneous_revenues = @receivables.select{|p| p.chart_master_name == "miscellaneous_revenues"}.map{|p| p.amount}.sum
     
     @calculation.total_income_amount = @receivables.select{|r| r.kind == "income"}.map{|p| p.amount}.sum
-    @calculation.total_refund_amount = @receivables.select{|r| r.kind == "refund"}.map{|p| p.amount}.sum
-
+    
+    @calculation.total_refund_amount = @adjustments.select{|r| r.kind == "refund"}.map{|p| p.amount}.sum
     @calculation.total_discount_amount = @adjustments.select{|r| r.kind == "discount"}.map{|p| p.amount}.sum
     @calculation.total_reversal_amount = @adjustments.select{|r| r.kind == "reversal"}.map{|p| p.amount}.sum
     @calculation.total_error_amount = @adjustments.select{|r| r.kind == "error"}.map{|p| p.amount}.sum
