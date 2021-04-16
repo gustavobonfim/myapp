@@ -1,7 +1,7 @@
-class Financials::Books::Receivables::Adjustments::Create
+class Financials::Books::Receivables::Adjustments::Destroy
 
   def initialize(params)
-    @adjustment_params = params.require(:adjustment).permit(:contract_id, :date_id, :med_id, :contract_token, :due_date, :amount, :description, :kind)
+    @adjustment_params = params.require(:adjustment).permit(:id, :active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_adjustment = can_current_user_create_adjustment?
@@ -15,7 +15,7 @@ class Financials::Books::Receivables::Adjustments::Create
   end
 
   def adjustment
-    ::Financials::Books::Receivables::AdjustmentRepository.build(@adjustment_params)
+    ::Financials::Books::Receivables::AdjustmentRepository.find_and_change(@adjustment_params)
   end
   
   def save
@@ -25,9 +25,12 @@ class Financials::Books::Receivables::Adjustments::Create
       if @valid
         @adjustment.save
 
-        ::Financials::Books::Receivables::CreateAdjustmentTransactionService.new(@adjustment).create_transaction
+        ::Financials::Books::Receivables::DestroyAdjustmentTransactionService.new(@adjustment).destroy_transaction
         ::Financials::Books::Contracts::UpdateCalculationService.new(@adjustment.contract, @adjustment.financial_date)
         ::Financials::Books::Receivables::UpdateCalculationService.new(@adjustment.contract.med, @adjustment.financial_date)
+
+
+        @adjustment.destroy
 
         @data = true
         @status = true
@@ -61,7 +64,7 @@ class Financials::Books::Receivables::Adjustments::Create
   def status
     # return :forbidden unless @can_current_user_create_adjustment
     if @status
-      return :created
+      return :ok
     else
       return :bad_request
     end

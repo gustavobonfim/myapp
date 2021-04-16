@@ -13,5 +13,4 @@ class Financials::Books::Receivables::GetReversalChartName
                 "medconsulting" => "miscellaneous",
               }
                 
-
 end

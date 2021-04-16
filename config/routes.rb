@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         namespace :books do
           namespace :contracts do
             post "entities/list", to: "entities#list"
+            post "entities/read", to: "entities#read"
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
 
@@ -58,8 +59,9 @@ Rails.application.routes.draw do
             put "entities/update", to: "entities#update"
 
             post "adjustments/create", to: "adjustments#create"
-            put "adjustments/update", to: "adjustments#update"
             post "adjustments/list", to: "adjustments#list"
+            put "adjustments/update", to: "adjustments#update"
+            delete "adjustments/destroy", to: "adjustments#destroy"
             
             post "calculations/read", to: "calculations#read"
             post "calculations/list", to: "calculations#list"

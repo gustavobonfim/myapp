@@ -3,6 +3,7 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
+    obj.description = "#{ENUM_KIND_DESCRIPTION[attrs["kind"]]} | #{attrs["description"]}"
     obj.token = set_token("token").upcase
     
     return obj
@@ -58,6 +59,13 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
     set_token if valid_field(field, token)
     token
   end
+
+  ENUM_KIND_DESCRIPTION = {
+                            "refund" => "Reembolso de Despesas",
+                            "discount" => "Desconto Contratual",
+                            "reversal" => "Estorno de Valores",
+                            "error" => "Erro Operacional",
+                          }
 
   ENUM_KIND = {
                 "refund" => "Reembolso",

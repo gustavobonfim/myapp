@@ -56,7 +56,7 @@ class Financials::Books::Contracts::Calculations::List
   private
 
   def can_current_user_list_calculation?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_payable_calculations").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_contract_calculations").can_current_user?
   end
 
 end

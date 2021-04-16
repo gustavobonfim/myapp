@@ -30,7 +30,7 @@ class Financials::Books::Contracts::UpdateCalculationService
     @calculation.total_reversal_amount = @adjustments.select{|r| r.kind == "reversal"}.map{|p| p.amount}.sum
     @calculation.total_error_amount = @adjustments.select{|r| r.kind == "error"}.map{|p| p.amount}.sum
 
-    @calculation.total_invoice_amount = @calculation.total_income_amount - @calculation.total_discount_amount - @calculation.total_reversal_amount - @calculation.total_error_amount
+    @calculation.total_invoice_amount = @calculation.total_income_amount - @calculation.total_discount_amount
     @calculation.final_amount = @calculation.total_income_amount + @calculation.total_refund_amount - @calculation.total_discount_amount - @calculation.total_reversal_amount - @calculation.total_error_amount
     
     @calculation.save

@@ -22,6 +22,10 @@ class Financials::Books::Transactions::EntityRepository < Base
     entity.where(active: true, date_id: date_id)
   end
 
+  def self.all_active_by_token_tree(token_tree)
+    entity.where(active: true, token_tree: token_tree)
+  end
+
   def self.all_active_by_date_and_med_and_from(date_id, med_id, from_id)
     entity.where(active: true, date_id: date_id, med_id: med_id, from_id: from_id)
   end

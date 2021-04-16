@@ -14,7 +14,7 @@ class Financials::Books::Statements::CreateProfitTransactionService
               "date_id" => @transaction.date_id,
               "med_id" => @transaction.med_id,
               "date" => @transaction.date,
-              "description" => @transaction.description,
+              "description" => "Resultado: #{@transaction.description}",
               "method" => @transaction.method,
               "channel_name" => @transaction.channel_name,
               "token_tree" => @transaction.token_tree,

@@ -56,7 +56,7 @@ class Financials::Books::Contracts::Entities::List
   private
 
   def can_current_user_list_contract?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_contracts_entities").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_contract_entities").can_current_user?
   end
 
 end

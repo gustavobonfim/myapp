@@ -10,8 +10,8 @@ class API::V1::Financials::Books::Receivables::AdjustmentsController < Applicati
     render :json => {:save => adjustment.save, :data => adjustment.data, :status => adjustment.status, :type => adjustment.type, :message => adjustment.message}.as_json
   end
 
-  def update_paid
-    adjustment = ::Financials::Books::Receivables::Adjustments::UpdatePaid.new(params)
+  def destroy
+    adjustment = ::Financials::Books::Receivables::Adjustments::Destroy.new(params)
     render :json => {:save => adjustment.save, :data => adjustment.data, :status => adjustment.status, :type => adjustment.type, :message => adjustment.message}.as_json
   end
 

@@ -1,7 +1,7 @@
 class Financials::Books::Receivables::Adjustments::List
 
   def initialize(params)
-    @adjustment_params = params.require(:adjustment).permit(:contract_id, :date_id)
+    @adjustment_params = params.require(:adjustment).permit(:active, :contract_id, :date_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_list_adjustment = can_current_user_list_adjustment?
