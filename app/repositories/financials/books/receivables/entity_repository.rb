@@ -71,6 +71,11 @@ class Financials::Books::Receivables::EntityRepository < Base
     token
   end
 
+  ENUM_STATUS = {
+                  "pending" => "Pendente",
+                  "received" => "Recebido"
+                }
+
   ENUM_METHOD = {
                   "bank_split" => "Boleto Bancário",
                   "credit_card" => "Cartão de Crédito",

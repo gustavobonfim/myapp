@@ -60,6 +60,11 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
     token
   end
 
+  ENUM_STATUS = {
+                  "pending" => "Pendente",
+                  "received" => "Recebido"
+                }
+
   ENUM_KIND_DESCRIPTION = {
                             "refund" => "Reembolso de Despesas",
                             "discount" => "Desconto Contratual",

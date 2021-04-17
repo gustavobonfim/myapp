@@ -18,6 +18,7 @@ class Financial::Book::Receivable::Adjustment < ApplicationRecord
 
   # Enums
   enum kind: { refund: 0, discount: 1, reversal: 2, error: 3 }, _prefix: :_
+  enum status: { pending: 0, received: 1 }, _prefix: :_
 
   # Callbacks
 
@@ -36,3 +37,5 @@ end
 # t.string "description"
 # t.integer "kind"
 # t.string "token"
+# t.integer "status"
+# t.boolean "received", default: false

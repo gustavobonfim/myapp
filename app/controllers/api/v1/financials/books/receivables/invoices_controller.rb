@@ -10,8 +10,8 @@ class API::V1::Financials::Books::Receivables::InvoicesController < ApplicationC
     render :json => {:save => invoice.save, :data => invoice.data, :status => invoice.status, :type => invoice.type, :message => invoice.message}.as_json
   end
 
-  def update_received
-    invoice = ::Financials::Books::Receivables::Invoices::UpdateReceived.new(params)
+  def update_paid
+    invoice = ::Financials::Books::Receivables::Invoices::UpdatePaid.new(params)
     render :json => {:save => invoice.save, :data => invoice.data, :status => invoice.status, :type => invoice.type, :message => invoice.message}.as_json
   end
 

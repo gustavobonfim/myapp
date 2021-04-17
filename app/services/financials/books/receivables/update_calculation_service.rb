@@ -53,8 +53,8 @@ class Financials::Books::Receivables::UpdateCalculationService
     @calculation.total_invoice_amount = @calculation.total_income_amount - @calculation.total_discount_amount
     @calculation.final_amount = @calculation.total_income_amount + @calculation.total_refund_amount - @calculation.total_discount_amount - @calculation.total_reversal_amount - @calculation.total_error_amount
 
-    @calculation.total_income_received_amount = @receivables.select{|p| p.status == "paid" && p.kind == "income"}.map{|p| p.amount}.sum
-    @calculation.total_refund_received_amount = @adjustments.select{|a| a.status == "paid" && a.kind == "refund"}.map{|a| a.amount}.sum
+    @calculation.total_income_received_amount = @receivables.select{|p| p.status == "received" && p.kind == "income"}.map{|p| p.amount}.sum
+    @calculation.total_refund_received_amount = @adjustments.select{|a| a.status == "received" && a.kind == "refund"}.map{|a| a.amount}.sum
     @calculation.total_received_amount = @calculation.total_income_received_amount + @calculation.total_refund_received_amount
 
     @calculation.save

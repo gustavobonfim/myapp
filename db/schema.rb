@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_220728) do
+ActiveRecord::Schema.define(version: 2021_04_17_230233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -635,6 +635,7 @@ ActiveRecord::Schema.define(version: 2021_04_17_220728) do
     t.integer "kind"
     t.string "token"
     t.integer "status"
+    t.boolean "received", default: false
     t.index ["active"], name: "index_financial_receivable_adjustments_on_active"
     t.index ["contract_id"], name: "index_financial_receivable_adjustments_on_contract_id"
     t.index ["contract_token"], name: "index_financial_receivable_adjustments_on_contract_token"
@@ -642,6 +643,7 @@ ActiveRecord::Schema.define(version: 2021_04_17_220728) do
     t.index ["due_date"], name: "index_financial_receivable_adjustments_on_due_date"
     t.index ["kind"], name: "index_financial_receivable_adjustments_on_kind"
     t.index ["med_id"], name: "index_financial_receivable_adjustments_on_med_id"
+    t.index ["received"], name: "index_financial_receivable_adjustments_on_received"
     t.index ["status"], name: "index_financial_receivable_adjustments_on_status"
     t.index ["token"], name: "index_financial_receivable_adjustments_on_token", unique: true
   end

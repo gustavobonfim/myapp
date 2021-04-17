@@ -66,7 +66,7 @@ Rails.application.routes.draw do
             post "invoices/create", to: "invoices#create"
             post "invoices/list", to: "invoices#list"
             put "invoices/update", to: "invoices#update"
-            put "invoices/update_received", to: "invoices#update_received"
+            put "invoices/update_paid", to: "invoices#update_paid"
             delete "invoices/destroy", to: "invoices#destroy"
             
             post "calculations/read", to: "calculations#read"

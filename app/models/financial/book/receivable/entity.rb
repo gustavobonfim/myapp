@@ -21,6 +21,7 @@ class Financial::Book::Receivable::Entity < ApplicationRecord
   # Enums
   enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3, invoice: 4 }, _prefix: :_
   enum kind: { income: 0 }, _prefix: :_
+  enum status: { pending: 0, received: 1 }, _prefix: :_
 
   # Callbacks
   before_validation :set_token
@@ -55,9 +56,9 @@ end
 # t.string "chart_master_name"
 # t.string "chart_group"
 # t.integer "kind"
-# t.integer "method"
 # t.string "channel_name"
-# t.string "bank_line"
 # t.boolean "received", default: false
 # t.boolean "recurring", default: false
 # t.string "token"
+# t.integer "method"
+# t.integer "status"

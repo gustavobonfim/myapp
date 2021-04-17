@@ -12,7 +12,7 @@ class Financials::Books::Receivables::InvoiceRepository < Base
   def self.find_and_change(attrs)
     obj = entity.find_by(id: attrs["id"])
     obj.attributes = attrs
-
+    
     return obj
   end
 

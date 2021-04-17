@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::Invoices::UpdateReceived
+class Financials::Books::Receivables::Invoices::UpdatePaid
 
   def initialize(params)
     @invoice_params = params.require(:invoice).permit(:id, :status)
@@ -23,9 +23,9 @@ class Financials::Books::Receivables::Invoices::UpdateReceived
     ActiveRecord::Base.transaction do
       
       if @valid
-        @invoice.save
+        # @invoice.save
 
-        ::Financials::Books::Receivables::UpdateInvoiceConciliationService.new(@invoice, @receivable_params[:ids], @adjustment_params[:ids]).create_concilation
+        ::Financials::Books::Receivables::UpdatePaidInvoiceService.new(@invoice)
         # ::Financials::Books::Contracts::UpdateCalculationService.new(@invoice.contract, @invoice.financial_date)
         # ::Financials::Books::Receivables::UpdateCalculationService.new(@invoice.contract.med, @invoice.financial_date)
 

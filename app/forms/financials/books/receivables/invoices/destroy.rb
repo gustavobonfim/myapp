@@ -24,6 +24,9 @@ class Financials::Books::Receivables::Invoices::Destroy
       
       if @valid
         @invoice.save
+
+        ::Financials::Books::Receivables::UpdateDestroyInvoiceService.new(@invoice)
+
         @data = true
         @status = true
         @process = true
