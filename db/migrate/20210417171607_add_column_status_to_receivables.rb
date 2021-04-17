@@ -8,5 +8,10 @@ class AddColumnStatusToReceivables < ActiveRecord::Migration[5.2]
 
     add_column :financial_contract_takers, :iugu_id, :string
     add_index :financial_contract_takers, :iugu_id
+
+    add_column :financial_receivable_conciliations, :receivable_type, :string
+    add_column :financial_receivable_conciliations, :receivable_kind, :integer
+    add_index :financial_receivable_conciliations, :receivable_type
+    add_index :financial_receivable_conciliations, :receivable_kind
   end
 end

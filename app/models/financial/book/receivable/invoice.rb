@@ -7,16 +7,15 @@ class Financial::Book::Receivable::Invoice < ApplicationRecord
 
   
   # Relations
-  belongs_to :med, class_name: "User::Company::Entity", foreign_key: "med_id"
   belongs_to :contract, class_name: "Financial::Book::Contract::Entity", foreign_key: "contract_id"
   
   # Validations
-  validates :kind, presence: {message: "O Tipo de recebimento não pode ficar em branco. "}
   validates :token, presence: {message: "Token do Recebível não pode ficar em branco. "},
                     uniqueness: { case_sensitive: false, message: "Já existe um Recebível com este token. "  }
 
   # Enums
-  enum kind: { refund: 0, discount: 1, reversal: 2, error: 3 }, _prefix: :_
+  enum status: { pending: 0, paid: 1, canceled: 2, expired: 3, refund: 4 }, _prefix: :_
+  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
 
   # Callbacks
 

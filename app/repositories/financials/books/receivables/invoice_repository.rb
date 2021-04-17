@@ -3,7 +3,7 @@ class Financials::Books::Receivables::InvoiceRepository < Base
   def self.build(attrs)
     obj = entity.new
     obj.attributes = attrs
-    obj.description = "#{ENUM_KIND_DESCRIPTION[attrs["kind"]]} | #{attrs["description"]}"
+    obj.status = "pending"
     obj.token = set_token("token").upcase
     
     return obj
@@ -56,18 +56,19 @@ class Financials::Books::Receivables::InvoiceRepository < Base
     token
   end
 
-  ENUM_KIND_DESCRIPTION = {
-                            "refund" => "Reembolso de Despesas",
-                            "discount" => "Desconto Contratual",
-                            "reversal" => "Estorno de Valores",
-                            "error" => "Erro Operacional",
-                          }
+  ENUM_STATUS = {
+                  "pending" => "Pendente",
+                  "paid" => "Paga",
+                  "canceled" => "Cancelada",
+                  "expired" => "Expirada",
+                  "refund" => "Reembolsada",
+                }
 
-  ENUM_KIND = {
-                "refund" => "Reembolso",
-                "discount" => "Desconto",
-                "reversal" => "Estorno",
-                "error" => "Erro Operacional",
-              }
+  ENUM_METHOD = {
+                  "bank_split" => "Boleto Bancário",
+                  "credit_card" => "Cartão de Crédito",
+                  "transfer" => "Transferência",
+                  "pix" => "PIX",
+                }
 
 end

@@ -695,9 +695,13 @@ ActiveRecord::Schema.define(version: 2021_04_17_171607) do
     t.bigint "receivable_id"
     t.string "status"
     t.string "token"
+    t.string "receivable_type"
+    t.integer "receivable_kind"
     t.index ["active"], name: "index_financial_receivable_conciliations_on_active"
     t.index ["invoice_id"], name: "index_financial_receivable_conciliations_on_invoice_id"
     t.index ["receivable_id"], name: "index_financial_receivable_conciliations_on_receivable_id"
+    t.index ["receivable_kind"], name: "index_financial_receivable_conciliations_on_receivable_kind"
+    t.index ["receivable_type"], name: "index_financial_receivable_conciliations_on_receivable_type"
     t.index ["status"], name: "index_financial_receivable_conciliations_on_status"
     t.index ["token"], name: "index_financial_receivable_conciliations_on_token", unique: true
   end
