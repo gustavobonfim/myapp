@@ -62,6 +62,11 @@ Rails.application.routes.draw do
             post "adjustments/list", to: "adjustments#list"
             put "adjustments/update", to: "adjustments#update"
             delete "adjustments/destroy", to: "adjustments#destroy"
+
+            post "invoices/create", to: "invoices#create"
+            post "invoices/list", to: "invoices#list"
+            put "invoices/update", to: "invoices#update"
+            delete "invoices/destroy", to: "invoices#destroy"
             
             post "calculations/read", to: "calculations#read"
             post "calculations/list", to: "calculations#list"

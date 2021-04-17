@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::AdjustmentRepository < Base
+class Financials::Books::Receivables::InvoiceRepository < Base
 
   def self.build(attrs)
     obj = entity.new
@@ -20,12 +20,8 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
     entity.where(active: true)
   end
 
-  def self.all_active_by_date(date_id)
-    entity.where(active: true, date_id: date_id)
-  end
-
-  def self.all_active_by_date_and_contract(date_id, contract_id)
-    entity.where(active: true, date_id: date_id, contract_id: contract_id)
+  def self.all_active_by_contract(contract_id)
+    entity.where(active: true, contract_id: contract_id)
   end
 
   def self.find_by_id(id)
@@ -36,22 +32,22 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
     entity.find_by(date_id: date_id)
   end
 
-  def self.read(adjustment)
-    mapper.map(adjustment)
+  def self.read(invoice)
+    mapper.map(invoice)
   end
   
-  def self.list(adjustments)
-    mapper.map_all(adjustments)
+  def self.list(invoices)
+    mapper.map_all(invoices)
   end  
 
   private
 
   def self.entity
-    "Financial::Book::Receivable::Adjustment".constantize
+    "Financial::Book::Receivable::Invoice".constantize
   end
 
   def self.mapper
-    "Financials::Books::Receivables::AdjustmentMapper".constantize
+    "Financials::Books::Receivables::InvoiceMapper".constantize
   end
 
   def self.set_token(field)

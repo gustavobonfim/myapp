@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_16_030306) do
+ActiveRecord::Schema.define(version: 2021_04_17_171607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -513,9 +513,11 @@ ActiveRecord::Schema.define(version: 2021_04_16_030306) do
     t.integer "id_type"
     t.bigint "record_id"
     t.string "record_type"
+    t.string "iugu_id"
     t.index ["active"], name: "index_financial_contract_takers_on_active"
     t.index ["id_number"], name: "index_financial_contract_takers_on_id_number", unique: true
     t.index ["id_type"], name: "index_financial_contract_takers_on_id_type"
+    t.index ["iugu_id"], name: "index_financial_contract_takers_on_iugu_id"
     t.index ["record_id"], name: "index_financial_contract_takers_on_record_id"
     t.index ["record_type"], name: "index_financial_contract_takers_on_record_type"
   end
@@ -632,6 +634,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_030306) do
     t.string "description"
     t.integer "kind"
     t.string "token"
+    t.integer "status"
     t.index ["active"], name: "index_financial_receivable_adjustments_on_active"
     t.index ["contract_id"], name: "index_financial_receivable_adjustments_on_contract_id"
     t.index ["contract_token"], name: "index_financial_receivable_adjustments_on_contract_token"
@@ -639,6 +642,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_030306) do
     t.index ["due_date"], name: "index_financial_receivable_adjustments_on_due_date"
     t.index ["kind"], name: "index_financial_receivable_adjustments_on_kind"
     t.index ["med_id"], name: "index_financial_receivable_adjustments_on_med_id"
+    t.index ["status"], name: "index_financial_receivable_adjustments_on_status"
     t.index ["token"], name: "index_financial_receivable_adjustments_on_token", unique: true
   end
 
@@ -723,6 +727,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_030306) do
     t.boolean "recurring", default: false
     t.string "token"
     t.integer "method"
+    t.integer "status"
     t.index ["active"], name: "index_financial_receivable_entities_on_active"
     t.index ["channel_id"], name: "index_financial_receivable_entities_on_channel_id"
     t.index ["chart_group"], name: "index_financial_receivable_entities_on_chart_group"
@@ -738,6 +743,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_030306) do
     t.index ["received"], name: "index_financial_receivable_entities_on_received"
     t.index ["received_date"], name: "index_financial_receivable_entities_on_received_date"
     t.index ["recurring"], name: "index_financial_receivable_entities_on_recurring"
+    t.index ["status"], name: "index_financial_receivable_entities_on_status"
     t.index ["token"], name: "index_financial_receivable_entities_on_token", unique: true
   end
 
