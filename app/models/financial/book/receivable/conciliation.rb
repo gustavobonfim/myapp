@@ -12,6 +12,7 @@ class Financial::Book::Receivable::Conciliation < ApplicationRecord
 
   # Enums
   enum receivable_kind: { receivable: 0, adjustment: 1 }, _prefix: :_
+  enum status: { pending: 0, paid: 1, canceled: 2, expired: 3, refund: 4 }, _prefix: :_
 
   #Callbacks
   before_validation :set_token
@@ -36,5 +37,5 @@ end
 # t.bigint "receivable_id"
 # t.string "receivable_type"
 # t.integer "receivable_kind"
-# t.string "status"
+# t.integer "status"
 # t.string "token"

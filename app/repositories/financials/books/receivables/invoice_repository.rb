@@ -38,7 +38,19 @@ class Financials::Books::Receivables::InvoiceRepository < Base
   
   def self.list(invoices)
     mapper.map_all(invoices)
-  end  
+  end
+
+  def self.has_not_pending_invoice(contract_id)
+    invoices = entity.where(active: true, contract_id: contract_id, status: "pending")
+
+    if invoices.count == 0
+      return true
+    else
+      return false
+    end
+    
+  end
+  
 
   private
 

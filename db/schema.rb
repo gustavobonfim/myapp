@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_171607) do
+ActiveRecord::Schema.define(version: 2021_04_17_220728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -693,10 +693,10 @@ ActiveRecord::Schema.define(version: 2021_04_17_171607) do
     t.boolean "active", default: true, null: false
     t.bigint "invoice_id"
     t.bigint "receivable_id"
-    t.string "status"
     t.string "token"
     t.string "receivable_type"
     t.integer "receivable_kind"
+    t.integer "status"
     t.index ["active"], name: "index_financial_receivable_conciliations_on_active"
     t.index ["invoice_id"], name: "index_financial_receivable_conciliations_on_invoice_id"
     t.index ["receivable_id"], name: "index_financial_receivable_conciliations_on_receivable_id"

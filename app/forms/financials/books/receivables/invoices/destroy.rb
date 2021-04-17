@@ -1,9 +1,7 @@
-class Financials::Books::Receivables::Invoices::Create
+class Financials::Books::Receivables::Invoices::Destroy
 
   def initialize(params)
-    @invoice_params = params.require(:invoice).permit(:contract_id)
-    @receivable_params = params.require(:receivable).permit(:ids => [])
-    @adjustment_params = params.require(:adjustment).permit(:ids => [])
+    @invoice_params = params.require(:invoice).permit(:id, :active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_invoice = can_current_user_create_invoice?
@@ -11,14 +9,13 @@ class Financials::Books::Receivables::Invoices::Create
     
     # date = ::Financials::Config::FindOrCreateDateService.new(@invoice_params[:due_date]).find_or_create_date
     # @invoice_params = @invoice_params.merge({ "date_id" => date.id })
-
-    @can_create_invoice = can_create_invoice
+  
     @invoice = invoice
-    @valid = @invoice.valid? && @can_create_invoice
+    @valid = @invoice.valid?
   end
 
   def invoice
-    ::Financials::Books::Receivables::InvoiceRepository.build(@invoice_params)
+    ::Financials::Books::Receivables::InvoiceRepository.find_and_change(@invoice_params)
   end
   
   def save
@@ -27,15 +24,13 @@ class Financials::Books::Receivables::Invoices::Create
       
       if @valid
         @invoice.save
-
-        ::Financials::Books::Receivables::CreateInvoiceConciliationService.new(@invoice, @receivable_params[:ids], @adjustment_params[:ids]).create_concilation
-
         @data = true
         @status = true
         @process = true
         @type = true
         @message = true
-
+        @invoice.destroy
+        
         true
       else
         @data = false
@@ -62,7 +57,7 @@ class Financials::Books::Receivables::Invoices::Create
   def status
     # return :forbidden unless @can_current_user_create_invoice
     if @status
-      return :created
+      return :ok
     else
       return :bad_request
     end
@@ -80,26 +75,20 @@ class Financials::Books::Receivables::Invoices::Create
   def message
     # return message = "A ação não é permitida" unless @can_current_user_create_invoice
     if @message
-      message = "Fatura criada com sucesso!"
+      message = "Fatura apagada com sucesso!"
       return message
     else
       message = "Tivemos seguinte(s) problema(s):"
-      i = 1
+      i = 0
       @invoice.errors.messages.each do |key, value|
-        message += " (#{i}) #{value.first}"
         i += 1
+        message += " (#{i}) #{value.first}"
       end
-      message += " (#{i}) Existe uma fatura pendente para o Contrato" unless @can_create_invoice
       return message
     end
   end
 
   private
-
-  def can_create_invoice
-    ::Financials::Books::Receivables::InvoiceRepository.has_not_pending_invoice(@invoice_params[:contract_id])
-  end
-  
 
   def can_current_user_create_invoice?
     ::UserPolicies.new(@current_user_params[:current_user_id], "create", "financial_receivable_invoices").can_current_user?

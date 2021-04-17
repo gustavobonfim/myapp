@@ -1,23 +1,28 @@
 class API::V1::Financials::Books::Receivables::InvoicesController < ApplicationController
 
   def create
-    adjustment = ::Financials::Books::Receivables::Invoices::Create.new(params)
-    render :json => {:save => adjustment.save, :data => adjustment.data, :status => adjustment.status, :type => adjustment.type, :message => adjustment.message}.as_json
+    invoice = ::Financials::Books::Receivables::Invoices::Create.new(params)
+    render :json => {:save => invoice.save, :data => invoice.data, :status => invoice.status, :type => invoice.type, :message => invoice.message}.as_json
   end
 
   def update
-    adjustment = ::Financials::Books::Receivables::Invoices::Update.new(params)
-    render :json => {:save => adjustment.save, :data => adjustment.data, :status => adjustment.status, :type => adjustment.type, :message => adjustment.message}.as_json
+    invoice = ::Financials::Books::Receivables::Invoices::Update.new(params)
+    render :json => {:save => invoice.save, :data => invoice.data, :status => invoice.status, :type => invoice.type, :message => invoice.message}.as_json
+  end
+
+  def update_received
+    invoice = ::Financials::Books::Receivables::Invoices::UpdateReceived.new(params)
+    render :json => {:save => invoice.save, :data => invoice.data, :status => invoice.status, :type => invoice.type, :message => invoice.message}.as_json
   end
 
   def destroy
-    adjustment = ::Financials::Books::Receivables::Invoices::Destroy.new(params)
-    render :json => {:save => adjustment.save, :data => adjustment.data, :status => adjustment.status, :type => adjustment.type, :message => adjustment.message}.as_json
+    invoice = ::Financials::Books::Receivables::Invoices::Destroy.new(params)
+    render :json => {:save => invoice.save, :data => invoice.data, :status => invoice.status, :type => invoice.type, :message => invoice.message}.as_json
   end
 
   def read
-    adjustment = ::Financials::Books::Receivables::Invoices::Read.new(params)
-    render :json => {:data => adjustment.data, :status => adjustment.status, :process => adjustment.process?, :type => adjustment.type, :message => adjustment.message}.as_json
+    invoice = ::Financials::Books::Receivables::Invoices::Read.new(params)
+    render :json => {:data => invoice.data, :status => invoice.status, :process => invoice.process?, :type => invoice.type, :message => invoice.message}.as_json
   end
 
   def list
