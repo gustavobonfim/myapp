@@ -55,8 +55,6 @@ class Financials::Books::Receivables::EntityRepository < Base
     end    
   end
   
-  
-
   private
 
   def self.entity
