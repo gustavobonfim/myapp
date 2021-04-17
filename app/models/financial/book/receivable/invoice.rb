@@ -8,6 +8,7 @@ class Financial::Book::Receivable::Invoice < ApplicationRecord
   
   # Relations
   belongs_to :contract, class_name: "Financial::Book::Contract::Entity", foreign_key: "contract_id"
+  has_many :items, class_name: "Financial::Book::Receivable::InvoiceItem", foreign_key: "invoice_id", dependent: :destroy
   
   # Validations
   validates :token, presence: {message: "Token do Recebível não pode ficar em branco. "},

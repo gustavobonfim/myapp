@@ -1,6 +1,6 @@
 class Financial::Book::Receivable::InvoiceItem < ApplicationRecord
 
-  self.table_name = "financial_receivable_conciliations"
+  self.table_name = "financial_receivable_invoice_items"
   
   # Relations
   belongs_to :invoice, class_name: "Financial::Book::Receivable::Invoice", foreign_key: "invoice_id"
@@ -13,7 +13,7 @@ class Financial::Book::Receivable::InvoiceItem < ApplicationRecord
   validates :amount, presence: {message: "O Valor não pode ficar em branco. "}
 
   # Enums
-  enum kind: { income: 1, refund: 1, discount: 2, reversal: 3, error: 4 }, _prefix: :_
+  enum kind: { income: 0, refund: 1, discount: 2, reversal: 3, error: 4 }, _prefix: :_
 
   #Callbacks
   

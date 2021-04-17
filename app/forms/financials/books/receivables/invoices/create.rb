@@ -25,7 +25,7 @@ class Financials::Books::Receivables::Invoices::Create
     ActiveRecord::Base.transaction do
       
       if @valid
-        # @invoice.save
+        @invoice.save
 
         ::Financials::Books::Receivables::CreateInvoiceConciliationService.new(@invoice, @receivable_params[:ids], @adjustment_params[:ids]).create_concilation
         # ::Financials::Books::Contracts::UpdateCalculationService.new(@invoice.contract, @invoice.financial_date)

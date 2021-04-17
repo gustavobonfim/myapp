@@ -21,7 +21,7 @@ class Financials::Books::Receivables::InvoiceRepository < Base
   end
 
   def self.all_active_by_contract(contract_id)
-    entity.where(active: true, contract_id: contract_id)
+    entity.where(active: true, contract_id: contract_id).includes(:items)
   end
 
   def self.find_by_id(id)

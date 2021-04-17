@@ -18,8 +18,8 @@ class Financials::Books::Receivables::InvoiceItemRepository < Base
     entity.where(active: true)
   end
 
-  def self.all_active_by_contract(contract_id)
-    entity.where(active: true, contract_id: contract_id)
+  def self.all_active_by_invoice(invoice_id)
+    entity.where(active: true, invoice_id: invoice_id)
   end
 
   def self.find_by_id(id)

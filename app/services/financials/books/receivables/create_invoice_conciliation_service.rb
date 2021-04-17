@@ -5,12 +5,23 @@ class Financials::Books::Receivables::CreateInvoiceConciliationService
     @receivable_ids = receivable_ids
     @adjustment_ids = adjustment_ids
     @items = []
-    @conciliation = []
+    @conciliations = []
+
+    set_receivables
+    set_adjustments
   end
 
   def create_concilation
-    set_receivables
-    
+
+    @items.each do |item|
+      item.save
+    end
+
+    @conciliations.each do |conciliation|
+      conciliation.save
+    end
+
+    ::Financials::Books::Receivables::UpdateInvoiceService.new(@invoice)
   end
 
   def set_receivables
@@ -32,7 +43,7 @@ class Financials::Books::Receivables::CreateInvoiceConciliationService
                       "price_cents" => (receivable.amount * 100).to_i,
                       "quantity" => 1,
                       "kind" => receivable.kind,
-                      "amount" => r.amount,
+                      "amount" => receivable.amount,
                     }
 
       conciliation = conciliation(conciliation_attrs)
@@ -47,6 +58,42 @@ class Financials::Books::Receivables::CreateInvoiceConciliationService
       
     end
   end
+
+  def set_adjustments
+    @adjustment_ids.each do |id|
+      adjustment = ::Financials::Books::Receivables::AdjustmentRepository.find_by_id(id)
+      adjustment.status = @invoice.status
+
+      conciliation_attrs = {
+                              "invoice_id" => @invoice.id,
+                              "receivable_id" => adjustment.id,
+                              "receivable_type" => adjustment.class.name,
+                              "receivable_kind" => "adjustment",
+                              "status" => @invoice.status,
+                            }
+
+      item_attrs = {
+                      "invoice_id" => @invoice.id,
+                      "description" => adjustment.description,
+                      "price_cents" => (adjustment.amount * 100).to_i,
+                      "quantity" => 1,
+                      "kind" => adjustment.kind,
+                      "amount" => adjustment.amount,
+                    }
+
+      conciliation = conciliation(conciliation_attrs)
+      if conciliation.valid?
+        @conciliations << conciliation
+      end
+
+      item = item(item_attrs)
+      if item.valid?
+        @items << item
+      end
+      
+    end
+  end
+  
 
   def conciliation(attrs)
     ::Financials::Books::Receivables::ConciliationRepository.build(attrs)
