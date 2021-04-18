@@ -23,10 +23,11 @@ class Financials::Books::Receivables::Invoices::UpdatePaidService
       receivable.status = "received"
       receivable.save
 
-      ::Financials::Books::Receivables::Entities::UpdatePaidTransactionService.new(@invoice, receivable) if conciliation.receivable_kind == "receivable"
-      ::Financials::Books::Receivables::Calculations::UpdateService.new(receivable.med, receivable.financial_date) if conciliation.receivable_kind == "receivable"
-      
+      income_receivable = receivable if conciliation.receivable_kind == "receivable"
     end
+    
+    ::Financials::Books::Receivables::Entities::UpdatePaidTransactionService.new(@invoice, income_receivable) if income_receivable
+    ::Financials::Books::Receivables::Calculations::UpdateService.new(income_receivable.med, income_receivable.financial_date) if income_receivable
 
   end
 

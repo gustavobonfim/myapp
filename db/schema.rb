@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_230233) do
+ActiveRecord::Schema.define(version: 2021_04_18_034541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -436,6 +436,20 @@ ActiveRecord::Schema.define(version: 2021_04_17_230233) do
     t.index ["year"], name: "index_financial_config_dates_on_year"
   end
 
+  create_table "financial_contract_additives", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "contract_id"
+    t.date "date"
+    t.string "description"
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.integer "kind"
+    t.index ["active"], name: "index_financial_contract_additives_on_active"
+    t.index ["contract_id"], name: "index_financial_contract_additives_on_contract_id"
+    t.index ["kind"], name: "index_financial_contract_additives_on_kind"
+  end
+
   create_table "financial_contract_calculations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -450,6 +464,13 @@ ActiveRecord::Schema.define(version: 2021_04_17_230233) do
     t.string "token"
     t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_income_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_refund_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_discount_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_reversal_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_error_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_invoice_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_received_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_contract_calculations_on_active"
     t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
     t.index ["taker_id"], name: "index_financial_contract_calculations_on_taker_id"
@@ -683,6 +704,10 @@ ActiveRecord::Schema.define(version: 2021_04_17_230233) do
     t.decimal "total_invoice_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_discount_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_reversal_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_error_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_invoice_received_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_receivable_calculations_on_active"
     t.index ["date_id"], name: "index_financial_receivable_calculations_on_date_id"
     t.index ["med_id"], name: "index_financial_receivable_calculations_on_med_id"
@@ -1192,6 +1217,7 @@ ActiveRecord::Schema.define(version: 2021_04_17_230233) do
   add_foreign_key "financial_card_transactions", "financial_card_entities", column: "card_id"
   add_foreign_key "financial_card_transactions", "financial_payable_providers", column: "provider_id"
   add_foreign_key "financial_card_transactions", "financial_setting_chart_accounts", column: "chart_id"
+  add_foreign_key "financial_contract_additives", "financial_contract_entities", column: "contract_id"
   add_foreign_key "financial_contract_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_contract_calculations", "financial_contract_takers", column: "taker_id"
   add_foreign_key "financial_contract_entities", "financial_contract_takers", column: "client_id"

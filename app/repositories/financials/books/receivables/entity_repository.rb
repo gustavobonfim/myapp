@@ -23,8 +23,16 @@ class Financials::Books::Receivables::EntityRepository < Base
     entity.where(active: true, date_id: date_id)
   end
 
+  def self.all_active_by_date_and_med(date_id, med_id)
+    entity.where(date_id: date_id, med_id: med_id)
+  end
+
   def self.all_active_by_date_and_contract(date_id, contract_id)
     entity.where(active: true, date_id: date_id, contract_id: contract_id)
+  end
+
+  def self.all_active_by_date_and_contracts(date_id, contract_ids)
+    entity.where(active: true, date_id: date_id, contract_id: contract_ids)
   end
 
   def self.find_by_id(id)

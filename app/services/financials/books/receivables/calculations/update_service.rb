@@ -11,11 +11,11 @@ class Financials::Books::Receivables::Calculations::UpdateService
   end
 
   def receivables
-    ::Financials::Books::Receivables::EntityRepository.all_active_by_date(@date.id)
+    ::Financials::Books::Receivables::EntityRepository.all_active_by_date_and_med(@date.id, @med.id)
   end
 
   def adjustments
-    ::Financials::Books::Receivables::AdjustmentRepository.all_active_by_date(@date.id)
+    ::Financials::Books::Receivables::AdjustmentRepository.all_active_by_date_and_med(@date.id, @med.id)
   end
 
   def calculation
@@ -44,7 +44,6 @@ class Financials::Books::Receivables::Calculations::UpdateService
     @calculation.miscellaneous_revenues = @receivables.select{|p| p.chart_master_name == "miscellaneous_revenues"}.map{|p| p.amount}.sum
     
     @calculation.total_income_amount = @receivables.select{|r| r.kind == "income"}.map{|p| p.amount}.sum
-    
     @calculation.total_refund_amount = @adjustments.select{|r| r.kind == "refund"}.map{|p| p.amount}.sum
     @calculation.total_discount_amount = @adjustments.select{|r| r.kind == "discount"}.map{|p| p.amount}.sum
     @calculation.total_reversal_amount = @adjustments.select{|r| r.kind == "reversal"}.map{|p| p.amount}.sum
@@ -55,7 +54,12 @@ class Financials::Books::Receivables::Calculations::UpdateService
 
     @calculation.total_income_received_amount = @receivables.select{|p| p.status == "received" && p.kind == "income"}.map{|p| p.amount}.sum
     @calculation.total_refund_received_amount = @adjustments.select{|a| a.status == "received" && a.kind == "refund"}.map{|a| a.amount}.sum
-    @calculation.total_received_amount = @calculation.total_income_received_amount + @calculation.total_refund_received_amount
+    @calculation.total_discount_received_amount = @adjustments.select{|a| a.status == "received" && a.kind == "discount"}.map{|a| a.amount}.sum
+    @calculation.total_reversal_received_amount = @adjustments.select{|a| a.status == "received" && a.kind == "reversal"}.map{|a| a.amount}.sum
+    @calculation.total_error_received_amount = @adjustments.select{|a| a.status == "received" && a.kind == "error"}.map{|a| a.amount}.sum
+
+    @calculation.total_invoice_received_amount = @calculation.total_income_received_amount - @calculation.total_discount_received_amount
+    @calculation.total_received_amount = @calculation.total_income_received_amount + @calculation.total_refund_received_amount - @calculation.total_discount_received_amount - @calculation.total_reversal_received_amount - @calculation.total_error_received_amount
 
     @calculation.save
 
