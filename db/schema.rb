@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_18_034541) do
+ActiveRecord::Schema.define(version: 2021_04_18_150822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -899,6 +899,7 @@ ActiveRecord::Schema.define(version: 2021_04_18_034541) do
     t.boolean "recurring", default: false
     t.integer "installment"
     t.string "token_tree"
+    t.integer "source"
     t.index ["active"], name: "index_financial_transaction_entities_on_active"
     t.index ["channel_id"], name: "index_financial_transaction_entities_on_channel_id"
     t.index ["date_id"], name: "index_financial_transaction_entities_on_date_id"
@@ -913,6 +914,7 @@ ActiveRecord::Schema.define(version: 2021_04_18_034541) do
     t.index ["med_id"], name: "index_financial_transaction_entities_on_med_id"
     t.index ["method"], name: "index_financial_transaction_entities_on_method"
     t.index ["recurring"], name: "index_financial_transaction_entities_on_recurring"
+    t.index ["source"], name: "index_financial_transaction_entities_on_source"
     t.index ["to_code"], name: "index_financial_transaction_entities_on_to_code"
     t.index ["to_group"], name: "index_financial_transaction_entities_on_to_group"
     t.index ["to_id"], name: "index_financial_transaction_entities_on_to_id"

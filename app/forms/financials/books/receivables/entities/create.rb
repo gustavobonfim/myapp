@@ -51,16 +51,6 @@ class Financials::Books::Receivables::Entities::Create
   def data
     # return cln = [] unless @can_current_user_create_receivable
     if @data
-
-
-
-
-      debugger
-
-
-
-
-
       cln = ::Financials::Books::Receivables::EntityRepository.read(@receivable)
     else
       cln = []

@@ -23,14 +23,6 @@ class Financials::Books::Settings::ChartAccounts::CreateChartAccountService
         if obj.valid?
           obj.save
         else
-
-
-
-
-          debugger
-
-
-
           raise ActiveRecord::Rollback
         end
       end

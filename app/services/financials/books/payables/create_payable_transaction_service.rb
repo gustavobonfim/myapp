@@ -33,6 +33,7 @@ class Financials::Books::Payables::CreatePayableTransactionService
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
               "kind" => @to.kind,
+              "source" => "payable",
             }
 
     obj = transaction(attrs)

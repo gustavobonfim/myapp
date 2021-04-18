@@ -15,7 +15,7 @@ class Financials::Books::Transactions::EntityRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true)
+    entity.where(active: true).includes(:from, :to)
   end
 
   def self.all_active_by_date(date_id)
@@ -64,6 +64,18 @@ class Financials::Books::Transactions::EntityRepository < Base
   def self.mapper
     "Financials::Books::Transactions::EntityMapper".constantize
   end
+
+  def self.set_token(field)
+    token = Base.generate_token
+    set_token if valid_field(field, token)
+    token
+  end
+
+  ENUM_SOURCE = {
+                  "receivable" => "Contas à Receber",
+                  "payable" => "Contas à Pagar",
+                  "direct" => "Direto"
+                }
 
   ENUM_KIND = {
                 "statement" => "Resultado",

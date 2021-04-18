@@ -33,6 +33,7 @@ class Financials::Books::Statements::CreateProfitTransactionService
               "to_amount" => @to_amount,
               "kind" => "balance",
               "intern" => true,
+              "source" => @transaction.source,
             }
 
     obj = transaction(attrs)

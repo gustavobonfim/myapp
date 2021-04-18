@@ -8,7 +8,6 @@ class Financials::Books::Balances::UpdateBalancesService
   end
   
   def update_from_balance
-
     from_balance = balance(@obj.from_id)
     from_balance_transactions = from_transactions(@obj.from_id)
     to_balance_transactions = to_transactions(@obj.from_id)

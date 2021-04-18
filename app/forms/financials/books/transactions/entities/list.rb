@@ -50,7 +50,7 @@ class Financials::Books::Transactions::Entities::List
       @type = "success"
     end
     
-    return {:cln => cln.compact}.as_json
+    return {:total => cln.count, :cln => cln.compact}.as_json
   end
 
   private

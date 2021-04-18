@@ -16,6 +16,7 @@ class Financial::Book::Transaction::Entity < ApplicationRecord
   # Enums
   enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3 }, _prefix: :_
   enum kind: { statement: 0, balance: 1 }, _prefix: :_
+  enum source: { receivable: 0, payable: 1, direct: 2 }, _prefix: :_
 
   # Callbacks
 

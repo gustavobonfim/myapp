@@ -34,6 +34,7 @@ class Financials::Books::Receivables::Adjustments::CreateTransactionService
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
               "kind" => @from.kind,
+              "source" => "receivable",
             }
 
     obj = transaction(attrs)
