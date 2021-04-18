@@ -17,7 +17,7 @@ class Financial::Book::Receivable::Adjustment < ApplicationRecord
                     uniqueness: { case_sensitive: false, message: "Já existe um Recebível com este token. "  }
 
   # Enums
-  enum kind: { refund: 0, discount: 1, reversal: 2, error: 3 }, _prefix: :_
+  enum kind: { refund: 0, discount: 1, reversal: 2, error: 3, addition: 4 }, _prefix: :_
   enum status: { pending: 0, received: 1 }, _prefix: :_
 
   # Callbacks

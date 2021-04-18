@@ -13,7 +13,6 @@ class Financial::Book::Contract::Calculation < ApplicationRecord
   before_validation :set_token
 
   def set_token
-
     date_code = self.date_id.to_s(36).rjust(5,"0").upcase
     taker_code = self.taker_id.to_s(36).rjust(5,"0").upcase
 

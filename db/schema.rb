@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_18_150822) do
+ActiveRecord::Schema.define(version: 2021_04_18_172459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -471,6 +471,8 @@ ActiveRecord::Schema.define(version: 2021_04_18_150822) do
     t.decimal "total_error_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_invoice_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_addition_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_addition_received_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_contract_calculations_on_active"
     t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
     t.index ["taker_id"], name: "index_financial_contract_calculations_on_taker_id"
@@ -708,6 +710,8 @@ ActiveRecord::Schema.define(version: 2021_04_18_150822) do
     t.decimal "total_reversal_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_error_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_invoice_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_addition_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_addition_received_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_receivable_calculations_on_active"
     t.index ["date_id"], name: "index_financial_receivable_calculations_on_date_id"
     t.index ["med_id"], name: "index_financial_receivable_calculations_on_med_id"
@@ -821,6 +825,7 @@ ActiveRecord::Schema.define(version: 2021_04_18_150822) do
     t.decimal "total_income_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_addition_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_receivable_invoices_on_active"
     t.index ["contract_id"], name: "index_financial_receivable_invoices_on_contract_id"
     t.index ["iugu_invoice_id"], name: "index_financial_receivable_invoices_on_iugu_invoice_id"
