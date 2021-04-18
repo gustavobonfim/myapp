@@ -56,7 +56,7 @@ class Financials::Books::Contracts::Takers::List
   private
 
   def can_current_user_list_taker?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_payable_takers").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "financial_contract_takers").can_current_user?
   end
 
 end

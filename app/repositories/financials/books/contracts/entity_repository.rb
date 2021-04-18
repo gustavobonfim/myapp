@@ -60,6 +60,7 @@ class Financials::Books::Contracts::EntityRepository < Base
   ENUM_STATUS = {
                   "open" => "Aberto",
                   "churned" => "Churn",
+                  "frozen" => "Congelado",
                   "finished" => "Finalizado"
                 }
 

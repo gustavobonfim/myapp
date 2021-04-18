@@ -48,6 +48,10 @@ Rails.application.routes.draw do
             post "takers/create", to: "takers#create"
             put "takers/update", to: "takers#update"
             post "takers/list", to: "takers#list"
+
+            post "additives/create", to: "additives#create"
+            put "additives/update", to: "additives#update"
+            post "additives/list", to: "additives#list"
             
             post "calculations/read", to: "calculations#read"
             post "calculations/list", to: "calculations#list"

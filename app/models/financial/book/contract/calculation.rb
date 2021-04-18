@@ -19,7 +19,6 @@ class Financial::Book::Contract::Calculation < ApplicationRecord
 
     self.token = "#{date_code}#{taker_code}"
   end
-  
 
 end
 
