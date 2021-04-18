@@ -22,7 +22,7 @@ class Financials::Books::Receivables::Invoices::UpdatePaid
       if @valid
         @invoice.save
 
-        ::Financials::Books::Receivables::UpdatePaidInvoiceService.new(@invoice)
+        ::Financials::Books::Receivables::Invoices::UpdatePaidService.new(@invoice)
         # ::Financials::Books::Contracts::UpdateCalculationService.new(@invoice.contract, @invoice.financial_date)
         # ::Financials::Books::Receivables::Calculations::UpdateService.new(@invoice.contract.med, @invoice.financial_date)
 

@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::CreateInvoiceConciliationService
+class Financials::Books::Receivables::Invoices::CreateConciliationService
 
   def initialize(invoice, receivable_ids, adjustment_ids)
     @invoice = invoice    
@@ -21,7 +21,7 @@ class Financials::Books::Receivables::CreateInvoiceConciliationService
       conciliation.save
     end
 
-    ::Financials::Books::Receivables::UpdateInvoiceService.new(@invoice)
+    ::Financials::Books::Receivables::Invoices::UpdateService.new(@invoice)
   end
 
   def set_receivables

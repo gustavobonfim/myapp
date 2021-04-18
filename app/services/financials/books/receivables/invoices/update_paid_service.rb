@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::UpdatePaidInvoiceService
+class Financials::Books::Receivables::Invoices::UpdatePaidService
 
   def initialize(invoice)
     @invoice = invoice
