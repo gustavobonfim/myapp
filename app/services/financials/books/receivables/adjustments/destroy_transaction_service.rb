@@ -2,12 +2,12 @@ class Financials::Books::Receivables::Adjustments::DestroyTransactionService
 
   def initialize(adjustment)
     @adjustment = adjustment
-    @transactions = @transactions
+    @transactions = transactions
 
   end
   
   def destroy_transaction
-    transactions.each do |transaction|
+    @transactions.each do |transaction|
       transaction.destroy
       ::Financials::Books::Balances::UpdateBalancesService.new(transaction)
     end

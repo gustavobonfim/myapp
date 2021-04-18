@@ -122,8 +122,9 @@ Rails.application.routes.draw do
 
           namespace :transactions do
             post "entities/create", to: "entities#create"
-            put "entities/update", to: "entities#update"
             post "entities/list", to: "entities#list"
+            put "entities/update", to: "entities#update"
+            delete "entities/destroy", to: "entities#destroy"
           end
 
           namespace :balances do

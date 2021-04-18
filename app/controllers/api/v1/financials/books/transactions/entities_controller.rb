@@ -10,6 +10,11 @@ class API::V1::Financials::Books::Transactions::EntitiesController < Application
     render :json => {:save => transaction.save, :data => transaction.data, :status => transaction.status, :type => transaction.type, :message => transaction.message}.as_json
   end
 
+  def destroy
+    transaction = ::Financials::Books::Transactions::Entities::Destroy.new(params)
+    render :json => {:save => transaction.save, :data => transaction.data, :status => transaction.status, :type => transaction.type, :message => transaction.message}.as_json
+  end
+
   def read
     transaction = ::Financials::Books::Transactions::Entities::Read.new(params)
     render :json => {:data => transaction.data, :status => transaction.status, :process => transaction.process?, :type => transaction.type, :message => transaction.message}.as_json
