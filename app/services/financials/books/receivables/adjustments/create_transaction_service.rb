@@ -41,7 +41,7 @@ class Financials::Books::Receivables::Adjustments::CreateTransactionService
     if obj.valid?
       obj.save
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
-      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @adjustment.kind == "error" || @adjustment.kind == "discount"
+      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @adjustment.kind == "error" || @adjustment.kind == "discount" || @adjustment.kind == "addition"
     end
   end
   
@@ -58,13 +58,20 @@ class Financials::Books::Receivables::Adjustments::CreateTransactionService
       name = ::Financials::Books::Receivables::GetReversalChartName::TRANSLATE[@contract.product_name]
       to_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == name}.values.first}"
       @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name)
+    elsif @adjustment.kind == "addition"
+      from_chart_name = ::Financials::Books::Receivables::GetIncomeChartName::TRANSLATE[@contract.product_name][@contract.kind][@contract.product_kind]
+      @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(from_chart_name)
+
+      name = ::Financials::Books::Receivables::GetReversalChartName::TRANSLATE[@contract.product_name]
+      to_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == name}.values.first}"
+      @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name)
     elsif @adjustment.kind == "discount"
       name = ::Financials::Books::Receivables::GetReversalChartName::TRANSLATE[@contract.product_name]
       from_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == name}.values.first}"
       @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(from_chart_name)
 
       to_chart_name = ::Financials::Books::Receivables::GetIncomeChartName::TRANSLATE[@contract.product_name][@contract.kind][@contract.product_kind]
-      @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name) 
+      @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name)
     elsif @adjustment.kind == "reversal"
       name = ::Financials::Books::Receivables::GetReversalChartName::TRANSLATE[@contract.product_name]
       from_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == name}.values.first}"

@@ -51,8 +51,10 @@ class Financials::Books::Receivables::InvoiceItemRepository < Base
   ENUM_KIND = {
                 "income" => "Mensalidade",
                 "refund" => "Reembolso",
+                "addition" => "Adicional",
                 "discount" => "Desconto",
                 "reversal" => "Estorno",
+                "error" => "Erro Operacional",
               }
 
 end

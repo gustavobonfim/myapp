@@ -75,6 +75,7 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
 
   ENUM_KIND_DESCRIPTION = {
                             "refund" => "Reembolso de Despesas",
+                            "addition" => "Adicional de Contrato",
                             "discount" => "Desconto Contratual",
                             "reversal" => "Estorno de Valores",
                             "error" => "Erro Operacional",
@@ -82,6 +83,7 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
 
   ENUM_KIND = {
                 "refund" => "Reembolso",
+                "addition" => "Adicional",
                 "discount" => "Desconto",
                 "reversal" => "Estorno",
                 "error" => "Erro Operacional",

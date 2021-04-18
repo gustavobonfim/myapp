@@ -1,7 +1,8 @@
 class Financials::Books::Receivables::Adjustments::Create
 
   def initialize(params)
-    @adjustment_params = params.require(:adjustment).permit(:contract_id, :date_id, :med_id, :contract_token, :due_date, :amount, :description, :kind)
+    @adjustment_params = params.require(:adjustment).permit(:contract_id, :date_id, :med_id, :contract_token, :due_date, :amount,
+                                                            :description, :kind)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_adjustment = can_current_user_create_adjustment?
