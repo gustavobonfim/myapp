@@ -25,9 +25,9 @@ class Financials::Books::Receivables::Adjustments::Create
       if @valid
         @adjustment.save
 
-        ::Financials::Books::Receivables::CreateAdjustmentTransactionService.new(@adjustment).create_transaction
+        ::Financials::Books::Receivables::Adjustments::CreateTransactionService.new(@adjustment).create_transaction
         ::Financials::Books::Contracts::UpdateCalculationService.new(@adjustment.contract, @adjustment.financial_date)
-        ::Financials::Books::Receivables::UpdateCalculationService.new(@adjustment.contract.med, @adjustment.financial_date)
+        ::Financials::Books::Receivables::Calculations::UpdateService.new(@adjustment.contract.med, @adjustment.financial_date)
 
         @data = true
         @status = true

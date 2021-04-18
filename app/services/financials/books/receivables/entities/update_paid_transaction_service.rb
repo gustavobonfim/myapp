@@ -1,12 +1,13 @@
-class Financials::Books::Receivables::CreateReceivableTransactionService
+class Financials::Books::Receivables::Entities::UpdatePaidTransactionService
 
-  def initialize(receivable)
+  def initialize(invoice, receivable)
+    @invoice = invoice
     @receivable = receivable
 
-    create_receivable_transaction
+    update_receivable_transaction
   end
   
-  def create_receivable_transaction
+  def update_receivable_transaction
     set_from_and_to_chart_account
     set_from_and_to_amount
 
@@ -29,7 +30,7 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
               "to_group" => @to.group,
               "to_master_group" => @to.master_group,
               "to_master" => @to.master,
-              "amount" => @receivable.amount,
+              "amount" => @invoice.total_amount,
               "from_amount" => @from_amount,
               "to_amount" => @to_amount,
               "kind" => @from.kind,
@@ -39,7 +40,6 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
     if obj.valid?
       obj.save
       ::Financials::Books::Balances::UpdateBalancesService.new(obj)
-      ::Financials::Books::Statements::CreateProfitTransactionService.new(obj) if @receivable.kind == "income"
     end
   end
   
@@ -48,23 +48,23 @@ class Financials::Books::Receivables::CreateReceivableTransactionService
   end
 
   def set_from_and_to_chart_account
-    @from = @receivable.chart
+    from_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == @receivable.chart.group}.values.first}"
+    @from = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(from_chart_name)
 
-    to_chart_name = "Clientes | #{::Financials::Books::Settings::ChartAccountRepository::ENUM_GROUP.select{|key,value| key == @from.group}.values.first}"
-    @to = ::Financials::Books::Settings::ChartAccountRepository.find_by_chart_name(to_chart_name)
+    @to = @receivable.contract.channel.chart
   end
 
   def set_from_and_to_amount
     if @from.master == "liability" || @from.master == "revenues"
-      @from_amount = @receivable.amount
+      @from_amount = @invoice.total_amount
     else
-      @from_amount = - @receivable.amount
+      @from_amount = - @invoice.total_amount
     end
 
     if @to.master == "asset" || @to.master == "expenses"
-      @to_amount = @receivable.amount
+      @to_amount = @invoice.total_amount
     else
-      @to_amount = - @receivable.amount
+      @to_amount = - @invoice.total_amount
     end  
   end
   

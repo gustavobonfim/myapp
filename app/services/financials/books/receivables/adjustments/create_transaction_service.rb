@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::CreateAdjustmentTransactionService
+class Financials::Books::Receivables::Adjustments::CreateTransactionService
 
   def initialize(adjustment)
     @adjustment = adjustment

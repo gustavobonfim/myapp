@@ -1,4 +1,4 @@
-class Financials::Books::Receivables::UpdateCalculationService
+class Financials::Books::Receivables::Calculations::UpdateService
   
   def initialize(med, date)
     @med = med

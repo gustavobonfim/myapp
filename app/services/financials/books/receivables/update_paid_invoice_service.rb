@@ -23,6 +23,9 @@ class Financials::Books::Receivables::UpdatePaidInvoiceService
       receivable.status = "received"
       receivable.save
 
+      ::Financials::Books::Receivables::Entities::UpdatePaidTransactionService.new(@invoice, receivable) if conciliation.receivable_kind == "receivable"
+      ::Financials::Books::Receivables::Calculations::UpdateService.new(receivable.med, receivable.financial_date) if conciliation.receivable_kind == "receivable"
+      
     end
 
   end

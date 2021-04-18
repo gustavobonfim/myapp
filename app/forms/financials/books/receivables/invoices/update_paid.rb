@@ -5,10 +5,7 @@ class Financials::Books::Receivables::Invoices::UpdatePaid
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_invoice = can_current_user_create_invoice?
-    # return false unless @can_current_user_create_invoice    
-    
-    # date = ::Financials::Config::FindOrCreateDateService.new(@invoice_params[:due_date]).find_or_create_date
-    # @invoice_params = @invoice_params.merge({ "date_id" => date.id })
+    # return false unless @can_current_user_create_invoice
   
     @invoice = invoice
     @valid = @invoice.valid?
@@ -23,11 +20,11 @@ class Financials::Books::Receivables::Invoices::UpdatePaid
     ActiveRecord::Base.transaction do
       
       if @valid
-        # @invoice.save
+        @invoice.save
 
         ::Financials::Books::Receivables::UpdatePaidInvoiceService.new(@invoice)
         # ::Financials::Books::Contracts::UpdateCalculationService.new(@invoice.contract, @invoice.financial_date)
-        # ::Financials::Books::Receivables::UpdateCalculationService.new(@invoice.contract.med, @invoice.financial_date)
+        # ::Financials::Books::Receivables::Calculations::UpdateService.new(@invoice.contract.med, @invoice.financial_date)
 
         @data = true
         @status = true

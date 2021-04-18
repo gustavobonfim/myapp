@@ -27,7 +27,7 @@ class Financials::Books::Receivables::Adjustments::Destroy
 
         ::Financials::Books::Receivables::DestroyAdjustmentTransactionService.new(@adjustment).destroy_transaction
         ::Financials::Books::Contracts::UpdateCalculationService.new(@adjustment.contract, @adjustment.financial_date)
-        ::Financials::Books::Receivables::UpdateCalculationService.new(@adjustment.contract.med, @adjustment.financial_date)
+        ::Financials::Books::Receivables::Calculations::UpdateService.new(@adjustment.contract.med, @adjustment.financial_date)
 
 
         @adjustment.destroy

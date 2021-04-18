@@ -34,8 +34,8 @@ class Financials::Books::Contracts::CreateContractReceivableService
     if obj.valid?
       obj.save
       ::Financials::Books::Contracts::UpdateCalculationService.new(@contract, @date)
-      ::Financials::Books::Receivables::UpdateCalculationService.new(@contract.med, @date)
-      ::Financials::Books::Receivables::CreateReceivableTransactionService.new(obj)
+      ::Financials::Books::Receivables::Calculations::UpdateService.new(@contract.med, @date)
+      ::Financials::Books::Receivables::Entities::CreateTransactionService.new(obj)
     end
 
     return obj

@@ -41,9 +41,10 @@ class Financials::Books::Receivables::InvoiceRepository < Base
   end
 
   def self.has_not_pending_invoice(contract_id)
-    invoices = entity.where(active: true, contract_id: contract_id, status: "pending")
+    all_invoices = entity.where(active: true, contract_id: contract_id)
+    pending_invoices = all_invoices.select{|invoice| invoice.status == "pending"}
 
-    if invoices.count == 0
+    if all_invoices.count == 0 || (all_invoices.count > 0 && pending_invoices.count == 0)
       return true
     else
       return false
