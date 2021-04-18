@@ -48,12 +48,12 @@ class Financials::Books::Receivables::CreateInvoiceConciliationService
 
       conciliation = conciliation(conciliation_attrs)
       if conciliation.valid?
-        @conciliations << conciliation
+        @conciliations << conciliation if receivable.contract_id == @invoice.contract_id
       end
 
       item = item(item_attrs)
       if item.valid?
-        @items << item
+        @items << item if receivable.contract_id == @invoice.contract_id
       end
       
     end
@@ -83,12 +83,12 @@ class Financials::Books::Receivables::CreateInvoiceConciliationService
 
       conciliation = conciliation(conciliation_attrs)
       if conciliation.valid?
-        @conciliations << conciliation
+        @conciliations << conciliation  if adjustment.contract_id == @invoice.contract_id
       end
 
       item = item(item_attrs)
       if item.valid?
-        @items << item
+        @items << item  if adjustment.contract_id == @invoice.contract_id
       end
       
     end

@@ -7,10 +7,7 @@ class Financials::Books::Receivables::Invoices::Create
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_invoice = can_current_user_create_invoice?
-    # return false unless @can_current_user_create_invoice    
-    
-    # date = ::Financials::Config::FindOrCreateDateService.new(@invoice_params[:due_date]).find_or_create_date
-    # @invoice_params = @invoice_params.merge({ "date_id" => date.id })
+    # return false unless @can_current_user_create_invoice
 
     @can_create_invoice = can_create_invoice
     @invoice = invoice
@@ -26,8 +23,8 @@ class Financials::Books::Receivables::Invoices::Create
     ActiveRecord::Base.transaction do
       
       if @valid
-        # @invoice.save
-        # ::Financials::Books::Receivables::CreateInvoiceConciliationService.new(@invoice, @receivable_params[:ids], @adjustment_params[:ids]).create_concilation
+        @invoice.save
+        ::Financials::Books::Receivables::CreateInvoiceConciliationService.new(@invoice, @receivable_params[:ids], @adjustment_params[:ids]).create_concilation
 
         @data = true
         @status = true

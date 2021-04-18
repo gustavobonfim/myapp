@@ -51,7 +51,7 @@ class Financial::Book::Setting::ChartAccount < ApplicationRecord
                       :profit_reserves => 32,
                       :profit_and_loss => 33,
                       :dividend_distribution => 34,
-                      :medclinics => 35,
+                      :medclinic => 35,
                       :medbooking => 36,
                       :medfiling => 37,
                       :medpayroll => 38,
