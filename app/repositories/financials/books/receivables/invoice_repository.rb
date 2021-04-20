@@ -17,7 +17,7 @@ class Financials::Books::Receivables::InvoiceRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true)
+    entity.where(active: true).includes(:items, contract: [:taker])
   end
 
   def self.all_active_by_contract(contract_id)

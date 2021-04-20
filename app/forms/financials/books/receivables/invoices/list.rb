@@ -11,7 +11,8 @@ class Financials::Books::Receivables::Invoices::List
   end
 
   def invoices
-    ::Financials::Books::Receivables::InvoiceRepository.all_active_by_contract(@invoice_params[:contract_id])
+    # ::Financials::Books::Receivables::InvoiceRepository.all_active_by_contract(@invoice_params[:contract_id])
+    ::Financials::Books::Receivables::InvoiceRepository.all_active
   end
 
   def status
