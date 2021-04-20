@@ -16,7 +16,8 @@ class Financials::Books::Contracts::EntityRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true).includes(:taker)
+    entity.where(active: true).includes(:taker, :med, :channel)
+    # entity.where(active: true)
   end
 
   def self.find_by_id(id)

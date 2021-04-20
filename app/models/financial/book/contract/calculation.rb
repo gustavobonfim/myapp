@@ -9,6 +9,9 @@ class Financial::Book::Contract::Calculation < ApplicationRecord
   # Validations
   validates :token, uniqueness: { case_sensitive: false, message: "Sumário do Contratante já existente para o período. " }
 
+  # Enums
+  enum invoice_status: { pending: 0, paid: 1, canceled: 2, expired: 3, refund: 4 }, _prefix: :_
+
   #Callbacks
   before_validation :set_token
 
@@ -35,3 +38,14 @@ end
 # t.string "token"
 # t.decimal "total_reversal_amount", precision: 15, scale: 2, default: "0.0"
 # t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_income_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_refund_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_discount_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_reversal_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_error_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_invoice_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_addition_amount", precision: 15, scale: 2, default: "0.0"
+# t.decimal "total_addition_received_amount", precision: 15, scale: 2, default: "0.0"
+# t.string "invoice_token"
+# t.integer "invoice_status"

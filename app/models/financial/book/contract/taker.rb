@@ -4,6 +4,7 @@ class Financial::Book::Contract::Taker < ApplicationRecord
   
   # Relations
   has_many :contracts, class_name: "Financial::Book::Contract::Entity", foreign_key: "taker_id"
+  has_many :calculations, class_name: "Financial::Book::Contract::Calculation", foreign_key: "taker_id"
   
   # Validations
   validates :id_number, presence: {message: "O CPF/CNPJ não pode ficar em branco. "}, uniqueness: { case_sensitive: false, message: "CPF/CNPJ já existe na base. "  }
@@ -23,4 +24,4 @@ end
 # t.string "id_number"
 # t.integer "id_type"
 # t.bigint "record_id"
-# t.string "record_type"
+# t.string "record_type"wwww

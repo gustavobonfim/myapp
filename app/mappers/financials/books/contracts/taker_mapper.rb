@@ -11,6 +11,8 @@ class Financials::Books::Contracts::TakerMapper < BaseMapper
       obj = obj.merge({ "id_number_pretty" => ::CompanyDecorator.cnpj_pretty(model.id_number) })
     end
 
+    obj = obj.merge({ "calculations" => Financials::Books::Contracts::CalculationRepository.list(model.calculations) })
+
     return obj
   end
 

@@ -21,7 +21,7 @@ class Financial::Book::Contract::Entity < ApplicationRecord
   enum status: { open: 0, frozen: 1, churned: 2, finished: 3 }, _prefix: :_
   enum kind: { setup: 0, recurring: 1 }, _prefix: :_
   enum plan: { monthly: 0, yearly: 1 }, _prefix: :_
-  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3, invoice: 4 }, _prefix: :_
+  enum method: { bank_split: 0, credit_card: 1, transfer: 2, pix: 3, invoice: 4, provision: 5 }, _prefix: :_
   
   #Callbacks
   before_validation :set_name

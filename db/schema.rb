@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_18_172459) do
+ActiveRecord::Schema.define(version: 2021_04_20_151333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -473,8 +473,12 @@ ActiveRecord::Schema.define(version: 2021_04_18_172459) do
     t.decimal "total_received_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_addition_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_addition_received_amount", precision: 15, scale: 2, default: "0.0"
+    t.string "invoice_token"
+    t.integer "invoice_status"
     t.index ["active"], name: "index_financial_contract_calculations_on_active"
     t.index ["date_id"], name: "index_financial_contract_calculations_on_date_id"
+    t.index ["invoice_status"], name: "index_financial_contract_calculations_on_invoice_status"
+    t.index ["invoice_token"], name: "index_financial_contract_calculations_on_invoice_token"
     t.index ["taker_id"], name: "index_financial_contract_calculations_on_taker_id"
     t.index ["token"], name: "index_financial_contract_calculations_on_token", unique: true
   end
