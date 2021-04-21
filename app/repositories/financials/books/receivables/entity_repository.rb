@@ -16,7 +16,7 @@ class Financials::Books::Receivables::EntityRepository < Base
   end
 
   def self.all_active
-    entity.where(active: true)
+    entity.where(active: true).includes(:med)
   end
 
   def self.all_active_by_date(date_id)

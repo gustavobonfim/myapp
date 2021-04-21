@@ -48,6 +48,14 @@ class Financials::Books::Receivables::ConciliationRepository < Base
     "Financials::Books::Receivables::ConciliationMapper".constantize
   end
 
+  ENUM_STATUS = {
+                  "pending" => "Pendente",
+                  "paid" => "Paga",
+                  "canceled" => "Cancelada",
+                  "expired" => "Expirada",
+                  "refund" => "Reembolsada",
+                }
+
   ENUM_RECEIVABLE_KIND = {
                             "receivable" => "Recebível",
                             "adjustment" => "Ajuste",

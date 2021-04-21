@@ -62,6 +62,8 @@ Rails.application.routes.draw do
             post "entities/create", to: "entities#create"
             put "entities/update", to: "entities#update"
 
+            post "conciliations/list", to: "conciliations#list"
+
             post "adjustments/create", to: "adjustments#create"
             post "adjustments/list", to: "adjustments#list"
             put "adjustments/update", to: "adjustments#update"

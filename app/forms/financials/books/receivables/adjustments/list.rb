@@ -11,7 +11,8 @@ class Financials::Books::Receivables::Adjustments::List
   end
 
   def adjustments
-    ::Financials::Books::Receivables::AdjustmentRepository.all_active_by_date_and_contract(@adjustment_params[:date_id], @adjustment_params[:contract_id])
+    # ::Financials::Books::Receivables::AdjustmentRepository.all_active_by_date_and_contract(@adjustment_params[:date_id], @adjustment_params[:contract_id])
+    ::Financials::Books::Receivables::AdjustmentRepository.all_active
   end
 
   def status
