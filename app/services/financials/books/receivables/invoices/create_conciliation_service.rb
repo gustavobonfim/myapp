@@ -30,6 +30,7 @@ class Financials::Books::Receivables::Invoices::CreateConciliationService
       receivable.status = @invoice.status
 
       conciliation_attrs = {
+                              "taker_id" => @invoice.taker_id,
                               "invoice_id" => @invoice.id,
                               "receivable_id" => receivable.id,
                               "receivable_type" => receivable.class.name,
@@ -65,6 +66,7 @@ class Financials::Books::Receivables::Invoices::CreateConciliationService
       adjustment.status = @invoice.status
 
       conciliation_attrs = {
+                              "taker_id" => @invoice.taker_id,
                               "invoice_id" => @invoice.id,
                               "receivable_id" => adjustment.id,
                               "receivable_type" => adjustment.class.name,

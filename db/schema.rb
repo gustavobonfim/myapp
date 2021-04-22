@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_151333) do
+ActiveRecord::Schema.define(version: 2021_04_22_024542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -732,12 +732,14 @@ ActiveRecord::Schema.define(version: 2021_04_20_151333) do
     t.string "receivable_type"
     t.integer "receivable_kind"
     t.integer "status"
+    t.bigint "taker_id"
     t.index ["active"], name: "index_financial_receivable_conciliations_on_active"
     t.index ["invoice_id"], name: "index_financial_receivable_conciliations_on_invoice_id"
     t.index ["receivable_id"], name: "index_financial_receivable_conciliations_on_receivable_id"
     t.index ["receivable_kind"], name: "index_financial_receivable_conciliations_on_receivable_kind"
     t.index ["receivable_type"], name: "index_financial_receivable_conciliations_on_receivable_type"
     t.index ["status"], name: "index_financial_receivable_conciliations_on_status"
+    t.index ["taker_id"], name: "index_financial_receivable_conciliations_on_taker_id"
     t.index ["token"], name: "index_financial_receivable_conciliations_on_token", unique: true
   end
 
@@ -805,7 +807,7 @@ ActiveRecord::Schema.define(version: 2021_04_20_151333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
-    t.bigint "contract_id"
+    t.bigint "taker_id"
     t.date "due_date"
     t.string "iugu_invoice_id"
     t.string "iugu_secure_id"
@@ -831,13 +833,13 @@ ActiveRecord::Schema.define(version: 2021_04_20_151333) do
     t.decimal "total_error_amount", precision: 15, scale: 2, default: "0.0"
     t.decimal "total_addition_amount", precision: 15, scale: 2, default: "0.0"
     t.index ["active"], name: "index_financial_receivable_invoices_on_active"
-    t.index ["contract_id"], name: "index_financial_receivable_invoices_on_contract_id"
     t.index ["iugu_invoice_id"], name: "index_financial_receivable_invoices_on_iugu_invoice_id"
     t.index ["iugu_secure_id"], name: "index_financial_receivable_invoices_on_iugu_secure_id"
     t.index ["method"], name: "index_financial_receivable_invoices_on_method"
     t.index ["paid"], name: "index_financial_receivable_invoices_on_paid"
     t.index ["status"], name: "index_financial_receivable_invoices_on_status"
     t.index ["subscription_id"], name: "index_financial_receivable_invoices_on_subscription_id"
+    t.index ["taker_id"], name: "index_financial_receivable_invoices_on_taker_id"
     t.index ["token"], name: "index_financial_receivable_invoices_on_token", unique: true
   end
 
@@ -1247,6 +1249,7 @@ ActiveRecord::Schema.define(version: 2021_04_20_151333) do
   add_foreign_key "financial_receivable_adjustments", "user_company_entities", column: "med_id"
   add_foreign_key "financial_receivable_calculations", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_receivable_calculations", "user_company_entities", column: "med_id"
+  add_foreign_key "financial_receivable_conciliations", "financial_contract_takers", column: "taker_id"
   add_foreign_key "financial_receivable_conciliations", "financial_receivable_invoices", column: "invoice_id"
   add_foreign_key "financial_receivable_entities", "financial_config_dates", column: "date_id"
   add_foreign_key "financial_receivable_entities", "financial_contract_entities", column: "contract_id"
@@ -1254,7 +1257,7 @@ ActiveRecord::Schema.define(version: 2021_04_20_151333) do
   add_foreign_key "financial_receivable_entities", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_receivable_entities", "user_company_entities", column: "med_id"
   add_foreign_key "financial_receivable_invoice_items", "financial_receivable_invoices", column: "invoice_id"
-  add_foreign_key "financial_receivable_invoices", "financial_contract_entities", column: "contract_id"
+  add_foreign_key "financial_receivable_invoices", "financial_contract_takers", column: "taker_id"
   add_foreign_key "financial_setting_channels", "financial_card_entities", column: "card_id"
   add_foreign_key "financial_setting_channels", "financial_setting_chart_accounts", column: "chart_id"
   add_foreign_key "financial_setting_channels", "user_company_entities", column: "med_id"

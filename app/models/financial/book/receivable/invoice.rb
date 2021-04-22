@@ -7,7 +7,7 @@ class Financial::Book::Receivable::Invoice < ApplicationRecord
 
   
   # Relations
-  belongs_to :contract, class_name: "Financial::Book::Contract::Entity", foreign_key: "contract_id"
+  belongs_to :taker, class_name: "Financial::Book::Contract::Taker", foreign_key: "taker_id"
   has_many :items, class_name: "Financial::Book::Receivable::InvoiceItem", foreign_key: "invoice_id", dependent: :destroy
   has_many :conciliations, class_name: "Financial::Book::Receivable::Conciliation", foreign_key: "invoice_id", dependent: :destroy
   
@@ -27,7 +27,7 @@ end
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
-# t.bigint "contract_id"
+# t.bigint "taker_id"
 # t.date "due_date"
 # t.string "iugu_invoice_id"
 # t.string "iugu_secure_id"

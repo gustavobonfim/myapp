@@ -4,7 +4,7 @@ class Financial::Book::Receivable::Conciliation < ApplicationRecord
   
   # Relations
   belongs_to :invoice, class_name: "Financial::Book::Receivable::Invoice", foreign_key: "invoice_id"
-  # belongs_to :receivable, class_name: "Financial::Book::Receivable::Receivable", foreign_key: "receivable_id"
+  belongs_to :taker, class_name: "Financial::Book::Contract::Taker", foreign_key: "taker_id"
 
   # Validations
   validates :token, presence: {message: "Token de Conciliação de Contas a Receber não pode ficar em branco. "},
@@ -33,6 +33,7 @@ end
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false
+# t.bigint "taker_id"
 # t.bigint "invoice_id"
 # t.bigint "receivable_id"
 # t.string "receivable_type"
