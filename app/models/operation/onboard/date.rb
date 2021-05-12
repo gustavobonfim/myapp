@@ -1,9 +1,9 @@
 class Operation::Onboard::Date < ApplicationRecord
 
-  self.table_name = "operation_config_dates"
+  self.table_name = "operation_onboard_dates"
   
   # Relations
-  # has_one :calculation, class_name: "Operation::Onboard::Date", foreign_key: "date_id", dependent: :destroy
+  has_one :calculation, class_name: "Operation::Onboard::Calculation", foreign_key: "date_id", dependent: :destroy
   
   # Validations
   validates :token, uniqueness: { case_sensitive: false, message: "Período já existente. " }
@@ -21,7 +21,7 @@ class Operation::Onboard::Date < ApplicationRecord
   
 end
 
-# create_table "operation_config_dates", force: :cascade do |t|
+# create_table "operation_onboard_dates", force: :cascade do |t|
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.boolean "active", default: true, null: false

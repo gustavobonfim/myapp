@@ -10,8 +10,8 @@ class Operations::Onboards::FindOrCreateDateService
     onboard_date = find_or_initialize_date
 
     if onboard_date.new_record?
-      # onboard_date.save
-      # ::Operation::Onboard::CreateCalculationService.new(onboard_date)
+      onboard_date.save
+      ::Operations::Onboards::CreateCalculationService.new(onboard_date)
     end
     
     return onboard_date

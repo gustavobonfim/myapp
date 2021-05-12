@@ -11,7 +11,7 @@ class Operations::Onboards::DateRepository < Base
   end
 
   def self.all_active
-    objs = entity.where(active: true).order(token: :desc)
+    objs = entity.where(active: true).order(token: :desc).includes(:calculation)
 
     if objs.empty?
       return [::Operations::Onboards::FindOrCreateDateService.new(Date.current).find_or_create_date]
@@ -21,7 +21,7 @@ class Operations::Onboards::DateRepository < Base
   end
 
   def self.find_by_token(token)
-    objs = entity.where(active: true, token: token)
+    objs = entity.where(active: true, token: token).includes(:calculation)
 
     if objs.empty?
       return [::Operations::Onboards::FindOrCreateDateService.new(Date.current).find_or_create_date]

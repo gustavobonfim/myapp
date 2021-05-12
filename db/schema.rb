@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_014902) do
+ActiveRecord::Schema.define(version: 2021_05_12_020822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -953,7 +953,51 @@ ActiveRecord::Schema.define(version: 2021_05_12_014902) do
     t.json "payload"
   end
 
-  create_table "operation_config_dates", force: :cascade do |t|
+  create_table "operation_onboard_calculations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "open", default: true, null: false
+    t.bigint "date_id"
+    t.integer "total_onboard", default: 0
+    t.integer "total_setup", default: 0
+    t.integer "total_recurring", default: 0
+    t.integer "medclinic", default: 0
+    t.integer "medreturn", default: 0
+    t.integer "medfiling", default: 0
+    t.integer "medbooking", default: 0
+    t.integer "medpayroll", default: 0
+    t.integer "medbiling", default: 0
+    t.integer "medreceivement", default: 0
+    t.integer "medseg", default: 0
+    t.integer "medbanking", default: 0
+    t.integer "total_tickets", default: 0
+    t.integer "total_comments", default: 0
+    t.integer "total_delays", default: 0
+    t.integer "total_in_process", default: 0
+    t.integer "total_notes", default: 0
+    t.decimal "total_medclinic", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medreturn", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medfiling", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medbooking", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medpayroll", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medbiling", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medreceivement", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medseg", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_medbanking", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_mrr_new", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_mrr_increase", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_mrr_decrease", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_mrr_churn", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_monthly", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_yearly", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_setup_amount_accrual", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_recurring_amount_accrual", precision: 15, scale: 2, default: "0.0"
+    t.index ["active"], name: "index_operation_onboard_calculations_on_active"
+    t.index ["date_id"], name: "index_operation_onboard_calculations_on_date_id"
+  end
+
+  create_table "operation_onboard_dates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
@@ -961,11 +1005,11 @@ ActiveRecord::Schema.define(version: 2021_05_12_014902) do
     t.integer "month"
     t.integer "year"
     t.string "token"
-    t.index ["active"], name: "index_operation_config_dates_on_active"
-    t.index ["month"], name: "index_operation_config_dates_on_month"
-    t.index ["open"], name: "index_operation_config_dates_on_open"
-    t.index ["token"], name: "index_operation_config_dates_on_token", unique: true
-    t.index ["year"], name: "index_operation_config_dates_on_year"
+    t.index ["active"], name: "index_operation_onboard_dates_on_active"
+    t.index ["month"], name: "index_operation_onboard_dates_on_month"
+    t.index ["open"], name: "index_operation_onboard_dates_on_open"
+    t.index ["token"], name: "index_operation_onboard_dates_on_token", unique: true
+    t.index ["year"], name: "index_operation_onboard_dates_on_year"
   end
 
   create_table "operation_product_booking_calculations", force: :cascade do |t|
@@ -1281,6 +1325,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_014902) do
   add_foreign_key "financial_transaction_entities", "financial_setting_chart_accounts", column: "from_id"
   add_foreign_key "financial_transaction_entities", "financial_setting_chart_accounts", column: "to_id"
   add_foreign_key "financial_transaction_entities", "user_company_entities", column: "med_id"
+  add_foreign_key "operation_onboard_calculations", "operation_onboard_dates", column: "date_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "user_account_entities", column: "account_id"
   add_foreign_key "product_entities", "user_company_entities", column: "company_id"
