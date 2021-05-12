@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_020822) do
+ActiveRecord::Schema.define(version: 2021_05_12_023030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1012,6 +1012,48 @@ ActiveRecord::Schema.define(version: 2021_05_12_020822) do
     t.index ["year"], name: "index_operation_onboard_dates_on_year"
   end
 
+  create_table "operation_onboard_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "opportunity_id"
+    t.bigint "purchase_id"
+    t.bigint "date_id"
+    t.integer "product_name"
+    t.integer "product_kind"
+    t.integer "product_service"
+    t.integer "channel"
+    t.integer "status"
+    t.integer "kind"
+    t.boolean "finished", default: false
+    t.datetime "finished_at"
+    t.datetime "started_at"
+    t.string "journey_status"
+    t.string "token"
+    t.string "slug"
+    t.integer "total_tickets", default: 0
+    t.integer "total_comments", default: 0
+    t.integer "total_delays", default: 0
+    t.integer "total_in_process", default: 0
+    t.integer "total_notes", default: 0
+    t.integer "total_parties", default: 0
+    t.index ["channel"], name: "index_operation_onboard_entities_on_channel"
+    t.index ["date_id"], name: "index_operation_onboard_entities_on_date_id"
+    t.index ["finished"], name: "index_operation_onboard_entities_on_finished"
+    t.index ["finished_at"], name: "index_operation_onboard_entities_on_finished_at"
+    t.index ["journey_status"], name: "index_operation_onboard_entities_on_journey_status"
+    t.index ["kind"], name: "index_operation_onboard_entities_on_kind"
+    t.index ["opportunity_id"], name: "index_operation_onboard_entities_on_opportunity_id"
+    t.index ["product_kind"], name: "index_operation_onboard_entities_on_product_kind"
+    t.index ["product_name"], name: "index_operation_onboard_entities_on_product_name"
+    t.index ["product_service"], name: "index_operation_onboard_entities_on_product_service"
+    t.index ["purchase_id"], name: "index_operation_onboard_entities_on_purchase_id"
+    t.index ["slug"], name: "index_operation_onboard_entities_on_slug", unique: true
+    t.index ["started_at"], name: "index_operation_onboard_entities_on_started_at"
+    t.index ["status"], name: "index_operation_onboard_entities_on_status"
+    t.index ["token"], name: "index_operation_onboard_entities_on_token", unique: true
+  end
+
   create_table "operation_product_booking_calculations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -1326,6 +1368,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_020822) do
   add_foreign_key "financial_transaction_entities", "financial_setting_chart_accounts", column: "to_id"
   add_foreign_key "financial_transaction_entities", "user_company_entities", column: "med_id"
   add_foreign_key "operation_onboard_calculations", "operation_onboard_dates", column: "date_id"
+  add_foreign_key "operation_onboard_entities", "operation_onboard_dates", column: "date_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "user_account_entities", column: "account_id"
   add_foreign_key "product_entities", "user_company_entities", column: "company_id"

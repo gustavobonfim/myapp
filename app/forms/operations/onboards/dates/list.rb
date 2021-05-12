@@ -56,7 +56,7 @@ class Operations::Onboards::Dates::List
   private
 
   def can_current_user_list_date?
-    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "operation_config_dates").can_current_user?
+    ::UserPolicies.new(@current_user_params[:current_user_id], "list", "operation_onboard_dates").can_current_user?
   end
 
 end
