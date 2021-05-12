@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_024542) do
+ActiveRecord::Schema.define(version: 2021_05_12_014902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -951,6 +951,21 @@ ActiveRecord::Schema.define(version: 2021_04_22_024542) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.json "payload"
+  end
+
+  create_table "operation_config_dates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "open", default: true, null: false
+    t.integer "month"
+    t.integer "year"
+    t.string "token"
+    t.index ["active"], name: "index_operation_config_dates_on_active"
+    t.index ["month"], name: "index_operation_config_dates_on_month"
+    t.index ["open"], name: "index_operation_config_dates_on_open"
+    t.index ["token"], name: "index_operation_config_dates_on_token", unique: true
+    t.index ["year"], name: "index_operation_config_dates_on_year"
   end
 
   create_table "operation_product_booking_calculations", force: :cascade do |t|

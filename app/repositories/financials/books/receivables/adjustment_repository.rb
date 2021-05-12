@@ -2,8 +2,7 @@ class Financials::Books::Receivables::AdjustmentRepository < Base
 
   def self.build(attrs)
     obj = entity.new
-    obj.attributes = attrs
-    obj.description = "#{ENUM_KIND_DESCRIPTION[attrs["kind"]]} | #{attrs["description"]}"
+    obj.attributes = attrs    
     obj.token = set_token("token").upcase
     
     return obj

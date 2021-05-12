@@ -12,6 +12,13 @@ Rails.application.routes.draw do
   namespace :api, path: '/' do
     namespace :v1, path: '/' do
       namespace :operations do
+
+        namespace :onboards do
+          post "dates/create", to: "dates#create"
+          post "dates/list", to: "dates#list"
+          put "dates/update", to: "dates#update"
+        end
+
         namespace :products do
           namespace :config do
             post "dates/read", to: "dates#read"

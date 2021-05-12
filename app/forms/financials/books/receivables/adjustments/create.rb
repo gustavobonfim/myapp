@@ -24,6 +24,10 @@ class Financials::Books::Receivables::Adjustments::Create
     ActiveRecord::Base.transaction do
       
       if @valid
+        @date = @adjustment.financial_date
+        date_short_name = DateDecorator.abbr_with_month_year(@date.month, @date.year)
+        adjustment_description_kind = ::Financials::Books::Receivables::AdjustmentRepository::ENUM_KIND_DESCRIPTION[@adjustment_params[:kind]] 
+        @adjustment.description = "#{adjustment_description_kind} | #{@adjustment_params[:description]} | #{date_short_name}"
         @adjustment.save
 
         ::Financials::Books::Receivables::Adjustments::CreateTransactionService.new(@adjustment).create_transaction

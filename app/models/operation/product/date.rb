@@ -14,7 +14,6 @@ class Operation::Product::Date < ApplicationRecord
   before_validation :set_uniq_product_date
 
   def set_uniq_product_date
-
     product_code = self.product_id.to_s(36).rjust(5,"0").upcase
     month_code = self.month.to_s.rjust(2,"0").upcase
     year_code = self.year.to_s.rjust(4,"0").upcase
